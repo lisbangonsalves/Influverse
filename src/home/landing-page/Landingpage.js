@@ -16,6 +16,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Outlet } from 'react-router';
 import { NavLink } from 'react-router-dom';
+import Footer from './Footer';
 
 const drawerWidth = 240;
 
@@ -64,7 +65,7 @@ function LandingPage(props) {
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', flexDirection:'column' }}>
       <CssBaseline />
       <AppBar component="nav" sx = {{ backgroundColor : '#161A30'}}>
         <Toolbar>
@@ -86,11 +87,11 @@ function LandingPage(props) {
             Influverse
           </Typography>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-              <Button component = {NavLink} to = "/"  sx={{ color: '#fff' , marginRight : 2 }}>
-                Products
+              <Button component = {NavLink} to = "/features"  sx={{ color: '#fff' , marginRight : 2 }}>
+                Featuress
               </Button>
-              <Button component = {NavLink} to = "/"  sx={{ color: '#fff' , marginRight : 1 }}>
-                Solutions
+              <Button component = {NavLink} to = "/pricing"  sx={{ color: '#fff' , marginRight : 1 }}>
+                Pricing
               </Button>
               <Button component = {NavLink} to = "/blog"  sx={{ color: '#fff' }}>
                 Blog
@@ -123,6 +124,7 @@ function LandingPage(props) {
         <Toolbar />
         <Outlet/>
       </Box>
+      <Footer/>
     </Box>
   );
 }

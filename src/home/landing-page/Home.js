@@ -1,11 +1,16 @@
 import React from 'react';
-import Box from '@mui/material/Box';
-import Cards from './Card';
+import { Box } from '@mui/material';
+import HomeLanding from './HomeLanding';
+import LogoCollection from './LogoCollection';
+import Reviews from './Reviews'
 
 function Home() {
+
   return (
-    <Box sx={{backgroundColor : "#161A30", width: 1, paddingTop : 5}}>
-      <Cards/>
+    <Box>
+      <HomeLanding/>
+      <LogoCollection/>
+      <Reviews/>
     </Box>
   );
 }
