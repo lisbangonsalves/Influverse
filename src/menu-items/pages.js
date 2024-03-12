@@ -1,9 +1,9 @@
 // assets
-import { IconKey } from '@tabler/icons-react';
+import { IconSpeakerphone } from '@tabler/icons-react';
 
 // constant
 const icons = {
-  IconKey
+  IconSpeakerphone
 };
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
@@ -11,26 +11,25 @@ const icons = {
 const pages = {
   id: 'pages',
   title: 'Pages',
-  caption: 'Pages Caption',
   type: 'group',
   children: [
     {
-      id: 'authentication',
-      title: 'Authentication',
+      id: 'campaign',
+      title: 'Campaign',
       type: 'collapse',
-      icon: icons.IconKey,
+      icon: icons.IconSpeakerphone,
 
       children: [
         {
           id: 'login3',
-          title: 'Login',
+          title: 'View Campaign',
           type: 'item',
           url: '/pages/login/login3',
           target: true
         },
         {
-          id: 'register3',
-          title: 'Register',
+          id: 'createcampaign',
+          title: 'Create Campaign',
           type: 'item',
           url: '/pages/register/register3',
           target: true

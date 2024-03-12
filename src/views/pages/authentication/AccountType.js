@@ -4,10 +4,8 @@ import * as React from 'react';
 // import { useTheme } from '@mui/material/styles';
 // import { Divider, Grid, Stack, Typography, useMediaQuery } from '@mui/material';
 // import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
 
-import SendIcon from '@mui/icons-material/Send';
-import { NavLink } from 'react-router-dom';
+// import { NavLink } from 'react-router-dom';
 
 
 // import InputLabel from '@mui/material/InputLabel';
@@ -32,6 +30,9 @@ import { Box } from '@mui/system';
 import img1 from './authentication3/assets/register1.png'
 import './authentication3/login2.css'
 // assets
+
+
+
 
 // ================================|| AUTH3 - LOGIN ||================================ //
 
@@ -61,21 +62,21 @@ const Login = () => {
   <Grid xs={6}>
     <Box sx={{padding:"20px",backgroundColor:"#F0ECE5", height:"100vh", display:"flex", justifyContent:"center", flexDirection:"column"}}>
       <Box sx={{width:1, margin:"20px",paddingX:"30px"}}>
-        <Typography className='font-sty' sx={{fontSize:"15px"}}>
-          Welcome to,
-        </Typography>
-        <Typography className='font-sty' sx={{fontSize:"30px"}}>
-          Influverse
+        <Typography className='font-sty' sx={{fontSize:"24px"}}>
+          Choose your account type
         </Typography>
       </Box>
       <Box sx={{margin:'20px', display:"flex", flexDirection:'column', width:1, justifyContent:'center', alignItems:'center'}}>
-       
-        <Box sx={{display:"flex", width:1, paddingX:"55px", paddingY:'40px', alignItems:"flex-end", justifyContent:'space-between'}}>
-          <Typography sx={{display:'flex'}}>Already a user? <Typography sx={{fontWeight:'bold', paddingLeft:'5px', textDecoration:"none", color:"black"}} component = {NavLink} to = "/signin">SignIn</Typography></Typography>
-        <Button variant="contained" size='large' sx={{backgroundColor:"#161A30"}} endIcon={<SendIcon />}>
-        Next
-      </Button>
+       <Box sx={{display:'flex', width:1, justifyContent:'center'}}>
+        <Box sx={{width:"200px", height:"200px", background:"white", borderRadius:"10px", marginX:"30px"}}>
+
         </Box>
+        <Box sx={{width:"200px", height:"200px", background:"white", borderRadius:"10px", marginX:"30px"}}>
+          
+        </Box>
+        
+       </Box>
+        
       </Box>
 
     </Box>
