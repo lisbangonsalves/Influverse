@@ -16,7 +16,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Outlet } from 'react-router';
 import { NavLink } from 'react-router-dom';
-import Footer from './Footer';
+import Footer from './footer';
 
 const drawerWidth = 240;
 
