@@ -9,8 +9,8 @@ import Loadable from 'ui-component/Loadable';
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 
 // utilities routing
-const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
-const UtilsColor = Loadable(lazy(() => import('views/utilities/Color')));
+const CreateEvent = Loadable(lazy(() => import('views/event/CreateEvent')));
+const Explore = Loadable(lazy(() => import('views/explore/Explore')));
 const UtilsShadow = Loadable(lazy(() => import('views/utilities/Shadow')));
 const UtilsMaterialIcons = Loadable(lazy(() => import('views/utilities/MaterialIcons')));
 const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons')));
@@ -33,11 +33,11 @@ const MainRoutes = {
         
     },
     {
-      path: 'utils',
+      path: 'event',
       children: [
         {
-          path: 'util-typography',
-          element: <UtilsTypography />
+          path: 'create-event',
+          element: <CreateEvent />
         }
       ]
     },
@@ -55,13 +55,8 @@ const MainRoutes = {
       ]
     },
     {
-      path: 'utils',
-      children: [
-        {
-          path: 'util-color',
-          element: <UtilsColor />
-        }
-      ]
+      path: 'Explore',
+      element:<Explore/>
     },
     {
       path: 'utils',

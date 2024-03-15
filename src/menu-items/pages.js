@@ -10,29 +10,29 @@ const icons = {
 
 const pages = {
   id: 'pages',
-  title: 'Pages',
+  // title: 'Pages',
   type: 'group',
   children: [
     {
-      id: 'campaign',
+      id: 'collapse',
       title: 'Campaign',
       type: 'collapse',
       icon: icons.IconSpeakerphone,
 
       children: [
         {
-          id: 'login3',
+          id: 'viewcampaign',
           title: 'View Campaign',
           type: 'item',
-          url: '/pages/login/login3',
-          target: true
+          url: '/view/campaign/campaign-list',
+          // target: true
         },
         {
           id: 'createcampaign',
           title: 'Create Campaign',
           type: 'item',
-          url: '/pages/register/register3',
-          target: true
+          url: '/view/campaign/create-campaign',
+          // target: true
         }
       ]
     }

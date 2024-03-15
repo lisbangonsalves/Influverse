@@ -1,61 +1,53 @@
 // assets
-import { IconTypography, IconPalette, IconShadow, IconWindmill } from '@tabler/icons-react';
+import { IconWorld, IconShadow, IconWindmill, IconGift } from '@tabler/icons-react';
 
 // constant
 const icons = {
-  IconTypography,
-  IconPalette,
+  IconWorld,
   IconShadow,
-  IconWindmill
+  IconWindmill,
+  IconGift
 };
 
 // ==============================|| UTILITIES MENU ITEMS ||============================== //
 
 const utilities = {
   id: 'utilities',
-  title: 'Utilities',
+  // title: 'Utilities',
   type: 'group',
   children: [
     {
-      id: 'util-typography',
-      title: 'Typography',
+      id: 'explore',
+      title: 'Explore',
       type: 'item',
-      url: '/utils/util-typography',
-      icon: icons.IconTypography,
+      url: '/view/explore',
+      icon: icons.IconWorld,
       breadcrumbs: false
     },
     {
-      id: 'util-color',
-      title: 'Color',
-      type: 'item',
-      url: '/utils/util-color',
-      icon: icons.IconPalette,
-      breadcrumbs: false
-    },
-    {
-      id: 'util-shadow',
-      title: 'Shadow',
+      id: 'influvencer-gifting',
+      title: 'Influvencer Gifting',
       type: 'item',
       url: '/utils/util-shadow',
-      icon: icons.IconShadow,
+      icon: icons.IconGift,
       breadcrumbs: false
     },
     {
-      id: 'icons',
-      title: 'Icons',
+      id: 'collapse',
+      title: 'Events',
       type: 'collapse',
       icon: icons.IconWindmill,
       children: [
         {
-          id: 'tabler-icons',
-          title: 'Tabler Icons',
+          id: 'create-event',
+          title: 'Create Event',
           type: 'item',
-          url: '/icons/tabler-icons',
+          url: '/view/event/create-event',
           breadcrumbs: false
         },
         {
-          id: 'material-icons',
-          title: 'Material Icons',
+          id: 'view-event',
+          title: 'View Event',
           type: 'item',
           external: true,
           target: '_blank',
