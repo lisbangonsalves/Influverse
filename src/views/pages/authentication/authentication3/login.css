@@ -6,6 +6,9 @@
     width: 100%;
     height: 95vh;
 }
+.font-sty{
+    font-family: "Playfair Display", serif;
+}
 .app-title{
     padding-bottom: 20px;
     color: #161A30;

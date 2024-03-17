@@ -61,7 +61,7 @@ const Login = () => {
   <Grid xs={6}>
     <Box sx={{padding:"20px",backgroundColor:"#F0ECE5", height:"100vh", display:"flex", justifyContent:"center", flexDirection:"column"}}>
       <Box sx={{width:1, margin:"20px",paddingX:"30px"}}>
-        <Typography className='font-sty' sx={{fontSize:"15px"}}>
+        <Typography className='font-sty' sx={{fontSize:"20px"}}>
           Welcome to,
         </Typography>
         <Typography className='font-sty' sx={{fontSize:"30px"}}>
@@ -69,9 +69,9 @@ const Login = () => {
         </Typography>
       </Box>
       <Box sx={{margin:'20px', display:"flex", flexDirection:'column', width:1, justifyContent:'center', alignItems:'center'}}>
-       <TextField id="outlined-basic" placeholder='Full Name' variant="outlined" sx={{width:'85%', marginY:"20px"}} />
+       <TextField id="outlined-basic" placeholder='Username' variant="outlined" sx={{width:'85%', marginY:"20px"}} />
        <TextField id="outlined-basic" placeholder='Email' type='email' variant="outlined" sx={{width:'85%', marginY:"20px"}} />
-       <TextField id="outlined-basic" placeholder='Phone Number' type='text' variant="outlined" sx={{width:'85%', marginY:"20px"}} />
+       
        <FormControl sx={{ width:'85%', marginY:"20px" }} variant="outlined" >
           {/* <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel> */}
           <OutlinedInput
@@ -93,10 +93,32 @@ const Login = () => {
             placeholder='Password'
           />
         </FormControl>
+       <FormControl sx={{ width:'85%', marginY:"20px" }} variant="outlined" >
+          {/* <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel> */}
+          <OutlinedInput
+            id="outlined-adornment-password"
+            type={showPassword ? 'text' : 'password'}
+            endAdornment={
+              <InputAdornment position="end" placeholder='Password'>
+                <IconButton
+                
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                  
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            placeholder='Confirm Password'
+          />
+        </FormControl>
 
         <Box sx={{display:"flex", width:1, paddingX:"55px", paddingY:'40px', alignItems:"flex-end", justifyContent:'space-between'}}>
-          <Typography sx={{display:'flex'}}>Already a user? <Typography sx={{fontWeight:'bold', paddingLeft:'5px', textDecoration:"none", color:"black"}} component = {NavLink} to = "/signin">SignIn</Typography></Typography>
-        <Button variant="contained" size='large' sx={{backgroundColor:"#161A30"}} endIcon={<SendIcon />}>
+          <Typography sx={{display:'flex'}}>Already a user? <Typography sx={{fontWeight:'bold', paddingLeft:'5px', textDecoration:"none", color:"black"}} component = {NavLink} to = "/login">LogIn</Typography></Typography>
+        <Button variant="contained" size='large' className='font-sty' sx={{backgroundColor:"#161A30"}} endIcon={<SendIcon />}>
         Next
       </Button>
         </Box>

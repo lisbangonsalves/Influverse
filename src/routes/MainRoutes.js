@@ -16,7 +16,9 @@ const UtilsMaterialIcons = Loadable(lazy(() => import('views/utilities/MaterialI
 const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons')));
 const CompleteProfile = Loadable(lazy(() => import('views/completeprofile/CompleteProfile')));
 const CreateCampaign = Loadable(lazy(() => import('views/campaign/CreateCampaign')));
+const SelectedCampaign = Loadable(lazy(() => import('views/campaign/SelectedCampaign')));
 const CampaignList = Loadable(lazy(() => import('views/campaign/CampaignList')));
+const Try = Loadable(lazy(() => import('views/Try')));
 
 // sample page routing
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
@@ -30,6 +32,11 @@ const MainRoutes = {
     {
       path: 'dashboard',
           element: <DashboardDefault />
+        
+    },
+    {
+      path: 'try',
+          element: <Try />
         
     },
     {
@@ -51,7 +58,11 @@ const MainRoutes = {
         {
           path: 'campaign-list',
           element: <CampaignList/>
-        }
+        },
+        {
+          path: 'selected-campaign',
+          element: <SelectedCampaign/>
+        },
       ]
     },
     {

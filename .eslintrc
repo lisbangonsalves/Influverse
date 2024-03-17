@@ -39,8 +39,7 @@
   },
   "plugins": [ "react", "react-hooks"],
   "rules": {
-
-
+    "import/no-restricted-imports": "off",
     "import/no-unresolved": "off",
     "import/named": "off",
     "import/default": "off",

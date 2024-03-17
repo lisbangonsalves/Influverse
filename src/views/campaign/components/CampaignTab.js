@@ -4,10 +4,6 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import BasicDetails from './BasicDetails';
-import BusinessDetails from './BusinessDetails';
-import SocialIntegration from './SocialIntegration';
-import AdsDetails from './AdsDetails';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -42,43 +38,31 @@ function a11yProps(index) {
   };
 }
 
-function CompleteProfile() {
-    const [value, setValue] = React.useState(0);
+export default function BasicTabs() {
+  const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  
   return (
-    <div>
-        <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Basic Details" {...a11yProps(0)} />
-          <Tab label="Company Details" {...a11yProps(1)} />
-          <Tab label="Social Media Integration" {...a11yProps(2)} />
-          <Tab label="Advertising Goals" {...a11yProps(3)} />
+          <Tab label="Item One" {...a11yProps(0)} />
+          <Tab label="Item Two" {...a11yProps(1)} />
+          <Tab label="Item Three" {...a11yProps(2)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <BasicDetails/>
+        Item One
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <BusinessDetails/>
+        Item Two
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <SocialIntegration/>
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={3}>
-        <AdsDetails/>
+        Item Three
       </CustomTabPanel>
     </Box>
-      
-    </div>
-  )
+  );
 }
-
-export default CompleteProfile
-
-

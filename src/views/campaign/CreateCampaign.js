@@ -1,16 +1,18 @@
-import * as React from 'react';
+import * as React from "react";
 import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
-
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
-
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+// eslint-disable-next-line no-restricted-imports
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 export default function CreateCampaign() {
-  const [age, setAge] = React.useState('');
+  const [age, setAge] = React.useState("");
 
   const handleChange = (event) => {
     setAge(event.target.value);
@@ -18,12 +20,21 @@ export default function CreateCampaign() {
   return (
     <Box sx={{ width: 1 }}>
       <Box sx={{ width: 1, display: "flex", marginTop: "50px" }}>
-        <Grid container spacing={4} rowSpacing={3} columnSpacing={{ xs: 2, sm: 2, md: 3 }}>
+        <Grid
+          container
+          spacing={4}
+          rowSpacing={3}
+          columnSpacing={{ xs: 2, sm: 2, md: 3 }}
+        >
           <Grid item xs={12}>
-            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-              <Typography>
-                Create Campaign
-              </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Typography>Create Campaign</Typography>
             </Box>
           </Grid>
           <Grid item xs={12}>
@@ -40,7 +51,7 @@ export default function CreateCampaign() {
               sx={{ width: 1 }}
               value={age}
               displayEmpty
-              inputProps={{ 'aria-label': 'Without label' }}
+              inputProps={{ "aria-label": "Without label" }}
               onChange={handleChange}
             >
               <MenuItem value="">
@@ -52,7 +63,6 @@ export default function CreateCampaign() {
               <MenuItem value={4}>Boost sales</MenuItem>
               <MenuItem value={5}>Promote a specific product/service</MenuItem>
               <MenuItem value={6}>Other </MenuItem>
-
             </Select>
           </Grid>
           <Grid item xs={6}>
@@ -61,7 +71,7 @@ export default function CreateCampaign() {
               sx={{ width: 1 }}
               value={age}
               displayEmpty
-              inputProps={{ 'aria-label': 'Without label' }}
+              inputProps={{ "aria-label": "Without label" }}
               onChange={handleChange}
             >
               <MenuItem value="">
@@ -73,7 +83,6 @@ export default function CreateCampaign() {
               <MenuItem value={4}>Content Marketing</MenuItem>
               <MenuItem value={5}>Influencer Marketing</MenuItem>
               <MenuItem value={6}>Other </MenuItem>
-
             </Select>
           </Grid>
           <Grid item xs={6}>
@@ -82,7 +91,7 @@ export default function CreateCampaign() {
               sx={{ width: 1 }}
               value={age}
               displayEmpty
-              inputProps={{ 'aria-label': 'Without label' }}
+              inputProps={{ "aria-label": "Without label" }}
               onChange={handleChange}
             >
               <MenuItem value="">
@@ -93,46 +102,51 @@ export default function CreateCampaign() {
               <MenuItem value={3}>Graphics</MenuItem>
               <MenuItem value={4}>Ad Copy</MenuItem>
               <MenuItem value={5}>Other</MenuItem>
-
             </Select>
           </Grid>
           <Grid item xs={12}>
-            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-              <Typography>
-                Timeline
-              </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Typography>Timeline</Typography>
             </Box>
           </Grid>
 
           <Grid item xs={4}>
-            <TextField
-              sx={{ width: 1 }}
-              id="Start-Date"
-              label="Start Date"
-              variant="outlined"
-            />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer sx={{ width: 1 }} components={["DatePicker"]}>
+                <DatePicker sx={{ width: 1 }} label="Start Date" />
+              </DemoContainer>
+            </LocalizationProvider>
+          </Grid>
+          <Grid item xs={4}>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer sx={{ width: 1 }} components={["DatePicker"]}>
+                <DatePicker sx={{ width: 1 }} label="End Date" />
+              </DemoContainer>
+            </LocalizationProvider>
           </Grid>
           <Grid item xs={4}>
             <TextField
-              sx={{ width: 1 }}
-              id="End-Date"
-              label="End Date"
-              variant="outlined"
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <TextField
-              sx={{ width: 1 }}
+              sx={{ width: 1 , marginTop:'8px'}}
               id="Duration"
               label="Duration"
               variant="outlined"
             />
           </Grid>
           <Grid item xs={12}>
-            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-              <Typography>
-                Budget Allocation
-              </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Typography>Budget Allocation</Typography>
             </Box>
           </Grid>
           <Grid item xs={6}>
@@ -152,10 +166,14 @@ export default function CreateCampaign() {
             />
           </Grid>
           <Grid item xs={12}>
-            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-              <Typography>
-                Target Audiances
-              </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Typography>Target Audiances</Typography>
             </Box>
           </Grid>
           <Grid item xs={4}>
@@ -164,7 +182,7 @@ export default function CreateCampaign() {
               sx={{ width: 1 }}
               value={age}
               displayEmpty
-              inputProps={{ 'aria-label': 'Without label' }}
+              inputProps={{ "aria-label": "Without label" }}
               onChange={handleChange}
             >
               <MenuItem value="">
@@ -185,7 +203,7 @@ export default function CreateCampaign() {
               sx={{ width: 1 }}
               value={age}
               displayEmpty
-              inputProps={{ 'aria-label': 'Without label' }}
+              inputProps={{ "aria-label": "Without label" }}
               onChange={handleChange}
             >
               <MenuItem value="">
@@ -203,17 +221,27 @@ export default function CreateCampaign() {
               sx={{ width: 1 }}
               value={age}
               displayEmpty
-              inputProps={{ 'aria-label': 'Without label' }}
+              inputProps={{ "aria-label": "Without label" }}
               onChange={handleChange}
             >
               <MenuItem value="">
                 <em>Income Level</em>
               </MenuItem>
-              <MenuItem value={10}>Less than ₹3,00,000 (3 lakh) per year</MenuItem>
-              <MenuItem value={20}>₹3,00,001 - ₹7,00,000 (3-7 lakhs) per year</MenuItem>
-              <MenuItem value={30}>₹7,00,001 - ₹15,00,000 (7-15 lakhs) per year</MenuItem>
-              <MenuItem value={30}>₹15,00,001 - ₹30,00,000 (15-30 lakhs) per year</MenuItem>
-              <MenuItem value={30}>More than ₹30,00,000 (30 lakhs) per year</MenuItem>
+              <MenuItem value={10}>
+                Less than ₹3,00,000 (3 lakh) per year
+              </MenuItem>
+              <MenuItem value={20}>
+                ₹3,00,001 - ₹7,00,000 (3-7 lakhs) per year
+              </MenuItem>
+              <MenuItem value={30}>
+                ₹7,00,001 - ₹15,00,000 (7-15 lakhs) per year
+              </MenuItem>
+              <MenuItem value={30}>
+                ₹15,00,001 - ₹30,00,000 (15-30 lakhs) per year
+              </MenuItem>
+              <MenuItem value={30}>
+                More than ₹30,00,000 (30 lakhs) per year
+              </MenuItem>
             </Select>
           </Grid>
           <Grid item xs={12}>
@@ -222,7 +250,7 @@ export default function CreateCampaign() {
               sx={{ width: 1 }}
               value={age}
               displayEmpty
-              inputProps={{ 'aria-label': 'Without label' }}
+              inputProps={{ "aria-label": "Without label" }}
               onChange={handleChange}
             >
               <MenuItem value="">
@@ -248,7 +276,7 @@ export default function CreateCampaign() {
               sx={{ width: 1 }}
               value={age}
               displayEmpty
-              inputProps={{ 'aria-label': 'Without label' }}
+              inputProps={{ "aria-label": "Without label" }}
               onChange={handleChange}
             >
               <MenuItem value="">
@@ -264,7 +292,7 @@ export default function CreateCampaign() {
               sx={{ width: 1 }}
               value={age}
               displayEmpty
-              inputProps={{ 'aria-label': 'Without label' }}
+              inputProps={{ "aria-label": "Without label" }}
               onChange={handleChange}
             >
               <MenuItem value="">
@@ -345,14 +373,17 @@ export default function CreateCampaign() {
               <MenuItem value={73}>Fashion Design</MenuItem>
               <MenuItem value={74}>Beauty Influencers</MenuItem>
               <MenuItem value={75}>Hairstyling</MenuItem>
-
             </Select>
           </Grid>
           <Grid item xs={12}>
-            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-              <Typography>
-              Content Strategy
-              </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Typography>Content Strategy</Typography>
             </Box>
           </Grid>
           <Grid item xs={6}>
@@ -372,10 +403,14 @@ export default function CreateCampaign() {
             />
           </Grid>
           <Grid item xs={12}>
-            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-              <Typography>
-              Offer or Promotion
-              </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Typography>Offer or Promotion</Typography>
             </Box>
           </Grid>
           <Grid item xs={6}>
@@ -394,7 +429,6 @@ export default function CreateCampaign() {
               variant="outlined"
             />
           </Grid>
-
         </Grid>
       </Box>
     </Box>

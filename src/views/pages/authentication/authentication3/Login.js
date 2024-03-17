@@ -69,13 +69,13 @@ function Login2() {
           <form>
           <div className="app-title">Login</div>
           <BootstrapInput placeholder="Email" id="bootstrap-input" sx={{width:1, paddingY:"10px"}} />
-          <BootstrapInput placeholder="password" type="password" id="bootstrap-input" sx={{width:1, paddingY:"10px"}} />
-          <Button variant="contained" size="large" sx={{marginTop:"20px", backgroundColor:"#161A30"}}>
+          <BootstrapInput placeholder="Password" type="password" id="bootstrap-input" sx={{width:1, paddingY:"10px"}} />
+          <Button className="font-sty" variant="contained" size="large" sx={{marginTop:"20px", backgroundColor:"#161A30"}}>
           Login
         </Button>
         <div className="next-bttn">
-          New to Platform? 
-          <Typography sx={{paddingLeft:'5px'}}  component = {NavLink} to = "/">
+          Create new account 
+          <Typography sx={{paddingLeft:'5px'}}  component = {NavLink} to = "/register1">
 
           Register
           </Typography>
