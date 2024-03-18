@@ -14,27 +14,11 @@ const pages = {
   type: 'group',
   children: [
     {
-      id: 'collapse',
+      id: 'campaign',
       title: 'Campaign',
-      type: 'collapse',
+      type: 'item',
       icon: icons.IconSpeakerphone,
-
-      children: [
-        {
-          id: 'viewcampaign',
-          title: 'View Campaign',
-          type: 'item',
-          url: '/view/campaign/campaign-list',
-          // target: true
-        },
-        {
-          id: 'createcampaign',
-          title: 'Create Campaign',
-          type: 'item',
-          url: '/view/campaign/create-campaign',
-          // target: true
-        }
-      ]
+      url: '/view/campaign/campaign-list',
     }
   ]
 };

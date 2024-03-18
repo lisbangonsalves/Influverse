@@ -34,7 +34,7 @@ export default function CreateCampaign() {
                 alignItems: "center",
               }}
             >
-              <Typography>Create Campaign</Typography>
+              <Typography >Create Campaign</Typography>
             </Box>
           </Grid>
           <Grid item xs={12}>

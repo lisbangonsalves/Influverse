@@ -10,7 +10,6 @@ import Select from '@mui/material/Select';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -319,7 +318,7 @@ export default function CampaignList() {
     <Box>
         <Box sx={{display:"flex", justifyContent:"space-between", alignItems:"center"}}>
             <Typography sx={{fontSize:"20px", fontWeight:"bold", color:"#161a30"}} >Manage your Campaign</Typography>
-            <Button sx={{color:"white",backgroundColor:'#161a30', borderColor:"#161a30",borderWidth:"2px",'&:hover': { backgroundColor:"white", color:"#161a30", borderColor:"#161a30", borderWidth:"2px"}}} variant="outlined">Create New Campaign</Button>
+            <Button component = {NavLink} to = "/view/campaign/create-campaign" sx={{color:"white",backgroundColor:'#161a30', borderColor:"#161a30",borderWidth:"2px",'&:hover': { backgroundColor:"white", color:"#161a30", borderColor:"#161a30", borderWidth:"2px"}}} variant="outlined">Create New Campaign</Button>
         </Box>
         <Box sx={{display:"flex", justifyContent:"space-between", alignItems:"center", marginTop:"20px"}}>
 

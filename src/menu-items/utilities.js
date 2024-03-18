@@ -28,33 +28,16 @@ const utilities = {
       id: 'influvencer-gifting',
       title: 'Influvencer Gifting',
       type: 'item',
-      url: '/utils/util-shadow',
+      url: '/view/gifting/influencerlist',
       icon: icons.IconGift,
       breadcrumbs: false
     },
     {
-      id: 'collapse',
+      id: 'events',
       title: 'Events',
-      type: 'collapse',
+      type: 'item',
       icon: icons.IconWindmill,
-      children: [
-        {
-          id: 'create-event',
-          title: 'Create Event',
-          type: 'item',
-          url: '/view/event/create-event',
-          breadcrumbs: false
-        },
-        {
-          id: 'view-event',
-          title: 'View Event',
-          type: 'item',
-          external: true,
-          target: '_blank',
-          url: 'https://mui.com/material-ui/material-icons/',
-          breadcrumbs: false
-        }
-      ]
+      url: '/view/event/create-event',
     }
   ]
 };

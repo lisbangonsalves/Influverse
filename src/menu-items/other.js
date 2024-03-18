@@ -14,7 +14,7 @@ const other = {
       id: 'account',
       title: 'Account',
       type: 'item',
-      url: '/sample-page',
+      url: '/view/account',
       icon: icons.IconUser,
       breadcrumbs: false
     },
@@ -22,10 +22,9 @@ const other = {
       id: 'Setting',
       title: 'Setting',
       type: 'item',
-      url: 'https://codedthemes.gitbook.io/berry/',
+      url: '/view/setting',
       icon: icons.IconSettings,
       external: true,
-      target: true
     }
   ]
 };

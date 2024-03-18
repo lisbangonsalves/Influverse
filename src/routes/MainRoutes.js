@@ -1,110 +1,126 @@
-import { lazy } from 'react';
+import { lazy } from "react";
 
 // project imports
-import MainLayout from 'layout/MainLayout';
-import Loadable from 'ui-component/Loadable';
+import MainLayout from "layout/MainLayout";
+import Loadable from "ui-component/Loadable";
 // import LandingPage from 'home/landing-page/Landingpage';
 
 // dashboard routing
-const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
+const DashboardDefault = Loadable(
+  lazy(() => import("views/dashboard/Default")),
+);
+
+//Complete Profile (Business)
+const CompleteProfileBusiness = Loadable(
+  lazy(() => import("views/completeprofile/marketing/CompleteProfile")),
+);
+const CompleteProfileInfluencer = Loadable(
+  lazy(() => import("views/completeprofile/influencers/CompleteProfile")),
+);
+
+// Setting Page
+const Setting = Loadable(lazy(() => import("views/setting/Setting")));
+// Account Page
+const AccountPage = Loadable(lazy(() => import("views/accounts/Account")));
 
 // utilities routing
-const CreateEvent = Loadable(lazy(() => import('views/event/CreateEvent')));
-const Explore = Loadable(lazy(() => import('views/explore/Explore')));
-const UtilsShadow = Loadable(lazy(() => import('views/utilities/Shadow')));
-const UtilsMaterialIcons = Loadable(lazy(() => import('views/utilities/MaterialIcons')));
-const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons')));
-const CompleteProfile = Loadable(lazy(() => import('views/completeprofile/CompleteProfile')));
-const CreateCampaign = Loadable(lazy(() => import('views/campaign/CreateCampaign')));
-const SelectedCampaign = Loadable(lazy(() => import('views/campaign/SelectedCampaign')));
-const CampaignList = Loadable(lazy(() => import('views/campaign/CampaignList')));
-const Try = Loadable(lazy(() => import('views/Try')));
+const CreateEvent = Loadable(lazy(() => import("views/event/CreateEvent")));
+const Explore = Loadable(lazy(() => import("views/explore/Explore")));
+const GiftedInfluencerList = Loadable(
+  lazy(() => import("views/influencer_gifting/GiftedInfluencerList")),
+);
+// const UtilsMaterialIcons = Loadable(lazy(() => import('views/utilities/MaterialIcons')));
+// const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons')));
+const CreateCampaign = Loadable(
+  lazy(() => import("views/campaign/CreateCampaign")),
+);
+const SelectedCampaign = Loadable(
+  lazy(() => import("views/campaign/SelectedCampaign")),
+);
+const CampaignList = Loadable(
+  lazy(() => import("views/campaign/CampaignList")),
+);
+const Try = Loadable(lazy(() => import("views/Try")));
 
 // sample page routing
-const SamplePage = Loadable(lazy(() => import('views/sample-page')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
-  path: '/view',
+  path: "/view",
   element: <MainLayout />,
   children: [
     {
-      path: 'dashboard',
-          element: <DashboardDefault />
-        
+      path: "dashboard",
+      element: <DashboardDefault />,
     },
     {
-      path: 'try',
-          element: <Try />
-        
+      path: "try",
+      element: <Try />,
     },
+
     {
-      path: 'event',
+      path: "event",
       children: [
         {
-          path: 'create-event',
-          element: <CreateEvent />
-        }
-      ]
+          path: "create-event",
+          element: <CreateEvent />,
+        },
+      ],
     },
     {
-      path: 'campaign',
+      path: "campaign",
       children: [
         {
-          path: 'create-campaign',
-          element: <CreateCampaign />
+          path: "create-campaign",
+          element: <CreateCampaign />,
         },
         {
-          path: 'campaign-list',
-          element: <CampaignList/>
+          path: "campaign-list",
+          element: <CampaignList />,
         },
         {
-          path: 'selected-campaign',
-          element: <SelectedCampaign/>
+          path: "selected-campaign",
+          element: <SelectedCampaign />,
         },
-      ]
+      ],
     },
     {
-      path: 'Explore',
-      element:<Explore/>
+      path: "Explore",
+      element: <Explore />,
     },
     {
-      path: 'utils',
+      path: "gifting",
       children: [
         {
-          path: 'util-shadow',
-          element: <UtilsShadow />
+          path: "influencerlist",
+          element: <GiftedInfluencerList />,
+        },
+      ],
+    },
+    {
+      path: "Setting",
+      element: <Setting />,
+    },
+    {
+      path: "account",
+      element: <AccountPage />,
+    },
+    {
+      path: "completeprofile",
+      children:[
+        {
+          path:"business",
+          element : <CompleteProfileBusiness/>
+        },
+        {
+          path:"Influencer",
+          element:<CompleteProfileInfluencer/>
         }
       ]
     },
-    {
-      path: 'icons',
-      children: [
-        {
-          path: 'tabler-icons',
-          element: <UtilsTablerIcons />
-        }
-      ]
-    },
-    {
-      path: 'icons',
-      children: [
-        {
-          path: 'material-icons',
-          element: <UtilsMaterialIcons />
-        }
-      ]
-    },
-    {
-      path: 'sample-page',
-      element: <SamplePage />
-    },
-    {
-      path: 'completeprofile',
-      element: <CompleteProfile />
-    }
-  ]
+    
+  ],
 };
 
 export default MainRoutes;
