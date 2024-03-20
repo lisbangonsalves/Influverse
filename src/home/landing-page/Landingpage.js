@@ -1,5 +1,5 @@
 import * as React from 'react';
-
+import Footer from './Footer';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -16,7 +16,9 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Outlet } from 'react-router';
 import { NavLink } from 'react-router-dom';
-import Footer from './Footer';
+// footer page
+// final 
+
 
 const drawerWidth = 240;
 
