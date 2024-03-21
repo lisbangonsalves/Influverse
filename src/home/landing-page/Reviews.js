@@ -12,45 +12,45 @@ import Grid from '@mui/material/Grid';
 const userTestimonials = [
   {
     avatar: <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />,
-    name: 'Remy Sharp',
+    name: 'LuxeStyle Cosmetics',
     occupation: 'Senior Engineer',
     testimonial:
-      "I absolutely love how versatile this product is! Whether I'm tackling work projects or indulging in my favorite hobbies, it seamlessly adapts to my changing needs. Its intuitive design has truly enhanced my daily routine, making tasks more efficient and enjoyable.",
+      "As a marketer, I found the platform incredibly intuitive and user-friendly. The ability to connect with influencers seamlessly has significantly boosted our campaign effectiveness. Highly recommend!",
   },
   {
     avatar: <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />,
     name: 'Travis Howard',
     occupation: 'Lead Product Designer',
     testimonial:
-      "One of the standout features of this product is the exceptional customer support. In my experience, the team behind this product has been quick to respond and incredibly helpful. It's reassuring to know that they stand firmly behind their product.",
+      "As an influencer, I've had a fantastic experience working with this platform. The opportunities to collaborate with brands are abundant, and the support from the team is exceptional. Couldn't ask for a better platform!",
   },
   {
     avatar: <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />,
-    name: 'Cindy Baker',
+    name: 'UrbanChic Fashion',
     occupation: 'CTO',
     testimonial:
-      'The level of simplicity and user-friendliness in this product has significantly simplified my life. I appreciate the creators for delivering a solution that not only meets but exceeds user expectations.',
+      "The analytics provided by the platform are comprehensive and insightful. It's been instrumental in helping us track campaign performance and optimize our marketing strategies. Great tool for marketers!",
   },
   {
     avatar: <Avatar alt="Remy Sharp" src="/static/images/avatar/4.jpg" />,
     name: 'Julia Stewart',
     occupation: 'Senior Engineer',
     testimonial:
-      "I appreciate the attention to detail in the design of this product. The small touches make a big difference, and it's evident that the creators focused on delivering a premium experience.",
+      "The platform's dashboard is easy to navigate, and I appreciate the detailed campaign briefs provided by marketers. It makes it much easier to create content that aligns with brand objectives. Highly recommended for influencers!",
   },
   {
     avatar: <Avatar alt="Travis Howard" src="/static/images/avatar/5.jpg" />,
-    name: 'John Smith',
+    name: 'ElegantEssence Perfumes',
     occupation: 'Product Designer',
     testimonial:
-      "I've tried other similar products, but this one stands out for its innovative features. It's clear that the makers put a lot of thought into creating a solution that truly addresses user needs.",
+      "Impressed with the level of transparency and communication between marketers and influencers. The collaboration process has been smooth, and we've seen excellent results from our campaigns. A must-have for any marketer.",
   },
   {
     avatar: <Avatar alt="Cindy Baker" src="/static/images/avatar/6.jpg" />,
     name: 'Daniel Wolf',
     occupation: 'CDO',
     testimonial:
-      "The quality of this product exceeded my expectations. It's durable, well-designed, and built to last. Definitely worth the investment!",
+    "I've been using this platform for a while now, and it's been a game-changer for my influencer career. The payment process is prompt, and the ability to communicate directly with marketers ensures a smooth collaboration process. Love it!",
   },
 ];
 

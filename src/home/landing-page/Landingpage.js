@@ -16,8 +16,8 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Outlet } from 'react-router';
 import { NavLink } from 'react-router-dom';
-// footer page
-// final 
+import Logo from '../../ui-component/Logo'
+
 
 
 const drawerWidth = 240;
@@ -34,7 +34,7 @@ function LandingPage(props) {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' , backgroundColor : "#161A30"}}>
       <Typography variant="h6" sx={{ my: 2 , color : "white", fontSize : 18}}>
-        Influverse
+        <Logo/>
       </Typography>
       <Divider />
       <List>
@@ -80,14 +80,14 @@ function LandingPage(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            variant="h6"
+          <Box
+            
             component={NavLink}
             to = "/"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' }, fontSize : 24, color : "White", textDecoration : "none" }}
           >
-            Influverse
-          </Typography>
+            <Logo/>
+          </Box>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
               <Button component = {NavLink} to = "/features"  sx={{ color: '#fff' , marginRight : 2 }}>
                 Featuress
