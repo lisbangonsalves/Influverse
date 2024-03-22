@@ -11,44 +11,44 @@ import Grid from '@mui/material/Grid';
 
 const userTestimonials = [
   {
-    avatar: <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />,
+    avatar: <Avatar alt="Remy Sharp" src="https://scontent.fbom20-2.fna.fbcdn.net/v/t39.30808-1/240503302_176105491199245_5803899453049893382_n.jpg?stp=dst-jpg_p320x320&_nc_cat=108&ccb=1-7&_nc_sid=5f2048&_nc_ohc=vsBrYJGCTEgAX8y2pBx&_nc_ht=scontent.fbom20-2.fna&oh=00_AfACeeoFoZ2pZBunVqKfVz39AIiPH1hopTinMsPcfddzfg&oe=66013460" />,
     name: 'LuxeStyle Cosmetics',
-    occupation: 'Senior Engineer',
+    occupation: 'Marketer',
     testimonial:
       "As a marketer, I found the platform incredibly intuitive and user-friendly. The ability to connect with influencers seamlessly has significantly boosted our campaign effectiveness. Highly recommend!",
   },
   {
-    avatar: <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />,
-    name: 'Travis Howard',
-    occupation: 'Lead Product Designer',
+    avatar: <Avatar alt="Travis Howard" src="https://i.dailymail.co.uk/i/pix/2010/05/11/article-1277561-09798D10000005DC-866_634x511.jpg" />,
+    name: 'Olivia Lee',
+    occupation: 'Influencer',
     testimonial:
       "As an influencer, I've had a fantastic experience working with this platform. The opportunities to collaborate with brands are abundant, and the support from the team is exceptional. Couldn't ask for a better platform!",
   },
   {
-    avatar: <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />,
+    avatar: <Avatar alt="Cindy Baker" src="https://s3.amazonaws.com/allprograms/wp-content/uploads/2023/08/09211509/fashion_blog_FSF-course-module-imageModule-4-min.png" />,
     name: 'UrbanChic Fashion',
-    occupation: 'CTO',
+    occupation: 'Marketer',
     testimonial:
       "The analytics provided by the platform are comprehensive and insightful. It's been instrumental in helping us track campaign performance and optimize our marketing strategies. Great tool for marketers!",
   },
   {
-    avatar: <Avatar alt="Remy Sharp" src="/static/images/avatar/4.jpg" />,
-    name: 'Julia Stewart',
-    occupation: 'Senior Engineer',
+    avatar: <Avatar alt="Remy Sharp" src="https://findyourinfluence.com/wp-content/uploads/2018/09/Brian-Morr-e1538152266197-750x500.jpg"/>,
+    name: 'Michael Brown',
+    occupation: 'Influencer',
     testimonial:
       "The platform's dashboard is easy to navigate, and I appreciate the detailed campaign briefs provided by marketers. It makes it much easier to create content that aligns with brand objectives. Highly recommended for influencers!",
   },
   {
-    avatar: <Avatar alt="Travis Howard" src="/static/images/avatar/5.jpg" />,
+    avatar: <Avatar alt="Travis Howard" src="https://366e203a.rocketcdn.me/wp-content/uploads/2022/12/The-Ultimate-Top-10-Most-Expensive-Perfumes-In-The-World.jpg" />,
     name: 'ElegantEssence Perfumes',
-    occupation: 'Product Designer',
+    occupation: 'Marketer',
     testimonial:
       "Impressed with the level of transparency and communication between marketers and influencers. The collaboration process has been smooth, and we've seen excellent results from our campaigns. A must-have for any marketer.",
   },
   {
-    avatar: <Avatar alt="Cindy Baker" src="/static/images/avatar/6.jpg" />,
-    name: 'Daniel Wolf',
-    occupation: 'CDO',
+    avatar: <Avatar alt="Cindy Baker" src="https://images.squarespace-cdn.com/content/v1/593070a42994cad2710a6439/1522943988234-I9J5CZCYEB2NOXNQFKVF/EM.jpeg?format=1500w" />,
+    name: 'Emma Taylor',
+    occupation: 'Influencer',
     testimonial:
     "I've been using this platform for a while now, and it's been a game-changer for my influencer career. The payment process is prompt, and the ability to communicate directly with marketers ensures a smooth collaboration process. Love it!",
   },

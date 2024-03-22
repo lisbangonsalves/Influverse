@@ -51,3 +51,12 @@
     margin-top: 10px;
     width: 100%;
 }
+
+.acc-type-inf img{
+   width: 100%;
+}
+
+.selected {
+    border-color: white;
+  }
+  

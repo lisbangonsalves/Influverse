@@ -1,55 +1,18 @@
 import "./login.css";
 import img2 from "./assets/Group2.png";
 import img3 from "./assets/Group3.png";
-// import TextField from '@mui/material/TextField';
 import { motion } from "framer-motion";
-import { alpha, styled } from "@mui/material/styles";
-import InputBase from "@mui/material/InputBase";
+import TextField from '@mui/material/TextField';
 import Button from "@mui/material/Button";
 import { Typography } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
-
+import Snackbar from '@mui/material/Snackbar';
+import { useNavigate } from 'react-router-dom';
 
 
   function Login() {
-    const BootstrapInput = styled(InputBase)(({ theme }) => ({
-      "label + &": {
-        marginTop: theme.spacing(3),
-      },
-      "& .MuiInputBase-input": {
-        borderRadius: 4,
-        position: "relative",
-        backgroundColor: theme.palette.mode === "light" ? "#F3F6F9" : "#1A2027",
-        border: "1px solid",
-        borderColor: theme.palette.mode === "light" ? "#E0E3E7" : "#2D3843",
-        fontSize: 16,
-        width: "100%",
-        padding: "10px 12px",
-        transition: theme.transitions.create([
-          "border-color",
-          "background-color",
-          "box-shadow",
-        ]),
-        // Use the system font instead of the default Roboto font.
-        fontFamily: [
-          "-apple-system",
-          "BlinkMacSystemFont",
-          '"Segoe UI"',
-          "Roboto",
-          '"Helvetica Neue"',
-          "Arial",
-          "sans-serif",
-          '"Apple Color Emoji"',
-          '"Segoe UI Emoji"',
-          '"Segoe UI Symbol"',
-        ].join(","),
-        "&:focus": {
-          boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
-          borderColor: theme.palette.primary.main,
-        },
-      },
-    }));
+    
 
 
 
@@ -62,11 +25,16 @@ import { useState } from "react";
         username: "",
         password: "",
       });
+      const [error, setError] = useState('');
+      const [openSnackbar, setOpenSnackbar] = useState(false);
+      const navigate = useNavigate();
     
       const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
       };
-    
+      const handleCloseSnackbar = () => {
+        setOpenSnackbar(false);
+      };
       const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -77,16 +45,23 @@ import { useState } from "react";
             },
             body: JSON.stringify(formData),
           });
+          console.log(response)
           if (response.ok) {
             const data = await response.json();
             localStorage.setItem("accessToken", data.accessToken);
             localStorage.setItem("refreshToken", data.refreshToken);
+            console.log("success")
+            navigate('/');
             // Redirect to dashboard or other page
           } else {
-            // Handle login error
+            const errorResponse = await response.json();
+        setError(errorResponse.message || 'Something went wrong!');
+        setOpenSnackbar(true);
           }
         } catch (error) {
-          console.error("Error logging in:", error);
+          console.error('Error logging in:', error);
+          setError('Network error. Please try again later.');
+          setOpenSnackbar(true);
         }
       };
 
@@ -115,24 +90,20 @@ import { useState } from "react";
           <div className="form">
             <form onSubmit={handleSubmit}>
               <div className="app-title">Login</div>
-              <BootstrapInput
+              <TextField
                 name="username"
-                label="Username"
                 value={formData.username}
                 onChange={handleChange}
                 placeholder="Username"
-                id="bootstrap-input"
-                sx={{ width: 1, paddingY: "10px" }}
+                sx={{ width: 1, marginBottom:"15px" }}
               />
-              <BootstrapInput
+              <TextField
                 placeholder="Password"
                 name="password"
-                label="Password"
                 value={formData.password}
                 onChange={handleChange}
                 type="password"
-                id="bootstrap-input"
-                sx={{ width: 1, paddingY: "10px" }}
+                sx={{ width: 1 }}
               />
               <Button
               type="submit"
@@ -154,6 +125,13 @@ import { useState } from "react";
                 </Typography>
               </div>
             </form>
+            <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        message={error}
+      />
+  
           </div>
           <motion.div
             initial={{ opacity: 0, scale: 0.5 }}

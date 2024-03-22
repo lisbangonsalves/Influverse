@@ -1,92 +1,127 @@
-// import { Link } from 'react-router-dom';
-import * as React from 'react';
-// material-ui
-// import { useTheme } from '@mui/material/styles';
-// import { Divider, Grid, Stack, Typography, useMediaQuery } from '@mui/material';
-// import IconButton from '@mui/material/IconButton';
+import { Box } from "@mui/system";
+import Button from "@mui/material/Button";
+import React from "react";
+import SendIcon from "@mui/icons-material/Send";
+import { Typography } from "@mui/material";
+import "./authentication3/login.css";
+import influvencer from "./authentication3/assets/influencer.png";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import marketer from "./authentication3/assets/marketer.png";
 
-// import { NavLink } from 'react-router-dom';
+export default function AccountType() {
+  const [selectedOption, setSelectedOption] = useState(null);
+  const navigate = useNavigate(); // Get navigate function for redirection
 
+  const handleOptionSelect = (option) => {
+    setSelectedOption(option);
+  };
 
-// import InputLabel from '@mui/material/InputLabel';
-// import InputAdornment from '@mui/material/InputAdornment';
-
-// import FormControl from '@mui/material/FormControl';
-// import OutlinedInput from '@mui/material/OutlinedInput';
-// import Visibility from '@mui/icons-material/Visibility';
-// import VisibilityOff from '@mui/icons-material/VisibilityOff';
-
-// project imports
-import { Grid, Typography } from '@mui/material';
-import AuthWrapper1 from './AuthWrapper1';
-import { Box } from '@mui/system';
-// import TextField from '@mui/material/TextField';
-// import Lottie from 'react-lottie';
-// import animationData from './assets/Animation1.json';
-// import AuthCardWrapper from '../AuthCardWrapper';
-// import AuthLogin from '../auth-forms/AuthLogin';
-// import Logo from 'ui-component/Logo';
-// import AuthFooter from 'ui-component/cards/AuthFooter';
-import img1 from './authentication3/assets/register1.png'
-import './authentication3/login2.css'
-// assets
-
-
-
-
-// ================================|| AUTH3 - LOGIN ||================================ //
-
-const Login = () => {
-  // const theme = useTheme();
-  // const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-
-  // const [showPassword, setShowPassword] = React.useState(false);
-
-  // const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  // const handleMouseDownPassword = (event) => {
-  //   event.preventDefault();
-  // };
-
-
+  const handleSelectionSubmit = () => {
+    // Send selectedOption to the server via POST request
+    fetch("your-server-endpoint", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ selectedOption }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          // Redirect to another page based on the selection
+          if (selectedOption === "influencer") {
+            navigate("/influencer-page");
+          } else if (selectedOption === "marketer") {
+            navigate("/marketer-page");
+          }
+        } else {
+          // Handle error response
+          console.error("Error sending selection to server");
+        }
+      })
+      .catch((error) => {
+        console.error("Error sending selection to server:", error);
+      });
+  };
   return (
-    <AuthWrapper1>
-
-     
-<Grid container>
-  <Grid xs={6}>
-    <Box className="image-area"  sx={{height:"100vh", width:1}}>
-      <img src={img1} alt='img'/>
-    </Box>
-  </Grid>
-  <Grid xs={6}>
-    <Box sx={{padding:"20px",backgroundColor:"#F0ECE5", height:"100vh", display:"flex", justifyContent:"center", flexDirection:"column"}}>
-      <Box sx={{width:1, margin:"20px",paddingX:"30px"}}>
-        <Typography className='font-sty' sx={{fontSize:"24px"}}>
-          Choose your account type
+    <Box
+      sx={{
+        width: 1,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+        height: "100vh",
+      }}
+    >
+      <Box sx={{ marginBottom: "50px" }}>
+        <Typography
+          className="font-sty"
+          sx={{ color: "white", fontSize: "30px" }}
+        >
+          Choose account type
         </Typography>
       </Box>
-      <Box sx={{margin:'20px', display:"flex", flexDirection:'column', width:1, justifyContent:'center', alignItems:'center'}}>
-       <Box sx={{display:'flex', width:1, justifyContent:'center'}}>
-        <Box sx={{width:"200px", height:"200px", background:"white", borderRadius:"10px", marginX:"30px"}}>
-
+      <Box
+        sx={{
+          width: "50%",
+          display: "flex",
+          justifyContent: "space-around",
+          alignItems: "center",
+        }}
+      >
+        <Box
+          className={`acc-type-inf ${selectedOption === "influencer" ? "selected" : ""}`}
+          onClick={() => handleOptionSelect("influencer")}
+          sx={{
+            width: "250px",
+            border: "0.5px solid #4f5b9b",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "10px",
+            paddingY: "30px",
+            borderRadius: "10px",
+          }}
+        >
+          <img alt="influ" src={influvencer} />
+          <Typography
+            className="font-sty"
+            sx={{ color: "white", fontSize: "20px", marginTop: "60px" }}
+          >
+            Influencer
+          </Typography>
         </Box>
-        <Box sx={{width:"200px", height:"200px", background:"white", borderRadius:"10px", marginX:"30px"}}>
-          
+        <Box
+          className={`acc-type-inf ${selectedOption === "marketer" ? "selected" : ""}`}
+          onClick={() => handleOptionSelect("marketer")}
+          sx={{
+            width: "250px",
+            border: "0.5px solid #4f5b9b",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "10px",
+            paddingY: "30px",
+            borderRadius: "10px",
+          }}
+        >
+          <img alt="influ" src={marketer} />
+          <Typography
+            className="font-sty"
+            sx={{ color: "white", fontSize: "20px", marginTop: "60px" }}
+          >
+            Marketer
+          </Typography>
         </Box>
-        
-       </Box>
-        
       </Box>
-
+      <Box sx={{marginTop:"30px", width:"41%", display:"flex", alignItems:"flex-end", justifyContent:"flex-end"}}>
+        <Button sx={{backgroundColor:"#E98EAD"}} variant="contained" onClick={handleSelectionSubmit} endIcon={<SendIcon />}>
+          Next
+        </Button>
+      </Box>
     </Box>
-  </Grid>
-  
-</Grid>
-
-    </AuthWrapper1>
   );
-};
-
-export default Login;
-
+}

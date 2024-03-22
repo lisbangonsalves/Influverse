@@ -1,35 +1,59 @@
-// import { Link } from 'react-router-dom';
 import * as React from "react";
-// material-ui
-// import { useTheme } from '@mui/material/styles';
-// import { Divider, Grid, Stack, Typography, useMediaQuery } from '@mui/material';
-
 import Button from "@mui/material/Button";
-
 import SendIcon from "@mui/icons-material/Send";
 import { NavLink } from "react-router-dom";
-
 import Chip from "@mui/material/Chip";
 import Autocomplete from "@mui/material/Autocomplete";
-
-// project imports
 import { Grid, Typography } from "@mui/material";
 import AuthWrapper1 from "../AuthWrapper1";
 import { Box } from "@mui/system";
 import TextField from "@mui/material/TextField";
-// import Lottie from 'react-lottie';
-// import animationData from './assets/Animation1.json';
-// import AuthCardWrapper from '../AuthCardWrapper';
-// import AuthLogin from '../auth-forms/AuthLogin';
-// import Logo from 'ui-component/Logo';
-// import AuthFooter from 'ui-component/cards/AuthFooter';
+import { useState } from "react";
+import axios from "axios";
 import img1 from "./assets/register1.png";
 import "./login2.css";
-// assets
-
-// ================================|| AUTH3 - LOGIN ||================================ //
 
 const Login = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    crn: "",
+    industry: [],
+  });
+
+  // Function to handle form field changes
+  const handleFormChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  // Function to handle industry type selection
+  const handleIndustryTypeChange = (event, value) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      industry: value,
+    }));
+  };
+
+  // Function to handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Make a POST request to your server endpoint
+      console.log(formData)
+      const response = await axios.post("your_server_endpoint_here", formData);
+
+      // Handle the response as needed
+      console.log("Response:", response.data);
+    } catch (error) {
+      // Handle error
+      console.error("Error:", error);
+    }
+  };
+
   return (
     <AuthWrapper1>
       <Grid container>
@@ -39,111 +63,121 @@ const Login = () => {
           </Box>
         </Grid>
         <Grid xs={6}>
-          <Box
-            sx={{
-              padding: "20px",
-              backgroundColor: "#F0ECE5",
-              height: "100vh",
-              display: "flex",
-              justifyContent: "center",
-              flexDirection: "column",
-            }}
-          >
-            <Box sx={{ width: 1, margin: "20px", paddingX: "30px" }}>
-              <Typography className="font-sty" sx={{ fontSize: "20px" }}>
-                Welcome to,
-              </Typography>
-              <Typography className="font-sty" sx={{ fontSize: "30px" }}>
-                Influverse
-              </Typography>
-            </Box>
+          <form onSubmit={handleSubmit}>
             <Box
               sx={{
-                margin: "20px",
+                padding: "20px",
+                backgroundColor: "#F0ECE5",
+                height: "100vh",
                 display: "flex",
-                flexDirection: "column",
-                width: 1,
                 justifyContent: "center",
-                alignItems: "center",
+                flexDirection: "column",
               }}
             >
-              <TextField
-                id="outlined-basic"
-                placeholder="Company Name"
-                variant="outlined"
-                sx={{ width: "85%", marginY: "20px" }}
-              />
-              <TextField
-                id="outlined-basic"
-                placeholder="Company registration No"
-                variant="outlined"
-                sx={{ width: "85%", marginY: "20px" }}
-              />
-
-              <Autocomplete
-                sx={{ width: "85%", marginY: "20px" }}
-                multiple
-                id="tags-filled"
-                options={top100Films.map((option) => option.title)}
-                // defaultValue={[top100Films[13].title]}
-                freeSolo
-                renderTags={(value, getTagProps) =>
-                  value.map((option, index) => (
-                    <Chip
-                      variant="outlined"
-                      key={index}
-                      label={option}
-                      {...getTagProps({ index })}
-                    />
-                  ))
-                }
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    variant="outlined"
-                    sx={{ width: 1 }}
-                    placeholder="Industary Type"
-                  />
-                )}
-              />
-
+              <Box sx={{ width: 1, margin: "20px", paddingX: "30px" }}>
+                <Typography className="font-sty" sx={{ fontSize: "20px" }}>
+                  Welcome to,
+                </Typography>
+                <Typography className="font-sty" sx={{ fontSize: "30px" }}>
+                  Influverse
+                </Typography>
+              </Box>
               <Box
                 sx={{
+                  margin: "20px",
                   display: "flex",
+                  flexDirection: "column",
                   width: 1,
-                  paddingX: "55px",
-                  paddingY: "40px",
-                  alignItems: "flex-end",
-                  justifyContent: "space-between",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
               >
-                <Typography sx={{ display: "flex" }}>
-                  Already a user?{" "}
-                  <Typography
-                    sx={{
-                      fontWeight: "bold",
-                      paddingLeft: "5px",
-                      textDecoration: "none",
-                      color: "black",
-                    }}
-                    component={NavLink}
-                    to="/signin"
-                  >
-                    SignIn
-                  </Typography>
-                </Typography>
-                <Button
-                  variant="contained"
-                  size="large"
-                  className="font-sty"
-                  sx={{ backgroundColor: "#161A30" }}
-                  endIcon={<SendIcon />}
+                <TextField
+                name="name"
+                  id="outlined-basic"
+                  placeholder="Company Name"
+                  variant="outlined"
+                  value={formData.name}
+                  onChange={handleFormChange}
+                  sx={{ width: "85%", marginY: "20px" }}
+                />
+                <TextField
+                name="crn"
+                  id="outlined-basic"
+                  placeholder="Company Registration Number"
+                  value={formData.crn}
+                  onChange={handleFormChange}
+                  variant="outlined"
+                  sx={{ width: "85%", marginY: "20px" }}
+                />
+
+                <Autocomplete
+                  sx={{ width: "85%", marginY: "20px" }}
+                  multiple
+                  id="tags-filled"
+                  options={industryType.map((option) => option.title)}
+                  freeSolo
+                  value={formData.industry}
+                  onChange={handleIndustryTypeChange}
+                  renderTags={(value, getTagProps) =>
+                    value.map((option, index) => (
+                      <Chip
+                        variant="outlined"
+                        key={index}
+                        label={option}
+                        {...getTagProps({ index })}
+                      />
+                    ))
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      variant="outlined"
+                      sx={{ width: 1 }}
+                      placeholder="Industary Type"
+                    />
+                  )}
+                />
+
+                <Box
+                  sx={{
+                    display: "flex",
+                    width: 1,
+                    paddingX: "55px",
+                    paddingY: "40px",
+                    alignItems: "flex-end",
+                    justifyContent: "space-between",
+                  }}
                 >
-                  Next
-                </Button>
+                  <Typography sx={{ display: "flex" }}>
+                    Already a user?{" "}
+                    <Typography
+                      sx={{
+                        fontWeight: "bold",
+                        paddingLeft: "5px",
+                        textDecoration: "none",
+                        color: "black",
+                      }}
+                      component={NavLink}
+                      to="/signin"
+                    >
+                      SignIn
+                    </Typography>
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    type="submit"
+                    size="large"
+                    className="font-sty"
+                    sx={{ backgroundColor: "#161A30" }}
+                    endIcon={<SendIcon />}
+                  >
+                    Next
+                  </Button>
+                </Box>
               </Box>
             </Box>
-          </Box>
+          </form>
         </Grid>
       </Grid>
     </AuthWrapper1>
@@ -152,7 +186,7 @@ const Login = () => {
 
 export default Login;
 
-const top100Films = [
+const industryType = [
   { title: "Fashion" },
   { title: "Beauty" },
   { title: "Electronics" },
@@ -178,5 +212,4 @@ const top100Films = [
   },
   { title: "Non-profit and Social Causes" },
   { title: "E-commerce" },
-
 ];

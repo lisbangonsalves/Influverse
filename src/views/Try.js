@@ -1,88 +1,39 @@
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import NativeSelect from '@mui/material/NativeSelect';
-import InputBase from '@mui/material/InputBase';
+import { useState } from 'react';
+import { Box } from "@mui/system";
+import React from "react";
+import { Typography } from "@mui/material";
+import '../views/pages/authentication/authentication3/login.css';
+import influvencer from '../views/pages/authentication/authentication3/assets/influencer.png';
+import marketer from '../views/pages/authentication/authentication3/assets/marketer.png';
 
-const BootstrapInput = styled(InputBase)(({ theme }) => ({
-  'label + &': {
-    marginTop: theme.spacing(3),
-  },
-  '& .MuiInputBase-input': {
-    borderRadius: 4,
-    position: 'relative',
-    backgroundColor: theme.palette.background.paper,
-    border: '1px solid #ced4da',
-    fontSize: 16,
-    padding: '10px 26px 10px 12px',
-    transition: theme.transitions.create(['border-color', 'box-shadow']),
-    // Use the system font instead of the default Roboto font.
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
-    '&:focus': {
-      borderRadius: 4,
-      borderColor: '#80bdff',
-      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
-    },
-  },
-}));
+export default function AccountType() {
+  const [selectedOption, setSelectedOption] = useState(null);
 
-export default function CustomizedSelects() {
-  const [age, setAge] = React.useState('');
-  const handleChange = (event) => {
-    setAge(event.target.value);
+  const handleOptionSelect = (option) => {
+    setSelectedOption(option);
   };
+
   return (
-    <div>
-      <FormControl sx={{ m: 1 }} variant="standard">
-        <InputLabel htmlFor="demo-customized-textbox">Age</InputLabel>
-        <BootstrapInput id="demo-customized-textbox" />
-      </FormControl>
-      <FormControl sx={{ m: 1 }} variant="standard">
-        <InputLabel id="demo-customized-select-label">Age</InputLabel>
-        <Select
-          labelId="demo-customized-select-label"
-          id="demo-customized-select"
-          value={age}
-          onChange={handleChange}
-          input={<BootstrapInput />}
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
-        </Select>
-      </FormControl>
-      <FormControl sx={{ m: 1 }} variant="standard">
-        <InputLabel htmlFor="demo-customized-select-native">Age</InputLabel>
-        <NativeSelect
-          id="demo-customized-select-native"
-          value={age}
-          onChange={handleChange}
-          input={<BootstrapInput />}
-        >
-          <option aria-label="None" value="" />
-          <option value={10}>Ten</option>
-          <option value={20}>Twenty</option>
-          <option value={30}>Thirty</option>
-        </NativeSelect>
-      </FormControl>
-    </div>
+    <Box sx={{width:1, display:"flex", justifyContent:"center", alignItems:"center", flexDirection:"column",height:"100vh" }}>
+      <Box sx={{marginBottom:"50px"}}>
+        <Typography className="font-sty" sx={{color:"white", fontSize:"30px"}}>
+          Choose account type
+        </Typography>
+      </Box>
+      <Box sx={{width:"50%", display:"flex", justifyContent:"space-around", alignItems:"center",  }}>
+        <Box className={`acc-type-inf ${selectedOption === 'influencer' ? 'selected' : ''}`} onClick={() => handleOptionSelect('influencer')} sx={{width:"250px",border:"0.5px solid #4f5b9b", display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", padding:"10px", paddingY:"30px", borderRadius:"10px"}}>
+          <img alt="influ" src={influvencer}/>
+          <Typography className="font-sty" sx={{color:"white", fontSize:"20px", marginTop:"60px"}}>
+            Influencer
+          </Typography>
+        </Box>
+        <Box className={`acc-type-inf ${selectedOption === 'marketer' ? 'selected' : ''}`} onClick={() => handleOptionSelect('marketer')} sx={{width:"250px",border:"0.5px solid #4f5b9b", display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", padding:"10px", paddingY:"30px", borderRadius:"10px"}}>
+          <img alt="mark" src={marketer}/>
+          <Typography className="font-sty" sx={{color:"white", fontSize:"20px", marginTop:"60px"}}>
+            Marketer
+          </Typography>
+        </Box>
+      </Box>
+    </Box>
   );
 }
-

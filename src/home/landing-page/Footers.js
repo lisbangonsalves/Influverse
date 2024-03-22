@@ -11,11 +11,23 @@ import logo from '../../assets/images/logo.png'
 import FacebookIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import TwitterIcon from '@mui/icons-material/X';
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const logoStyle = {
   width: '140px',
   height: 'auto',
 };
+
+const theme = createTheme({
+  palette: {
+    secondary: {
+      main: "#E98EAD",
+      light: "#f0bdcf",
+      // dark: will be calculated from palette.secondary.main,
+      contrastText: "#47008F",
+    },
+  },
+});
 
 function Copyright() {
   return (
@@ -81,9 +93,11 @@ export default function Footer() {
                   ariaLabel: 'Enter your email address',
                 }}
               />
-              <Button variant="contained" color="primary" sx={{ flexShrink: 0 }}>
+              <ThemeProvider theme={theme}>
+              <Button variant="contained" color="secondary" sx={{ flexShrink: 0 }}>
                 Subscribe
               </Button>
+              </ThemeProvider>
             </Stack>
           </Box>
         </Box>
