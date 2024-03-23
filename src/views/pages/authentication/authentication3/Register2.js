@@ -43,7 +43,7 @@ const Login = () => {
 
     try {
       // Make a POST request to your server endpoint
-      console.log(formData)
+      
       const response = await axios.post("your_server_endpoint_here", formData);
 
       // Handle the response as needed

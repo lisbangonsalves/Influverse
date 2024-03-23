@@ -1,24 +1,225 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
+import dayjs from 'dayjs';
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
+import Chip from "@mui/material/Chip";
 import Select from "@mui/material/Select";
+import { useState } from "react";
+import Autocomplete from "@mui/material/Autocomplete";
 // eslint-disable-next-line no-restricted-imports
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import Button from "@mui/material/Button";
 
 export default function CreateCampaign() {
-  const [age, setAge] = React.useState("");
+  const [campaignDescription, setcampaignDescription] = useState("");
+  const [campaignObjectives, setcampaignObjectives] = useState("");
+  const [channel, setchannel] = useState("");
+  const [creativeAsset, setcreativeAsset] = useState("");
+  const [startDate, setstartDate] = useState("");
+  const [endDate, setendDate] = useState("");
+  const [durations, setdurations] = useState("");
+  const [budget, setbudget] = useState("");
+  const [breakdown, setbreakdown] = useState("");
+  const [targetAge, settargetAge] = useState("");
+  const [targetGender, settargetGender] = useState("");
+  const [targetIncomeLevel, settargetIncomeLevel] = useState("");
+  const [location, setlocation] = useState("");
+  const [occupation, setoccupation] = useState("");
+  const [communicationChannel, setCommunicationChannel] = useState("");
+  const [Interests, setInterests] = useState([]);
+  const [contentFormats, setcontentFormats] = useState("");
+  const [distributionChannels, setdistributionChannels] = useState("");
+  const [offerDescription, setofferDescription] = useState("");
+  const [offerTerms, setofferTerms] = useState("");
+  
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
+  const handlecampaignDescriptionChange = (event) => {
+    setcampaignDescription(event.target.value);
   };
+  const handlecampaignObjectivesChange = (event) => {
+    setcampaignObjectives(event.target.value);
+  };
+  const handlechannelChange = (event) => {
+    setchannel(event.target.value);
+  };
+  const handlecreativeAssetChange = (event) => {
+    setcreativeAsset(event.target.value);
+  };
+  const handledurationsChange = (event) => {
+    setdurations(event.target.value);
+  };
+  const handlebudgetChange = (event) => {
+    setbudget(event.target.value);
+  };
+  const handlebreakdownChange = (event) => {
+    setbreakdown(event.target.value);
+  };
+  const handletargetAgeChange = (event) => {
+    settargetAge(event.target.value);
+  };
+  const handletargetGenderChange = (event) => {
+    settargetGender(event.target.value);
+  };
+  const handletargetIncomeLevelChange = (event) => {
+    settargetIncomeLevel(event.target.value);
+  };
+  const handlelocationChange = (event) => {
+    setlocation(event.target.value);
+  };
+  const handleoccupationChange = (event) => {
+    setoccupation(event.target.value);
+  };
+  const handlecommunicationChannelChange = (event) => {
+    setCommunicationChannel(event.target.value);
+  };
+
+  const handleInterestsChange = (event, value) => {
+    setInterests(value); 
+  };
+  const handlestartDateChange = (newDate) => {
+    const currentDate = dayjs(); // Get the current date
+    // Check if newDate is before the current date
+    if (newDate.isBefore(currentDate, 'day')) {
+      // Handle validation error for startDate
+      setstartDate({
+        value: newDate,
+        validationError: "Start date cannot be in the past."
+      });
+    } else if (endDate && newDate.isAfter(endDate)) {
+      // Check if newDate is after endDate
+      // Handle validation error for startDate
+      setstartDate({
+        value: newDate,
+        validationError: "Start date must be before end date."
+      });
+    } else {
+      // No validation error, update startDate
+      setstartDate({
+        value: newDate,
+        
+      });
+    }
+  };
+  
+  const handleendDateChange = (newDate) => {
+    const currentDate = dayjs(); // Get the current date
+    // Check if newDate is before the current date
+    if (newDate.isBefore(currentDate, 'day')) {
+      // Handle validation error for endDate
+      setendDate({
+        value: newDate,
+        validationError: "End date cannot be in the past."
+      });
+    } else if (startDate && newDate.isBefore(startDate)) {
+      // Check if newDate is before startDate
+      // Handle validation error for endDate
+      setendDate({
+        value: newDate,
+        validationError: "End date must be after start date."
+      });
+    } else {
+      // No validation error, update endDate
+      setendDate({
+        value: newDate,
+
+      });
+    }
+  };
+
+  const handlecontentFormatsChange = (event) => {
+    setcontentFormats(event.target.value);
+  };
+  const handledistributionChannelsChange = (event) => {
+    setdistributionChannels(event.target.value);
+  };
+  const handleofferDescriptionChange = (event) => {
+    setofferDescription(event.target.value);
+  };
+  const handleofferTermsChange = (event) => {
+    setofferTerms(event.target.value);
+  };
+
+
+
+
+
+
+
+  
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      console.log(JSON.stringify({
+        campaignDescription,
+        campaignObjectives,
+        channel,
+        creativeAsset,
+        startDate,
+        endDate,
+        durations,
+        budget,
+        breakdown,
+        targetAge,
+        targetGender,
+        targetIncomeLevel,
+        location,
+        occupation,
+        communicationChannel,
+        Interests,
+        contentFormats,
+        distributionChannels,
+        offerDescription,
+        offerTerms}))
+      const response = await fetch("YOUR_API_ENDPOINT", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          campaignDescription,
+          campaignObjectives,
+          channel,
+          creativeAsset,
+          startDate,
+          endDate,
+          durations,
+          budget,
+          breakdown,
+          targetAge,
+          targetGender,
+          targetIncomeLevel,
+          location,
+          occupation,
+          communicationChannel,
+          Interests,
+          contentFormats,
+          distributionChannels,
+          offerDescription,
+          offerTerms
+        }),
+      });
+      if (response.ok) {
+        // Handle success
+        console.log("Data sent successfully!");
+      } else {
+        // Handle error
+        console.error("Error while sending data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  
   return (
     <Box sx={{ width: 1 }}>
+      <form onSubmit={handleSubmit}>
       <Box sx={{ width: 1, display: "flex", marginTop: "50px" }}>
         <Grid
           container
@@ -39,6 +240,8 @@ export default function CreateCampaign() {
           </Grid>
           <Grid item xs={12}>
             <TextField
+            onChange={handlecampaignDescriptionChange}
+            value={campaignDescription}
               sx={{ width: 1 }}
               id="Description-of-Campaign-Theme-or-Concept"
               label="Description of Campaign Theme or Concept"
@@ -47,12 +250,14 @@ export default function CreateCampaign() {
           </Grid>
           <Grid item xs={12}>
             <Select
+            onChange={handlecampaignObjectivesChange}
+            value={campaignObjectives}
               id="Campaign-Objectives"
               sx={{ width: 1 }}
-              value={age}
+             
               displayEmpty
               inputProps={{ "aria-label": "Without label" }}
-              onChange={handleChange}
+              
             >
               <MenuItem value="">
                 <em>Campaign Objectives</em>
@@ -69,15 +274,15 @@ export default function CreateCampaign() {
             <Select
               id="Channel-Selection"
               sx={{ width: 1 }}
-              value={age}
+              value={channel}
               displayEmpty
               inputProps={{ "aria-label": "Without label" }}
-              onChange={handleChange}
+              onChange={handlechannelChange}
             >
               <MenuItem value="">
                 <em>Channel Selection</em>
               </MenuItem>
-              <MenuItem value={1}>Social Media</MenuItem>
+              <MenuItem value={"social media"}>Social Media</MenuItem>
               <MenuItem value={2}>Email Marketing</MenuItem>
               <MenuItem value={3}>Search Engine Marketing (SEM)</MenuItem>
               <MenuItem value={4}>Content Marketing</MenuItem>
@@ -89,10 +294,10 @@ export default function CreateCampaign() {
             <Select
               id="Creative-Assets"
               sx={{ width: 1 }}
-              value={age}
+              value={creativeAsset}
               displayEmpty
               inputProps={{ "aria-label": "Without label" }}
-              onChange={handleChange}
+              onChange={handlecreativeAssetChange}
             >
               <MenuItem value="">
                 <em>Creative Assets</em>
@@ -119,19 +324,23 @@ export default function CreateCampaign() {
           <Grid item xs={4}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer sx={{ width: 1 }} components={["DatePicker"]}>
-                <DatePicker sx={{ width: 1 }} label="Start Date" />
+                <DatePicker value={startDate} onChange={handlestartDateChange} sx={{ width: 1 }} label="Start Date" />
+                {startDate.validationError && <p style={{ color: 'red' }}>{startDate.validationError}</p>}
               </DemoContainer>
             </LocalizationProvider>
           </Grid>
           <Grid item xs={4}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer sx={{ width: 1 }} components={["DatePicker"]}>
-                <DatePicker sx={{ width: 1 }} label="End Date" />
+                <DatePicker value={endDate} onChange={handleendDateChange} sx={{ width: 1 }} label="End Date" />
+                {endDate.validationError && <p style={{ color: 'red' }}>{endDate.validationError}</p>}
               </DemoContainer>
             </LocalizationProvider>
           </Grid>
           <Grid item xs={4}>
             <TextField
+            onChange={handledurationsChange}
+            value={durations}
               sx={{ width: 1 , marginTop:'8px'}}
               id="Duration"
               label="Duration"
@@ -151,6 +360,8 @@ export default function CreateCampaign() {
           </Grid>
           <Grid item xs={6}>
             <TextField
+            onChange={handlebudgetChange}
+            value={budget}
               sx={{ width: 1 }}
               id="Total-Budget"
               label="Total Budget"
@@ -159,6 +370,8 @@ export default function CreateCampaign() {
           </Grid>
           <Grid item xs={6}>
             <TextField
+            onChange={handlebreakdownChange}
+            value={breakdown}
               sx={{ width: 1 }}
               id="Breakdown"
               label="Breakdown"
@@ -180,10 +393,11 @@ export default function CreateCampaign() {
             <Select
               id="Age"
               sx={{ width: 1 }}
-              value={age}
+              onChange={handletargetAgeChange}
+            value={targetAge}
               displayEmpty
               inputProps={{ "aria-label": "Without label" }}
-              onChange={handleChange}
+             
             >
               <MenuItem value="">
                 <em>Age</em>
@@ -201,10 +415,10 @@ export default function CreateCampaign() {
             <Select
               id="Gender"
               sx={{ width: 1 }}
-              value={age}
+              value={targetGender}
               displayEmpty
               inputProps={{ "aria-label": "Without label" }}
-              onChange={handleChange}
+              onChange={handletargetGenderChange}
             >
               <MenuItem value="">
                 <em>Gender</em>
@@ -219,10 +433,10 @@ export default function CreateCampaign() {
             <Select
               id="Income-Level"
               sx={{ width: 1 }}
-              value={age}
+              value={targetIncomeLevel}
               displayEmpty
               inputProps={{ "aria-label": "Without label" }}
-              onChange={handleChange}
+              onChange={handletargetIncomeLevelChange}
             >
               <MenuItem value="">
                 <em>Income Level</em>
@@ -248,10 +462,10 @@ export default function CreateCampaign() {
             <Select
               id="Location"
               sx={{ width: 1 }}
-              value={age}
+              value={location}
               displayEmpty
               inputProps={{ "aria-label": "Without label" }}
-              onChange={handleChange}
+              onChange={handlelocationChange}
             >
               <MenuItem value="">
                 <em>Location</em>
@@ -264,6 +478,8 @@ export default function CreateCampaign() {
 
           <Grid item xs={6}>
             <TextField
+            onChange={handleoccupationChange}
+            value={occupation}
               sx={{ width: 1 }}
               id="Occupation"
               label="Occupation"
@@ -272,12 +488,13 @@ export default function CreateCampaign() {
           </Grid>
           <Grid item xs={6}>
             <Select
+            
               id="Communication-Channels"
               sx={{ width: 1 }}
-              value={age}
+              value={communicationChannel}
               displayEmpty
               inputProps={{ "aria-label": "Without label" }}
-              onChange={handleChange}
+              onChange={handlecommunicationChannelChange}
             >
               <MenuItem value="">
                 <em>Communication Channels</em>
@@ -287,93 +504,34 @@ export default function CreateCampaign() {
             </Select>
           </Grid>
           <Grid item xs={12}>
-            <Select
-              id="Interest"
-              sx={{ width: 1 }}
-              value={age}
-              displayEmpty
-              inputProps={{ "aria-label": "Without label" }}
-              onChange={handleChange}
-            >
-              <MenuItem value="">
-                <em>Interest</em>
-              </MenuItem>
-              <MenuItem value={1}>Parenting Tips and Advice</MenuItem>
-              <MenuItem value={2}>Family Activities</MenuItem>
-              <MenuItem value={3}>Child Development</MenuItem>
-              <MenuItem value={4}>Pregnancy and Childbirth</MenuItem>
-              <MenuItem value={5}>Parenting Blogs</MenuItem>
-              <MenuItem value={6}>Environmental Conservation</MenuItem>
-              <MenuItem value={7}>Human Rights</MenuItem>
-              <MenuItem value={8}>Social Justice</MenuItem>
-              <MenuItem value={9}>Animal Welfare</MenuItem>
-              <MenuItem value={10}>Community Service</MenuItem>
-              <MenuItem value={11}>Personal Finance Management</MenuItem>
-              <MenuItem value={12}>Stock Market Investing</MenuItem>
-              <MenuItem value={13}>Cryptocurrency</MenuItem>
-              <MenuItem value={14}>Financial Planning</MenuItem>
-              <MenuItem value={15}>Entrepreneurship</MenuItem>
-              <MenuItem value={16}>Self-help and Motivation</MenuItem>
-              <MenuItem value={17}>Goal Setting</MenuItem>
-              <MenuItem value={18}>Time Management</MenuItem>
-              <MenuItem value={19}>Leadership Development</MenuItem>
-              <MenuItem value={20}>Public Speaking</MenuItem>
-              <MenuItem value={21}>Gardening</MenuItem>
-              <MenuItem value={22}>Birdwatching</MenuItem>
-              <MenuItem value={23}>Camping</MenuItem>
-              <MenuItem value={24}>Fishing</MenuItem>
-              <MenuItem value={25}>Nature Photography</MenuItem>
-              <MenuItem value={26}>Fiction</MenuItem>
-              <MenuItem value={27}>Non-fiction</MenuItem>
-              <MenuItem value={28}>Book Clubs</MenuItem>
-              <MenuItem value={29}>Poetry</MenuItem>
-              <MenuItem value={30}>Literary Events</MenuItem>
-              <MenuItem value={31}>Meditation and Mindfulness</MenuItem>
-              <MenuItem value={32}>Nutrition and Healthy Eating</MenuItem>
-              <MenuItem value={33}>Mental Health Awareness</MenuItem>
-              <MenuItem value={34}>Alternative Medicine</MenuItem>
-              <MenuItem value={35}>Holistic Wellness</MenuItem>
-              <MenuItem value={36}>Gadgets and Devices</MenuItem>
-              <MenuItem value={37}>Coding and Programming</MenuItem>
-              <MenuItem value={38}>Tech Startups</MenuItem>
-              <MenuItem value={39}>Virtual Reality (VR)</MenuItem>
-              <MenuItem value={40}>Artificial Intelligence (AI)</MenuItem>
-              <MenuItem value={41}>Cooking and Baking</MenuItem>
-              <MenuItem value={42}>Food Photography</MenuItem>
-              <MenuItem value={43}>Culinary Arts</MenuItem>
-              <MenuItem value={44}>Recipe Development</MenuItem>
-              <MenuItem value={45}>Food Blogging</MenuItem>
-              <MenuItem value={46}>Playing Instruments</MenuItem>
-              <MenuItem value={47}>Singing</MenuItem>
-              <MenuItem value={48}>Dance</MenuItem>
-              <MenuItem value={49}>Theater</MenuItem>
-              <MenuItem value={50}>Concerts and Music Festivals</MenuItem>
-              <MenuItem value={51}>Video Games</MenuItem>
-              <MenuItem value={52}>Board Games</MenuItem>
-              <MenuItem value={53}>Esports</MenuItem>
-              <MenuItem value={54}>Streaming</MenuItem>
-              <MenuItem value={55}>Cosplay</MenuItem>
-              <MenuItem value={56}>Painting and Drawing</MenuItem>
-              <MenuItem value={57}>Photography</MenuItem>
-              <MenuItem value={58}>Pottery and Ceramics</MenuItem>
-              <MenuItem value={59}>DIY Projects</MenuItem>
-              <MenuItem value={60}>Crafting</MenuItem>
-              <MenuItem value={61}>Travel Photography</MenuItem>
-              <MenuItem value={62}>Hiking and Trekking</MenuItem>
-              <MenuItem value={63}>Adventure Sports</MenuItem>
-              <MenuItem value={64}>Backpacking</MenuItem>
-              <MenuItem value={65}>Cultural Experiences</MenuItem>
-              <MenuItem value={66}>Fitness Training</MenuItem>
-              <MenuItem value={67}>Running</MenuItem>
-              <MenuItem value={68}>Yoga</MenuItem>
-              <MenuItem value={69}>Cycling</MenuItem>
-              <MenuItem value={70}>Martial Arts</MenuItem>
-              <MenuItem value={71}>Makeup</MenuItem>
-              <MenuItem value={72}>Skincare</MenuItem>
-              <MenuItem value={73}>Fashion Design</MenuItem>
-              <MenuItem value={74}>Beauty Influencers</MenuItem>
-              <MenuItem value={75}>Hairstyling</MenuItem>
-            </Select>
+          <Autocomplete
+                sx={{ width: 1 }}
+                multiple
+                id="tags-filled"
+                options={Interest.map((option) => option.title)}
+                onChange={handleInterestsChange}
+            value={Interests}
+                freeSolo
+                renderTags={(value, getTagProps) =>
+                  value.map((option, index) => (
+                    <Chip
+                      variant="outlined"
+                      key={index}
+                      label={option}
+                      {...getTagProps({ index })}
+                    />
+                  ))
+                }
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    sx={{ width: 1 }}
+                    
+                    placeholder="Interest"
+                  />
+                )}
+              />
           </Grid>
           <Grid item xs={12}>
             <Box
@@ -388,6 +546,8 @@ export default function CreateCampaign() {
           </Grid>
           <Grid item xs={6}>
             <TextField
+            onChange={handlecontentFormatsChange}
+            value={contentFormats}
               sx={{ width: 1 }}
               id="Content-Formats"
               label="Content Formats"
@@ -396,6 +556,8 @@ export default function CreateCampaign() {
           </Grid>
           <Grid item xs={6}>
             <TextField
+            onChange={handledistributionChannelsChange}
+            value={distributionChannels}
               sx={{ width: 1 }}
               id="Distribution-Channels"
               label="Distribution Channels"
@@ -415,6 +577,8 @@ export default function CreateCampaign() {
           </Grid>
           <Grid item xs={6}>
             <TextField
+            onChange={handleofferDescriptionChange}
+            value={offerDescription}
               sx={{ width: 1 }}
               id="Description"
               label="Description"
@@ -423,6 +587,8 @@ export default function CreateCampaign() {
           </Grid>
           <Grid item xs={6}>
             <TextField
+            onChange={handleofferTermsChange}
+            value={offerTerms}
               sx={{ width: 1 }}
               id="Terms-and-Conditions"
               label="Terms and Conditions"
@@ -431,6 +597,99 @@ export default function CreateCampaign() {
           </Grid>
         </Grid>
       </Box>
+      <Box
+          sx={{
+            width: 1,
+            marginTop: "20px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Button variant="contained" type="submit">
+            Make Changes
+          </Button>
+        </Box>
+      </form>
     </Box>
   );
 }
+
+
+const Interest = [
+  { title: "Parenting Tips and Advice" },
+  { title: "Family Activities" },
+  { title: "Child Development" },
+  { title: "Pregnancy and Childbirth" },
+  { title: "Parenting Blogs" },
+  { title: "Environmental Conservation" },
+  { title: "Human Rights" },
+  { title: "Social Justice" },
+  { title: "Animal Welfare" },
+  { title: "Community Service" },
+  { title: "Personal Finance Management" },
+  { title: "Stock Market Investing" },
+  { title: "Cryptocurrency" },
+  { title: "Financial Planning" },
+  { title: "Entrepreneurship" },
+  { title: "Self-help and Motivation" },
+  { title: "Goal Setting" },
+  { title: "Time Management" },
+  { title: "Leadership Development" },
+  { title: "Public Speaking" },
+  { title: "Gardening" },
+  { title: "Birdwatching" },
+  { title: "Camping" },
+  { title: "Fishing" },
+  { title: "Nature Photography" },
+  { title: "Fiction" },
+  { title: "Non-fiction" },
+  { title: "Book Clubs" },
+  { title: "Poetry" },
+  { title: "Literary Events" },
+  { title: "Meditation and Mindfulness" },
+  { title: "Nutrition and Healthy Eating" },
+  { title: "Mental Health Awareness" },
+  { title: "Alternative Medicine" },
+  { title: "Holistic Wellness" },
+  { title: "Gadgets and Devices" },
+  { title: "Coding and Programming" },
+  { title: "Tech Startups" },
+  { title: "Virtual Reality (VR)" },
+  { title: "Artificial Intelligence (AI)" },
+  { title: "Cooking and Baking" },
+  { title: "Food Photography" },
+  { title: "Culinary Arts" },
+  { title: "Recipe Development" },
+  { title: "Food Blogging" },
+  { title: "Playing Instruments" },
+  { title: "Singing" },
+  { title: "Dance" },
+  { title: "Theater" },
+  { title: "Concerts and Music Festivals" },
+  { title: "Video Games" },
+  { title: "Board Games" },
+  { title: "Esports" },
+  { title: "Streaming" },
+  { title: "Cosplay" },
+  { title: "Painting and Drawing" },
+  { title: "Photography" },
+  { title: "Pottery and Ceramics" },
+  { title: "DIY Projects" },
+  { title: "Crafting" },
+  { title: "Travel Photography" },
+  { title: "Hiking and Trekking" },
+  { title: "Adventure Sports" },
+  { title: "Backpacking" },
+  { title: "Cultural Experiences" },
+  { title: "Fitness Training" },
+  { title: "Running" },
+  { title: "Yoga" },
+  { title: "Cycling" },
+  { title: "Martial Arts" },
+  { title: "Makeup" },
+  { title: "Skincare" },
+  { title: "Fashion Design" },
+  { title: "Beauty Influencers" },
+  { title: "Hairstyling" },
+];
