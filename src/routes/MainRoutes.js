@@ -25,12 +25,14 @@ const AccountPage = Loadable(lazy(() => import("views/accounts/Account")));
 // events
 const Event = Loadable(lazy(() => import("views/event/Event")));
 const CreateEvent = Loadable(lazy(() => import("views/event/CreateEvent")));
+const SelectedEvent = Loadable(lazy(() => import("views/event/SelectedEvent")));
+
+
 const Explore = Loadable(lazy(() => import("views/explore/Explore")));
 const GiftedInfluencerList = Loadable(
   lazy(() => import("views/influencer_gifting/GiftedInfluencerList")),
 );
-// const UtilsMaterialIcons = Loadable(lazy(() => import('views/utilities/MaterialIcons')));
-// const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons')));
+
 const CreateCampaign = Loadable(
   lazy(() => import("views/campaign/CreateCampaign")),
 );
@@ -69,6 +71,10 @@ const MainRoutes = {
         {
           path: "create-event",
           element: <CreateEvent />,
+        },
+        {
+          path: ":slug/:id",
+          element: <SelectedEvent />,
         },
       ],
     },

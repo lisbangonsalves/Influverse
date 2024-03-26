@@ -106,11 +106,12 @@ const user=JSON.parse(localStorage.getItem('user'))
         {eventsData.map(event => (
             <Grid key={event.id} item xs={6}>
               <EventCard
-              img = {event.img}
-                title={event.title}
+                title={event.name}
                 description={event.description}
-                location={event.location}
-                date={event.date}
+                location={event.country}
+                date={event.start_date}
+                slug={user.slug}
+                userid={user.id}
               />
             </Grid>
           ))}

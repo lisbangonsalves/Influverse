@@ -10,6 +10,7 @@ import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import Select from "@mui/material/Select";
+import { useNavigate } from "react-router-dom";
 // eslint-disable-next-line no-restricted-imports
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -38,6 +39,7 @@ export default function CreateEvent() {
   const [targetCommunicationChannel, setTargetCommunicationChannel] = useState("");
   const [targetInterests, settargetInterests] = useState([]);
 
+  const navigate = useNavigate();
   
   const handleEventName = (event) => {
     setEventName(event.target.value);
@@ -146,14 +148,47 @@ export default function CreateEvent() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const dateTimeString = eventStartTime;
-      console.log(dateTimeString)
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      console.log(eventStartTime)
+// Assuming your variable is named eventStartTime
+// Extracting relevant date and time components from eventStartTime
+const year = eventStartTime['$y'];
+const month = eventStartTime['$M'] - 1; // Month is zero-based in JavaScript Date objects
+const day = eventStartTime['$D'];
+const hour = eventStartTime['$H'];
+const minute = eventStartTime['$m'];
+const second = eventStartTime['$s'] || 0; // If second is not provided, default to 0
+const millisecond = eventStartTime['$ms'] || 0; // If millisecond is not provided, default to 0
+const jsDate = new Date(year, month, day, hour, minute, second, millisecond);
 
-// Extracting the time component
-const timeComponent = dateTimeString.split('T')[1].slice(0, 5); // Extracts "23:30"
 
-// Format the time using Moment.js
-const formattedTime = moment(timeComponent, 'HH:mm').format('HH:mm');
+const Eyear = eventEndTime['$y'];
+const Emonth = eventEndTime['$M'] - 1; // Month is zero-based in JavaScript Date objects
+const Eday = eventEndTime['$D'];
+const Ehour = eventEndTime['$H'];
+const Eminute = eventEndTime['$m'];
+const Esecond = eventEndTime['$s'] || 0; // If second is not provided, default to 0
+const Emillisecond = eventEndTime['$ms'] || 0; // If millisecond is not provided, default to 0
+const EjsDate = new Date(Eyear, Emonth, Eday, Ehour, Eminute, Esecond, Emillisecond);
+// Creating a new JavaScript Date object with extracted components
+
+// Formatting the time string in hh:mm[:ss[.uuuuuu]] format
+const eventStime = `${jsDate.getHours().toString().padStart(2, '0')}:${jsDate.getMinutes().toString().padStart(2, '0')}:${jsDate.getSeconds().toString().padStart(2, '0')}.${jsDate.getMilliseconds().toString().padStart(6, '0')}`;
+const eventEtime = `${EjsDate.getHours().toString().padStart(2, '0')}:${EjsDate.getMinutes().toString().padStart(2, '0')}:${EjsDate.getSeconds().toString().padStart(2, '0')}.${EjsDate.getMilliseconds().toString().padStart(6, '0')}`;
+
+
+
+
+      
+      
       const user = JSON.parse(localStorage.getItem('user'))
       const response = await fetch(`https://influensys.vercel.app/api/interface-buisness/${user.slug}/events/create`, {
         method: "POST",
@@ -161,14 +196,14 @@ const formattedTime = moment(timeComponent, 'HH:mm').format('HH:mm');
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-        name:eventName,
-        description:eventDescription,
-        goals:eventGoals,
-        event_type:[eventType],
+          name:eventName,
+          description:eventDescription,
+          goals:eventGoals,
+          event_type:[eventType],
         start_date:moment(startDate).format('YYYY-MM-DD') ,
         end_date:moment(endDate).format('YYYY-MM-DD') ,
-        start_time:formattedTime,
-        end_time: eventEndTime,
+        start_time: eventStime,
+        end_time: eventEtime,
         country:eventCountry.country,
         budget:eventBudget,
         target_age:targetAge,
@@ -180,6 +215,7 @@ const formattedTime = moment(timeComponent, 'HH:mm').format('HH:mm');
         }),
       });
       if (response.ok) {
+        navigate("/view/event");
         // Handle success
         console.log("Data sent successfully!");
       } else {
