@@ -12,15 +12,7 @@ import { useNavigate } from 'react-router-dom';
 
 
   function Login() {
-    
-
-
-
-
-
-
-
-    
+  
       const [formData, setFormData] = useState({
         username: "",
         password: "",
@@ -48,8 +40,12 @@ import { useNavigate } from 'react-router-dom';
           console.log(response)
           if (response.ok) {
             const data = await response.json();
-            localStorage.setItem("accessToken", data.accessToken);
-            localStorage.setItem("refreshToken", data.refreshToken);
+            localStorage.setItem("accessToken", data.access_token);
+            localStorage.setItem("refreshToken", data.refresh_token);
+            localStorage.setItem("user", JSON.stringify(data.user) );
+            console.log(data.user)
+            console.log(data)
+            
             console.log("success")
             navigate('/');
             // Redirect to dashboard or other page
@@ -119,7 +115,7 @@ import { useNavigate } from 'react-router-dom';
                 <Typography
                   sx={{ paddingLeft: "5px" }}
                   component={NavLink}
-                  to="/register1"
+                  to="/register"
                 >
                   Register
                 </Typography>

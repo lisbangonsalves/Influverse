@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import marketer from "./authentication3/assets/marketer.png";
 
+
+
 export default function AccountType() {
   const [selectedOption, setSelectedOption] = useState(null);
   const navigate = useNavigate(); // Get navigate function for redirection
@@ -19,29 +21,13 @@ export default function AccountType() {
 
   const handleSelectionSubmit = () => {
     // Send selectedOption to the server via POST request
-    fetch("your-server-endpoint", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ selectedOption }),
-    })
-      .then((response) => {
-        if (response.ok) {
           // Redirect to another page based on the selection
           if (selectedOption === "influencer") {
-            navigate("/influencer-page");
+            navigate("/register/influencer");
           } else if (selectedOption === "marketer") {
-            navigate("/marketer-page");
+            navigate("/register/business");
           }
-        } else {
-          // Handle error response
-          console.error("Error sending selection to server");
-        }
-      })
-      .catch((error) => {
-        console.error("Error sending selection to server:", error);
-      });
+      
   };
   return (
     <Box

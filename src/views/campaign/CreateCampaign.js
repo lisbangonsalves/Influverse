@@ -38,7 +38,7 @@ export default function CreateCampaign() {
   const [offerDescription, setofferDescription] = useState("");
   const [offerTerms, setofferTerms] = useState("");
   
-
+  
   const handlecampaignDescriptionChange = (event) => {
     setcampaignDescription(event.target.value);
   };
@@ -82,6 +82,21 @@ export default function CreateCampaign() {
   const handleInterestsChange = (event, value) => {
     setInterests(value); 
   };
+
+  const handlecontentFormatsChange = (event) => {
+    setcontentFormats(event.target.value);
+  };
+  const handledistributionChannelsChange = (event) => {
+    setdistributionChannels(event.target.value);
+  };
+  const handleofferDescriptionChange = (event) => {
+    setofferDescription(event.target.value);
+  };
+  const handleofferTermsChange = (event) => {
+    setofferTerms(event.target.value);
+  };
+
+
   const handlestartDateChange = (newDate) => {
     const currentDate = dayjs(); // Get the current date
     // Check if newDate is before the current date
@@ -132,19 +147,6 @@ export default function CreateCampaign() {
     }
   };
 
-  const handlecontentFormatsChange = (event) => {
-    setcontentFormats(event.target.value);
-  };
-  const handledistributionChannelsChange = (event) => {
-    setdistributionChannels(event.target.value);
-  };
-  const handleofferDescriptionChange = (event) => {
-    setofferDescription(event.target.value);
-  };
-  const handleofferTermsChange = (event) => {
-    setofferTerms(event.target.value);
-  };
-
 
 
 
@@ -156,6 +158,7 @@ export default function CreateCampaign() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+      const user = JSON.parse(localStorage.getItem('user'))
       console.log(JSON.stringify({
         campaignDescription,
         campaignObjectives,
@@ -177,32 +180,32 @@ export default function CreateCampaign() {
         distributionChannels,
         offerDescription,
         offerTerms}))
-      const response = await fetch("YOUR_API_ENDPOINT", {
+      const response = await fetch(`https://influensys.vercel.app/api/interface-buisness/${user.business[0].slug}/campaigns/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          campaignDescription,
-          campaignObjectives,
-          channel,
-          creativeAsset,
-          startDate,
-          endDate,
-          durations,
+          description : campaignDescription,
+          objective:campaignObjectives,
+          channel_section : channel,
+          creative_asset : creativeAsset,
+          start_date: startDate,
+          end_date : endDate,
+          duration: durations,
           budget,
           breakdown,
-          targetAge,
-          targetGender,
-          targetIncomeLevel,
+          target_age : targetAge,
+          target_gender : ["male"],
+          target_income_level : targetIncomeLevel,
           location,
           occupation,
-          communicationChannel,
-          Interests,
+          communication_channel:communicationChannel,
+          interests: Interests,
           contentFormats,
-          distributionChannels,
-          offerDescription,
-          offerTerms
+          distribution_channels : distributionChannels,
+          offer_description : offerDescription,
+          offer_terms : offerTerms
         }),
       });
       if (response.ok) {
@@ -324,7 +327,7 @@ export default function CreateCampaign() {
           <Grid item xs={4}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer sx={{ width: 1 }} components={["DatePicker"]}>
-                <DatePicker value={startDate} onChange={handlestartDateChange} sx={{ width: 1 }} label="Start Date" />
+                <DatePicker value={startDate ? startDate.format('YYYY-MM-DD') : ''} onChange={handlestartDateChange} sx={{ width: 1 }} label="Start Date" />
                 {startDate.validationError && <p style={{ color: 'red' }}>{startDate.validationError}</p>}
               </DemoContainer>
             </LocalizationProvider>
@@ -332,7 +335,7 @@ export default function CreateCampaign() {
           <Grid item xs={4}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer sx={{ width: 1 }} components={["DatePicker"]}>
-                <DatePicker value={endDate} onChange={handleendDateChange} sx={{ width: 1 }} label="End Date" />
+                <DatePicker value={endDate ? endDate.format('YYYY-MM-DD') : ''} onChange={handleendDateChange} sx={{ width: 1 }} label="End Date" />
                 {endDate.validationError && <p style={{ color: 'red' }}>{endDate.validationError}</p>}
               </DemoContainer>
             </LocalizationProvider>

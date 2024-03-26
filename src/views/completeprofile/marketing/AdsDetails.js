@@ -8,28 +8,40 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
 import Button from "@mui/material/Button";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 export default function AdsDetails() {
-  const [age, setAge] = useState("");
-  const [gender, setGender] = useState("");
-  const [incomeLevel, setIncomeLevel] = useState("");
-  const [occupation, setOccupation] = useState("");
-  const [communicationChannel, setCommunicationChannel] = useState("");
-  const [selectedInterests, setSelectedInterests] = useState([]);
-  const [objectives, setObjectives] = useState([]);
-  const [budget, setBudget] = useState([]);
-  const [kpi, setKpi] = useState([]);
-  const [address, setAddress] = useState([]);
-  const [country, setCountry] = useState([]);
-
+  const users = JSON.parse(localStorage.getItem("nuser"));
+  console.log( users?.advGoals?.country)
+  const [age, setAge] = useState(users?.advGoals?.age ?? "");
+  const [gender, setGender] = useState(users?.advGoals?.gender[0] ?? "");
+  const [incomeLevel, setIncomeLevel] = useState(users?.advGoals?.income_level ?? "");
+  const [occupation, setOccupation] = useState(users?.advGoals?.occupation ?? "");
+  const [communicationChannel, setCommunicationChannel] = useState(users?.advGoals?.communication_channel ?? "");
+  const [selectedInterests, setSelectedInterests] = useState(users?.advGoals?.selected_interests ?? []);
+  const [objectives, setObjectives] = useState(users?.advGoals?.objectives ?? "");
+  const [budget, setBudget] = useState(users?.advGoals?.budget ?? "");
+  const [kpi, setKpi] = useState(users?.advGoals?.kpi ?? "");
+  const [address, setAddress] = useState(users?.advGoals?.address ?? "");
+  const [country, setCountry] = useState(users?.advGoals?.country ?? "");
+ 
+  useEffect(() => {
+    // Retrieve user data from local storage
+    const userData = JSON.parse(localStorage.getItem('usern'));
+    console.log(userData?.advGoals?.country)
+    if (userData) {
+      if (userData?.advGoals?.country) {
+        setCountry(userData.advGoals?.country);
+      }
+    }
+  }, []);
   const handleAgeChange = (event) => {
     setAge(event.target.value);
   };
   const handleCountryChange = (event, newValue) => {
-    setCountry(prevState => ({
+    setCountry((prevState) => ({
       ...prevState,
-      country: newValue.label
+      country: newValue,
     }));
   };
   const handleAddressChange = (event) => {
@@ -62,33 +74,49 @@ export default function AdsDetails() {
   };
 
   const handleSelectedInterestsChange = (event, value) => {
-    setSelectedInterests(value); 
+    setSelectedInterests(value);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch("YOUR_API_ENDPOINT", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const user = JSON.parse(localStorage.getItem("user"));
+      const response = await fetch(
+        `https://influensys.vercel.app/api/interface-buisness/${user.slug}/goals/create`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            objectives,
+            budget,
+            age,
+            kpi,
+            country: country.country.label,
+            gender: [gender],
+            address,
+            income_level: incomeLevel,
+            occupation,
+            communication_channel: communicationChannel,
+            selected_interests: selectedInterests,
+          }),
         },
-        body: JSON.stringify({
-          objectives,
-          budget,
-          age,
-          kpi,
-          country:country.country,
-          gender,
-          address,
-          incomeLevel,
-          occupation,
-          communicationChannel,
-          selectedInterests,
-        }),
-      });
+      );
       if (response.ok) {
         // Handle success
+        console.log(response); // Assuming 'response' contains the data you need
+        const user = JSON.parse(localStorage.getItem("user")); // Get user from localStorage
+        const data = await response.json();
+        // Assuming 'response.data' is the data you want to append to 'advGoals'
+        user.advGoals = data;
+
+        // Logging 'user' directly without attempting to parse it again
+        console.log("testing me ", user);
+
+        // Storing updated user back into localStorage
+        localStorage.setItem("nuser", JSON.stringify(user));
+
         console.log("Data sent successfully!");
       } else {
         // Handle error
@@ -182,10 +210,13 @@ export default function AdsDetails() {
                 <MenuItem value="">
                   <em>Gender</em>
                 </MenuItem>
-                <MenuItem value={10}>Male</MenuItem>
-                <MenuItem value={20}>Female</MenuItem>
-                <MenuItem value={30}>Other</MenuItem>
-                <MenuItem value={30}>All</MenuItem>
+                {users && users.advGoals && users.advGoals.gender && users.advGoals.gender.map((genderOption, index) => (
+        <MenuItem key={index} value={genderOption}>{genderOption}</MenuItem>
+      ))}
+                <MenuItem value={"Male"}>Male</MenuItem>
+                <MenuItem value={"Female"}>Female</MenuItem>
+                <MenuItem value={"Other"}>Other</MenuItem>
+                <MenuItem value={"All"}>All</MenuItem>
               </Select>
             </Grid>
             <Grid item xs={4}>
@@ -229,11 +260,11 @@ export default function AdsDetails() {
             </Grid>
             <Grid item xs={6}>
               <Autocomplete
-             
-             onChange={handleCountryChange}
+                onChange={handleCountryChange}
                 id="country-select-demo"
                 sx={{ width: 1 }}
                 options={countries}
+                value={setCountry}
                 autoHighlight
                 getOptionLabel={(option) => option.label}
                 renderOption={(props, option) => (
@@ -254,7 +285,6 @@ export default function AdsDetails() {
                 )}
                 renderInput={(params) => (
                   <TextField
-                 
                     {...params}
                     sx={{ width: 1 }}
                     label="Choose a country"
@@ -300,7 +330,7 @@ export default function AdsDetails() {
                 id="tags-filled"
                 options={Interest.map((option) => option.title)}
                 value={selectedInterests}
-                    onChange={handleSelectedInterestsChange}
+                onChange={handleSelectedInterestsChange}
                 freeSolo
                 renderTags={(value, getTagProps) =>
                   value.map((option, index) => (
@@ -317,7 +347,6 @@ export default function AdsDetails() {
                     {...params}
                     variant="outlined"
                     sx={{ width: 1 }}
-                    
                     placeholder="Interest"
                   />
                 )}

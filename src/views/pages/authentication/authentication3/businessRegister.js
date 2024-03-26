@@ -10,10 +10,13 @@ import { Box } from "@mui/system";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import img1 from "./assets/register1.png";
 import "./login2.css";
 
+
 const Login = () => {
+  // const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     crn: "",
@@ -36,18 +39,47 @@ const Login = () => {
       industry: value,
     }));
   };
-
+  const navigate = useNavigate();
   // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      // Make a POST request to your server endpoint
-      
-      const response = await axios.post("your_server_endpoint_here", formData);
+      const accessToken = localStorage.getItem("accessToken");
 
-      // Handle the response as needed
-      console.log("Response:", response.data);
+      // Check if access token exists
+      if (accessToken) {
+        // Use the access token for further operations
+        console.log("Access Token:", accessToken);
+      } else {
+        console.log("Access token not found in local storage.");
+      }
+      // Make a POST request to your server endpoint
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: 'Bearer ' + accessToken,
+      };
+      const response = await axios.post(
+        "https://influensys.vercel.app/api/interface-buisness/buisness/create",
+        formData,
+        { headers },
+      );
+
+      // // Handle the response as needed
+      // console.log("Response:", response.data);
+      if (response.status===201) {
+
+
+        localStorage.setItem("user", JSON.stringify(response.data) );
+     
+        console.log("success");
+        navigate("/view/dashboard");
+      } else {
+        const errorResponse = await response.json();
+    setError(errorResponse.message || 'Something went wrong!');
+    setOpenSnackbar(true);
+      }
+        // Redirect to dashboard or other page
     } catch (error) {
       // Handle error
       console.error("Error:", error);
@@ -93,7 +125,7 @@ const Login = () => {
                 }}
               >
                 <TextField
-                name="name"
+                  name="name"
                   id="outlined-basic"
                   placeholder="Company Name"
                   variant="outlined"
@@ -102,7 +134,7 @@ const Login = () => {
                   sx={{ width: "85%", marginY: "20px" }}
                 />
                 <TextField
-                name="crn"
+                  name="crn"
                   id="outlined-basic"
                   placeholder="Company Registration Number"
                   value={formData.crn}

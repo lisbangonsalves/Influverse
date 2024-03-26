@@ -29,6 +29,7 @@ const Register = () => {
 
   const [formData, setFormData] = useState({
     username: "",
+    email:"",
     password1: "",
     password2: "",
   });
@@ -51,6 +52,7 @@ const Register = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            
           },
           body: JSON.stringify(formData),
         },
@@ -58,8 +60,12 @@ const Register = () => {
       
       if (response.ok) {
         const data = await response.json();
-        localStorage.setItem("accessToken", data.accessToken);
-        localStorage.setItem("refreshToken", data.refreshToken);
+        localStorage.setItem("accessToken", data.access_token);
+        localStorage.setItem("refreshToken", data.refresh_token);
+        
+        localStorage.setItem("user", JSON.stringify(data.user) );
+        console.log(data.user)
+        console.log(data)
         console.log("success");
         navigate("/accounttype");
         // Redirect to dashboard or other page
@@ -127,7 +133,10 @@ const Register = () => {
                 <TextField
                   id="outlined-basic"
                   placeholder="Email"
+                  value={formData.email}
+                  onChange={handleChange}
                   type="email"
+                  name="email"
                   variant="outlined"
                   sx={{ width: "85%", marginY: "20px" }}
                 />

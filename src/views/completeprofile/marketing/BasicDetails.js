@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
-import axios from "axios"; // Import axios for making HTTP requests
+import axios from "axios";
 
 const ImageButton = styled("label")(({ theme }) => ({
   position: "relative",
@@ -55,9 +55,12 @@ const Image = styled("span")(({ theme }) => ({
 }));
 
 export default function BasicDetails() {
-  const [name, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+// console.log(props.data.business[0].name)
+
+const users = JSON.parse(localStorage.getItem("user"));
+const [name, setFullName] = useState(users?.name ?? "");
+const [email, setEmail] = useState(users?.email ?? "");
+const [phoneNumber, setPhoneNumber] = useState(users?.phone ?? "");
   const [image, setImage] = useState("https://images.unsplash.com/photo-1556764900-fa065610b0e4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
 
   const handleImageUpload = (event) => {
@@ -72,19 +75,33 @@ export default function BasicDetails() {
   };
 
   const handleSubmit = (event) => {
+    const user = JSON.parse(localStorage.getItem("user"));
+
+      // Check if access token exists
+      if (user) {
+        // Use the access token for further operations
+        console.log("user:", user);
+      } else {
+        console.log("user not found in local storage.");
+      }
+
     event.preventDefault(); // Prevent default form submission
 
     // Here you can add the logic to send a POST request to your server
     // along with fullName, email, phoneNumber, and image
     const formData = new FormData();
+    // formData.append("detail" , "this is")
     formData.append("name", name);
     formData.append("email", email);
-    formData.append("phoneNumber", phoneNumber);
-    formData.append("image", image);
-    
+    formData.append("phone", phoneNumber);
+    // formData.append("image", image);
+    // const headers = {
+    //   "Content-Type": "application/json",
+    //   "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzExMzkwNTk3LCJqdGkiOiI2ZDQxZGE1NTVmMmQ0ZmIwOTJkNWI1OTg4M2QwYmU4YSIsInVzZXJfaWQiOjR9.P_oEQhrV-lQdGlvjSYFzqAqZlEmcf5Cuo0aOeX36ySk"
+    // };
 
     console.log(formData)
-    axios.post("YOUR_SERVER_ENDPOINT", formData)
+    axios.patch(`https://influensys.vercel.app/api/interface-buisness/buisness/${user.id}`, formData)
       .then((response) => {
         // Handle success
         console.log("Data sent successfully:", response.data);
@@ -129,6 +146,7 @@ export default function BasicDetails() {
               <TextField
                 sx={{ width: 1 }}
                 id="name"
+                
                 label="Full Name"
                 variant="outlined"
                 value={name}

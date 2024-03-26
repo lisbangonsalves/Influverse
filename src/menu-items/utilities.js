@@ -37,7 +37,7 @@ const utilities = {
       title: 'Events',
       type: 'item',
       icon: icons.IconWindmill,
-      url: '/view/event/create-event',
+      url: '/view/event',
     }
   ]
 };

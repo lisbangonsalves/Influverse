@@ -22,8 +22,8 @@ const CompleteProfileInfluencer = Loadable(
 const Setting = Loadable(lazy(() => import("views/setting/Setting")));
 // Account Page
 const AccountPage = Loadable(lazy(() => import("views/accounts/Account")));
-
-// utilities routing
+// events
+const Event = Loadable(lazy(() => import("views/event/Event")));
 const CreateEvent = Loadable(lazy(() => import("views/event/CreateEvent")));
 const Explore = Loadable(lazy(() => import("views/explore/Explore")));
 const GiftedInfluencerList = Loadable(
@@ -62,6 +62,10 @@ const MainRoutes = {
     {
       path: "event",
       children: [
+        {
+          path: "",
+          element: <Event />,
+        },
         {
           path: "create-event",
           element: <CreateEvent />,

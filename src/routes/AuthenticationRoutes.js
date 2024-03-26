@@ -6,8 +6,8 @@ import MinimalLayout from 'layout/MinimalLayout';
 
 // login option 3 routing
 const AuthLogin = Loadable(lazy(() => import('views/pages/authentication/authentication3/Login')));
-const AuthRegister1 = Loadable(lazy(() => import('views/pages/authentication/authentication3/Register1')));
-const AuthRegister2 = Loadable(lazy(() => import('views/pages/authentication/authentication3/Register2')));
+const AuthRegister = Loadable(lazy(() => import('views/pages/authentication/authentication3/Register')));
+const AuthRegisterBusiness = Loadable(lazy(() => import('views/pages/authentication/authentication3/businessRegister')));
 const AccountType = Loadable(lazy(() => import('views/pages/authentication/AccountType')));
 
 // ==============================|| AUTHENTICATION ROUTING ||============================== //
@@ -21,14 +21,22 @@ const AuthenticationRoutes = {
       element: <AuthLogin />
     },
     {
-      path: '/register1',
-      element: <AuthRegister1 />
+      path: 'register',
+      children:[
+        {
+          path:"",
+          element: <AuthRegister />,
+        },
+        {
+          path:"business",
+          element: <AuthRegisterBusiness />
+        },
+        {
+          path:"influencer",
+          element: <AuthRegisterBusiness />
+        }
+      ]
     },
-    {
-      path: '/register2',
-      element: <AuthRegister2 />
-    },
-   
     {
       path: 'accounttype',
       element: <AccountType />

@@ -1,23 +1,26 @@
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
 import { Box, Button, Grid, TextField, Chip } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 
-
+import React, { useState } from 'react';
 
 export default function BusinessDetails() {
+  
+const users = JSON.parse(localStorage.getItem("user"));
+// const user = JSON.parse(localStorage.getItem("user"));
   const [formData, setFormData] = useState({
-    name: '',
-    crn: '',
-    industry: [],
-    address: '',
-    country: '',
-    pincode: '',
-    description: '',
+    name: users.name,
+    crn: users.crn,
+    industry: users.industry,
+    address: users.address,
+    country: "IN",
+    pincode: users.pincode,
+    description: users.description,
     numberOfEmployees: '',
-    annual_revenue: '',
-    facebook: '',
-    instagram: '',
-    website: ''
+    annual_revenue: users.annual_revenue,
+    facebook: users.facebook,
+    instagram: users.instagram,
+    website: users.website
   });
 
   const handleChange = (e) => {
@@ -36,6 +39,7 @@ export default function BusinessDetails() {
   };
 
   const handleCountryChange = (event, newValue) => {
+    console.log(newValue)
     setFormData(prevState => ({
       ...prevState,
       country: newValue.label
@@ -47,8 +51,8 @@ export default function BusinessDetails() {
 
     try {
       console.log(JSON.stringify(formData))
-      const response = await fetch('https://influensys.vercel.app/api/interface-buisness/buisness/create', {
-        method: 'POST',
+      const response = await fetch(`https://influensys.vercel.app/api/interface-buisness/buisness/${users.id}`, {
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'
         },
