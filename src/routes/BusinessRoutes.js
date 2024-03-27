@@ -1,14 +1,15 @@
 import { lazy } from "react";
-
-
-import { useNavigate } from 'react-router-dom'; // Import the useAuth hook
+import { useNavigate } from 'react-router-dom'; 
 import { useAuth } from '../hooks/auth';
 import { useEffect } from 'react';
 import PropTypes from 'prop-types'; 
-// project imports
 import MainLayout from "layout/MainLayout";
 import Loadable from "ui-component/Loadable";
-// import LandingPage from 'home/landing-page/Landingpage';
+
+
+
+// register 
+const AuthRegisterBusiness = Loadable(lazy(() => import('views/pages/authentication/authentication3/businessRegister')));
 
 // dashboard routing
 const DashboardDefault = Loadable(
@@ -19,9 +20,7 @@ const DashboardDefault = Loadable(
 const CompleteProfileBusiness = Loadable(
   lazy(() => import("views/completeprofile/marketing/CompleteProfile")),
 );
-const CompleteProfileInfluencer = Loadable(
-  lazy(() => import("views/completeprofile/influencers/CompleteProfile")),
-);
+
 
 // Setting Page
 const Setting = Loadable(lazy(() => import("views/setting/Setting")));
@@ -29,16 +28,28 @@ const Setting = Loadable(lazy(() => import("views/setting/Setting")));
 const AccountPage = Loadable(lazy(() => import("views/accounts/Account")));
 // events
 const Event = Loadable(lazy(() => import("views/event/Event")));
-const InfluencerEvent = Loadable(lazy(() => import("views/event/influencer_event/InfluencerEvent")));
 const CreateEvent = Loadable(lazy(() => import("views/event/CreateEvent")));
 const SelectedEvent = Loadable(lazy(() => import("views/event/SelectedEvent")));
 const EditEvent = Loadable(lazy(() => import("views/event/EditEvent")));
 
-
+// explore 
 const Explore = Loadable(lazy(() => import("views/explore/Explore")));
+
+// influencer gifting 
 const GiftedInfluencerList = Loadable(
   lazy(() => import("views/influencer_gifting/GiftedInfluencerList")),
 );
+const InfluencerProductList = Loadable(
+  lazy(() => import("views/influencer_gifting/ProductList")),
+);
+const AddProduct = Loadable(
+  lazy(() => import("views/influencer_gifting/AddProduct")),
+);
+const SendGift = Loadable(
+  lazy(() => import("views/influencer_gifting/components/SendGift")),
+);
+
+// campaign 
 
 const CreateCampaign = Loadable(
   lazy(() => import("views/campaign/CreateCampaign")),
@@ -49,38 +60,41 @@ const SelectedCampaign = Loadable(
 const CampaignList = Loadable(
   lazy(() => import("views/campaign/CampaignList")),
 );
+
+// try 
 const Try = Loadable(lazy(() => import("views/Try")));
 
-// sample page routing
+
 const ProtectedRoute = ({ children }) => {
-  const { authToken } = useAuth(); // Get the authentication token from the hook
-  const navigate = useNavigate();
-
-  // Check if user is authenticated on component mount
-  useEffect(() => {
-    if (!authToken) {
-      // Redirect user to login page if not authenticated
-      navigate('/login');
-    }
-  }, [authToken, navigate]);
-
-  // Render the children if authenticated, otherwise render null
-  return authToken ? children : null;
-};
-
-// Add prop types validation for the children prop
-ProtectedRoute.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+    const { userType, authToken, isLoading } = useAuth(); // Get the user type, auth token, and loading state from the hook
+    const navigate = useNavigate();
+  
+    useEffect(() => {
+      if (!isLoading && (!authToken || userType !== 'business')) {
+        navigate('/login'); // Redirect to login if authToken is missing or userType is not 'business' after loading
+      }
+    }, [authToken, userType, isLoading, navigate]);
+  
+    return isLoading ? null : userType === 'business' ? children : null; // Render children if isLoading is false and userType is 'business'
+  };
+  
+  ProtectedRoute.propTypes = {
+    children: PropTypes.node.isRequired,
+  };
+  
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
-  path: "/view",
+  path: "/business",
   element: <MainLayout />,
   children: [
     {
+      path: "register",
+      element:< AuthRegisterBusiness/>
+    },
+    {
       path: "dashboard",
-      element:<ProtectedRoute><DashboardDefault /></ProtectedRoute>
+      element:<ProtectedRoute ><DashboardDefault  /></ProtectedRoute>
     },
     {
       path: "try",
@@ -106,10 +120,6 @@ const MainRoutes = {
           path: ":slug/:id",
           element: <ProtectedRoute><SelectedEvent /></ProtectedRoute>,
         },
-        {
-          path: "influencer-event",
-          element: <ProtectedRoute><InfluencerEvent /></ProtectedRoute>,
-        },
       ],
     },
     {
@@ -117,15 +127,15 @@ const MainRoutes = {
       children: [
         {
           path: "create-campaign",
-          element: <ProtectedRoute><CreateCampaign /> </ProtectedRoute> ,
+          element: <ProtectedRoute ><CreateCampaign /> </ProtectedRoute> ,
         },
         {
           path: "campaign-list",
-          element: <ProtectedRoute><CampaignList /></ProtectedRoute>,
+          element: <ProtectedRoute ><CampaignList /></ProtectedRoute>,
         },
         {
           path: "selected-campaign",
-          element: <ProtectedRoute><SelectedCampaign /></ProtectedRoute>,
+          element: <ProtectedRoute ><SelectedCampaign /></ProtectedRoute>,
         },
       ],
     },
@@ -138,7 +148,19 @@ const MainRoutes = {
       children: [
         {
           path: "influencerlist",
-          element: <ProtectedRoute><GiftedInfluencerList /></ProtectedRoute>,
+          element: <GiftedInfluencerList />,
+        },
+        {
+          path: "productlist",
+          element: <InfluencerProductList />,
+        },
+        {
+          path: "addproduct",
+          element: <AddProduct />,
+        },
+        {
+          path: "sendgift",
+          element: <SendGift />,
         },
       ],
     },
@@ -154,13 +176,9 @@ const MainRoutes = {
       path: "completeprofile",
       children:[
         {
-          path:"business",
+          path:"",
           element : <ProtectedRoute><CompleteProfileBusiness/></ProtectedRoute>
         },
-        {
-          path:"Influencer",
-          element: <ProtectedRoute><CompleteProfileInfluencer/></ProtectedRoute>
-        }
       ]
     },
     

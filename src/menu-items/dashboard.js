@@ -18,7 +18,8 @@ const dashboard = {
       url: '/view/dashboard',
       icon: icons.IconDashboard,
       breadcrumbs: false
-    }
+    },
+    
   ]
 };
 

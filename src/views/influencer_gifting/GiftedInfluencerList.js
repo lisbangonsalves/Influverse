@@ -9,10 +9,25 @@ import Select from '@mui/material/Select';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import Button from '@mui/material/Button';
+import { Typography } from "@mui/material";
+import InventoryIcon from '@mui/icons-material/Inventory';
+import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 
 export default function GiftedInfluencerList() {
   return (
     <Box>
+      <Box sx={{paddingBottom:"20px", display:"flex", justifyContent:"space-between", alignItems:"center"}}>
+        <Typography sx={{fontSize:24, fontWeight:"bold"}}>
+          Influencer Gifting
+        </Typography>
+        <Box sx={{ display:"flex", justifyContent:"center", alignItems:"center"}}>
+
+        <Button variant="contained" sx={{backgroundColor:"#161A30", marginRight:"10px"}} endIcon={<CardGiftcardIcon />}>Send Gift</Button>
+        <Button variant="contained" sx={{backgroundColor:"#161A30"}} endIcon={<InventoryIcon />}>Product List</Button>
+        </Box>
+        
+      </Box>
       <Box sx={{paddingBottom:"20px", display:"flex", justifyContent:"space-between"}}>
         <TextField
           id="outlined-basic"
