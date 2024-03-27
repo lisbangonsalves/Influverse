@@ -211,7 +211,7 @@ export default function AdsDetails() {
                   <em>Gender</em>
                 </MenuItem>
                 {users && users.advGoals && users.advGoals.gender && users.advGoals.gender.map((genderOption, index) => (
-        <MenuItem key={index} value={genderOption}>{genderOption}</MenuItem>
+        <MenuItem style={{ display: 'none' }} key={index} value={genderOption}>{genderOption}</MenuItem>
       ))}
                 <MenuItem value={"Male"}>Male</MenuItem>
                 <MenuItem value={"Female"}>Female</MenuItem>

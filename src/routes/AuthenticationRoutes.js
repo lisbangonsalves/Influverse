@@ -8,6 +8,7 @@ import MinimalLayout from 'layout/MinimalLayout';
 const AuthLogin = Loadable(lazy(() => import('views/pages/authentication/authentication3/Login')));
 const AuthRegister = Loadable(lazy(() => import('views/pages/authentication/authentication3/Register')));
 const AuthRegisterBusiness = Loadable(lazy(() => import('views/pages/authentication/authentication3/businessRegister')));
+const AuthRegisterInfluencer = Loadable(lazy(() => import('views/pages/authentication/authentication3/influencerRegister')));
 const AccountType = Loadable(lazy(() => import('views/pages/authentication/AccountType')));
 
 // ==============================|| AUTHENTICATION ROUTING ||============================== //
@@ -33,7 +34,7 @@ const AuthenticationRoutes = {
         },
         {
           path:"influencer",
-          element: <AuthRegisterBusiness />
+          element: <AuthRegisterInfluencer />
         }
       ]
     },

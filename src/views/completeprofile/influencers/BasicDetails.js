@@ -1,24 +1,21 @@
-import * as React from "react";
-import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import ButtonBase from "@mui/material/ButtonBase";
+// import React, { useState } from 'react';
+import { Box, Button, Grid, TextField, Chip } from '@mui/material';
+import Autocomplete from '@mui/material/Autocomplete';
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import Grid from "@mui/material/Grid";
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
-import Chip from "@mui/material/Chip";
+import React, { useState } from 'react';
 
-// import MenuItem from '@mui/material/MenuItem';
-// import Select from '@mui/material/Select';
-
-const ImageButton = styled(ButtonBase)(({ theme }) => ({
+import { styled } from "@mui/material/styles";
+const ImageButton = styled("label")(({ theme }) => ({
   position: "relative",
   height: 200,
-  borderRadius: 200,
-  [theme.breakpoints.down("sm")]: {
-    width: "100% !important", // Overrides inline-style
-    height: 100,
-  },
+  width: 200,
+  borderRadius: "50%",
+  cursor: "pointer",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  border: "2px solid",
+  borderColor: theme.palette.primary.main,
   "&:hover, &.Mui-focusVisible": {
     zIndex: 1,
     "& .MuiImageBackdrop-root": {
@@ -55,193 +52,312 @@ const Image = styled("span")(({ theme }) => ({
   color: theme.palette.common.white,
 }));
 
-export default function BasicDetails() {
-  // const [age, setAge] = React.useState('');
 
-  //   const handleChange = (event) => {
-  //     setAge(event.target.value);
-  //   };
+
+export default function BusinessDetails() {
+  
+  
+ 
+const users = JSON.parse(localStorage.getItem("user"));
+// const user = JSON.parse(localStorage.getItem("user"));
+  const [formData, setFormData] = useState({
+    name: users.name,
+    email:users.email,
+    image:users.image,
+    crn: users.crn,
+    industry: users.industry,
+    address: users.address,
+    country: "IN",
+    pincode: users.pincode,
+    description: users.description,
+    phone:users.phone,
+    numberOfEmployees: '',
+    annual_revenue: users.annual_revenue,
+    facebook: users.facebook,
+    instagram: users.instagram,
+    website: users.website
+  });
+
+   
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setFormData(prevState => ({
+        ...prevState,
+        image: reader.result
+      }));
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [id]: value
+    }));
+  };
+
+  const handleIndustryTypeChange = (event, newValue) => {
+    setFormData(prevState => ({
+      ...prevState,
+      industry: newValue
+    }));
+  };
+
+  const handleCountryChange = (event, newValue) => {
+    console.log(newValue)
+    setFormData(prevState => ({
+      ...prevState,
+      country: newValue.label
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      console.log(JSON.stringify(formData))
+      const response = await fetch(`https://influensys.vercel.app/api/interface-buisness/buisness/${users.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        // Handle success response
+        console.log('Form data submitted successfully');
+      } else {
+        // Handle error response
+        console.error('Failed to submit form data');
+      }
+    } catch (error) {
+      console.error('Error submitting form data:', error);
+    }
+  };
+
   return (
     <Box sx={{ width: 1 }}>
+      <form onSubmit={handleSubmit}>
       <Box sx={{ width: 1, display: "flex", justifyContent: "center" }}>
-        <ImageButton
-          focusRipple
-          style={{
-            width: "200px",
-            borderRadius: "100px",
-          }}
-        >
-          <ImageSrc
-            style={{
-              backgroundImage: `url(${"https://plus.unsplash.com/premium_photo-1684751595365-eeaecf4972f9?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"})`,
-              borderRadius: "100px",
-            }}
-          />
-
-          <Image>
-            <CameraAltIcon />
-          </Image>
-        </ImageButton>
-      </Box>
-      <Box sx={{ width: 1, display: "flex", marginTop: "50px" }}>
-        <Grid
-          container
-          spacing={4}
-          rowSpacing={3}
-          columnSpacing={{ xs: 2, sm: 2, md: 3 }}
-        >
-          <Grid item xs={12}>
-            <TextField
-              sx={{ width: 1 }}
-              id="Full-Name"
-              label="Full Name"
-              variant="outlined"
+          <ImageButton htmlFor="image-upload">
+            <input
+              type="file"
+              id="image-upload"
+              accept="image/*"
+              style={{ display: "none" }}
+              onChange={handleImageUpload}
             />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              sx={{ width: 1 }}
-              id="Email-Address"
-              label="Email Address"
-              variant="outlined"
+            <ImageSrc
+              style={{
+                backgroundImage: `url(${formData.image})`,
+                borderRadius: "50%",
+              }}
             />
-          </Grid>
-          
-          <Grid item xs={12}>
+            <Image>
+              <CameraAltIcon />
+            </Image>
+          </ImageButton>
+        </Box>
+        <Box sx={{ width: 1, display: "flex", marginTop: "50px" }}>
+          <Grid container spacing={4} rowSpacing={3} columnSpacing={{ xs: 2, sm: 2, md: 3 }}>
+            <Grid item xs={12}>
+              <TextField
+                sx={{ width: 1 }}
+                id="name"
+                label="Full Name"
+                variant="outlined"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+            </Grid>
+            <Grid item xs={12}>
             <TextField
-              sx={{ width: 1 }}
-              id="Description"
-              label="Description"
-              variant="outlined"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              sx={{ width: 1 }}
-              id="Phone-Number"
-              label="Phone Number"
-              variant="outlined"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <Autocomplete
-              sx={{ width: 1 }}
-              multiple
-              id="tags-filled"
-              options={top100Films.map((option) => option.title)}
-              // defaultValue={[top100Films[13].title]}
-              freeSolo
-              renderTags={(value, getTagProps) =>
-                value.map((option, index) => (
-                  <Chip
+                sx={{ width: 1 }}
+                id="Email-Address"
+                label="Email Address"
+                variant="outlined"
+                value={formData.email}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                sx={{ width: 1 }}
+                id="description"
+                value={formData.description}
+                onChange={handleChange}
+                label="Description"
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Autocomplete
+                sx={{ width: 1 }}
+                multiple
+                id="industryType"
+                options={industryTypes.map((option) => option.title)}
+                value={formData.industry}
+                onChange={handleIndustryTypeChange}
+                renderTags={(value, getTagProps) =>
+                  value.map((option, index) => (
+                    <Chip
+                      variant="outlined"
+                      key={index}
+                      label={option}
+                      {...getTagProps({ index })}
+                    />
+                  ))
+                }
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
                     variant="outlined"
-                    key={index}
-                    label={option}
-                    {...getTagProps({ index })}
+                    sx={{ width: 1 }}
+                    placeholder="Industry Type"
                   />
-                ))
-              }
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  variant="outlined"
-                  sx={{ width: 1 }}
-                  placeholder="Industary Type"
-                />
-              )}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              sx={{ width: 1 }}
-              id="Address "
-              label="Address "
-              variant="outlined"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <Autocomplete
-              id="country-select-demo"
-              sx={{ width: 1 }}
-              options={countries}
-              autoHighlight
-              getOptionLabel={(option) => option.label}
-              renderOption={(props, option) => (
-                <Box
-                  component="li"
-                  sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
-                  {...props}
-                >
-                  <img
-                    loading="lazy"
-                    width="20"
-                    srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
-                    src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
-                    alt=""
+                )}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                sx={{ width: 1 }}
+                id="description"
+                value={formData.phone}
+                onChange={handleChange}
+                label="phone"
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                sx={{ width: 1 }}
+                id="address"
+                label="Address"
+                variant="outlined"
+                value={formData.address}
+                onChange={handleChange}
+                required
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Autocomplete
+                id="country"
+                sx={{ width: 1 }}
+                options={countries}
+                autoHighlight
+                getOptionLabel={(option) => option.label}
+                onChange={handleCountryChange}
+                renderOption={(props, option) => (
+                  <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+                    <img
+                      loading="lazy"
+                      width="20"
+                      srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
+                      src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+                      alt=""
+                    />
+                    {option.label} ({option.code}) +{option.phone}
+                  </Box>
+                )}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    sx={{ width: 1 }}
+                    label="Choose a country"
+                    inputProps={{
+                      ...params.inputProps,
+                      autoComplete: 'new-password' 
+                    }}
                   />
-                  {option.label} ({option.code}) +{option.phone}
-                </Box>
-              )}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  sx={{ width: 1 }}
-                  label="Choose a country"
-                  inputProps={{
-                    ...params.inputProps,
-                    autoComplete: "new-password", // disable autocomplete and autofill
-                  }}
-                />
-              )}
-            />
+                )}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                sx={{ width: 1 }}
+                id="pincode"
+                label="Pin Code"
+                variant="outlined"
+                value={formData.pincode}
+                onChange={handleChange}
+                required
+              />
+            </Grid>
+            
+            {/* <Grid item xs={6}>
+              <TextField
+                sx={{ width: 1 }}
+                id="numberOfEmployees"
+                value={formData.numberOfEmployees}
+                onChange={handleChange}
+                label="Number of Employees"
+                variant="outlined"
+              />
+            </Grid> */}
+            <Grid item xs={6}>
+              <TextField
+                sx={{ width: 1 }}
+                id="annual_revenue"
+                value={formData.annual_revenue}
+                onChange={handleChange}
+                label="Annual Revenue"
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                sx={{ width: 1 }}
+                id="facebook"
+                value={formData.facebook}
+                onChange={handleChange}
+                label="Facebook Username"
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                sx={{ width: 1 }}
+                id="instagram"
+                value={formData.instagram}
+                onChange={handleChange}
+                label="Instagram Username"
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                sx={{ width: 1 }}
+                id="website"
+                value={formData.website}
+                onChange={handleChange}
+                label="Website URL"
+                variant="outlined"
+              />
+            </Grid>
           </Grid>
-          <Grid item xs={6}>
-            <TextField
-              sx={{ width: 1 }}
-              id="pin-code"
-              label="Pin Code"
-              variant="outlined"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              sx={{ width: 1 }}
-              id="Annual-Revenue"
-              label="Annual Revenue"
-              variant="outlined"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              sx={{ width: 1 }}
-              id="Facebook-Username"
-              label="Facebook Username"
-              variant="outlined"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              sx={{ width: 1 }}
-              id="Instagram-Username"
-              label="Instagram Username"
-              variant="outlined"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              sx={{ width: 1 }}
-              id="Website-URL"
-              label="Website URL"
-              variant="outlined"
-            />
-          </Grid>
-        </Grid>
-      </Box>
+        </Box>
+        <Box sx={{ width: 1, marginTop: '20px', display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <Button variant="contained" type="submit">
+            Make Changes
+          </Button>
+        </Box>
+      </form>
     </Box>
   );
 }
 
-const top100Films = [
+
+
+
+
+const industryTypes = [
   { title: "Fashion" },
   { title: "Beauty" },
   { title: "Electronics" },

@@ -1,5 +1,10 @@
 import { lazy } from "react";
 
+
+import { useNavigate } from 'react-router-dom'; // Import the useAuth hook
+import { useAuth } from '../hooks/auth';
+import { useEffect } from 'react';
+import PropTypes from 'prop-types'; 
 // project imports
 import MainLayout from "layout/MainLayout";
 import Loadable from "ui-component/Loadable";
@@ -24,8 +29,10 @@ const Setting = Loadable(lazy(() => import("views/setting/Setting")));
 const AccountPage = Loadable(lazy(() => import("views/accounts/Account")));
 // events
 const Event = Loadable(lazy(() => import("views/event/Event")));
+const InfluencerEvent = Loadable(lazy(() => import("views/event/influencer_event/InfluencerEvent")));
 const CreateEvent = Loadable(lazy(() => import("views/event/CreateEvent")));
 const SelectedEvent = Loadable(lazy(() => import("views/event/SelectedEvent")));
+const EditEvent = Loadable(lazy(() => import("views/event/EditEvent")));
 
 
 const Explore = Loadable(lazy(() => import("views/explore/Explore")));
@@ -45,7 +52,26 @@ const CampaignList = Loadable(
 const Try = Loadable(lazy(() => import("views/Try")));
 
 // sample page routing
+const ProtectedRoute = ({ children }) => {
+  const { authToken } = useAuth(); // Get the authentication token from the hook
+  const navigate = useNavigate();
 
+  // Check if user is authenticated on component mount
+  useEffect(() => {
+    if (!authToken) {
+      // Redirect user to login page if not authenticated
+      navigate('/login');
+    }
+  }, [authToken, navigate]);
+
+  // Render the children if authenticated, otherwise render null
+  return authToken ? children : null;
+};
+
+// Add prop types validation for the children prop
+ProtectedRoute.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -54,7 +80,7 @@ const MainRoutes = {
   children: [
     {
       path: "dashboard",
-      element: <DashboardDefault />,
+      element:<ProtectedRoute><DashboardDefault /></ProtectedRoute>
     },
     {
       path: "try",
@@ -66,15 +92,23 @@ const MainRoutes = {
       children: [
         {
           path: "",
-          element: <Event />,
+          element: <ProtectedRoute><Event /></ProtectedRoute>,
         },
         {
           path: "create-event",
-          element: <CreateEvent />,
+          element: <ProtectedRoute><CreateEvent /></ProtectedRoute>,
+        },
+        {
+          path: "edit-event/:id",
+          element: <ProtectedRoute><EditEvent /></ProtectedRoute>,
         },
         {
           path: ":slug/:id",
-          element: <SelectedEvent />,
+          element: <ProtectedRoute><SelectedEvent /></ProtectedRoute>,
+        },
+        {
+          path: "influencer-event",
+          element: <ProtectedRoute><InfluencerEvent /></ProtectedRoute>,
         },
       ],
     },
@@ -83,15 +117,15 @@ const MainRoutes = {
       children: [
         {
           path: "create-campaign",
-          element: <CreateCampaign />,
+          element: <ProtectedRoute><CreateCampaign /> </ProtectedRoute> ,
         },
         {
           path: "campaign-list",
-          element: <CampaignList />,
+          element: <ProtectedRoute><CampaignList /></ProtectedRoute>,
         },
         {
           path: "selected-campaign",
-          element: <SelectedCampaign />,
+          element: <ProtectedRoute><SelectedCampaign /></ProtectedRoute>,
         },
       ],
     },
@@ -104,28 +138,28 @@ const MainRoutes = {
       children: [
         {
           path: "influencerlist",
-          element: <GiftedInfluencerList />,
+          element: <ProtectedRoute><GiftedInfluencerList /></ProtectedRoute>,
         },
       ],
     },
     {
       path: "Setting",
-      element: <Setting />,
+      element: <ProtectedRoute><Setting /></ProtectedRoute>,
     },
     {
       path: "account",
-      element: <AccountPage />,
+      element: <ProtectedRoute><AccountPage /></ProtectedRoute>,
     },
     {
       path: "completeprofile",
       children:[
         {
           path:"business",
-          element : <CompleteProfileBusiness/>
+          element : <ProtectedRoute><CompleteProfileBusiness/></ProtectedRoute>
         },
         {
           path:"Influencer",
-          element:<CompleteProfileInfluencer/>
+          element: <ProtectedRoute><CompleteProfileInfluencer/></ProtectedRoute>
         }
       ]
     },

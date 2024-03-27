@@ -1,109 +1,276 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
+import { Typography } from "@mui/material";
+import Chip from "@mui/material/Chip";
+import { useState, useEffect } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import Grid from "@mui/material/Grid";
+import dayjs from "dayjs";
 import TextField from "@mui/material/TextField";
-import { Typography } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import Chip from "@mui/material/Chip";
 import Button from "@mui/material/Button";
-import { useState,useEffect } from "react";
+import Select from "@mui/material/Select";
+// eslint-disable-next-line no-restricted-imports
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 
-export default function AdsDetails() {
-  const users = JSON.parse(localStorage.getItem("nuser"));
-  console.log( users?.advGoals?.country)
-  const [age, setAge] = useState(users?.advGoals?.age ?? "");
-  const [gender, setGender] = useState(users?.advGoals?.gender[0] ?? "");
-  const [incomeLevel, setIncomeLevel] = useState(users?.advGoals?.income_level ?? "");
-  const [occupation, setOccupation] = useState(users?.advGoals?.occupation ?? "");
-  const [communicationChannel, setCommunicationChannel] = useState(users?.advGoals?.communication_channel ?? "");
-  const [selectedInterests, setSelectedInterests] = useState(users?.advGoals?.selected_interests ?? []);
-  const [objectives, setObjectives] = useState(users?.advGoals?.objectives ?? "");
-  const [country, setCountry] = useState(users?.advGoals?.country ?? "");
- 
+import axios from "axios"; // Import axios for making HTTP requests
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+
+
+
+const moment = require('moment');
+
+export default function EditEvent() {
+
+    const navigater = useNavigate();
+
+const { id } = useParams();
+  const [eventData, setEventData] = useState(null); 
+  console.log(eventData)
+  const userx = JSON.parse(localStorage.getItem("user"));
   useEffect(() => {
-    // Retrieve user data from local storage
-    const userData = JSON.parse(localStorage.getItem('usern'));
-    console.log(userData?.advGoals?.country)
-    if (userData) {
-      if (userData?.advGoals?.country) {
-        setCountry(userData.advGoals?.country);
-      }
+    // Fetch event data from the API
+    axios
+      .get(
+        `https://influensys.vercel.app/api/interface-buisness/${userx.slug}/events/${id}`,
+      )
+      .then((response) => {
+        setEventData(response.data); // Update state with fetched data
+        navigater(`/view/event/edit-event/${id}`);
+      })
+      .catch((error) => {
+        console.error("Error fetching event data:", error);
+      });
+  }, [id, userx.slug , navigater]);
+
+
+
+
+ 
+  const [eventName, setEventName] = useState("");
+  const [eventDescription, setEventDescription] = useState("");
+  const [eventGoals, setEventGoals] = useState("");
+  const [eventType, setEventType] = useState("");
+  const [startDate, setstartDate] = useState("");
+  const [endDate, setendDate] = useState("");
+  const [eventStartTime, setEventStartTime] = useState("");
+  const [eventEndTime, setEventEndTime] = useState("");
+  const [eventCountry, setEventCountry] = useState();
+  const [eventBudget, setEventBudget] = useState("");
+  const [targetAge, setTargetAge] = useState("");
+  const [targetGender, setTargetGender] = useState("");
+  const [targetIncomeLevel, setTargetIncomeLevel] = useState("");
+  const [targetoccupation, setTargetoccupation] = useState("");
+  const [targetCommunicationChannel, setTargetCommunicationChannel] = useState("");
+  const [targetInterests, settargetInterests] = useState([]);
+
+  useEffect(() => {
+    if (eventData) {
+      setEventName(eventData.name);
+      setEventDescription(eventData.description);
+      setEventGoals(eventData.goals); 
+      setEventType(eventData.event_type);
+      setEventCountry(eventData.country);
+    //   setEventBudget(eventData.even)
+    setTargetAge(eventData.target_age);
+    setTargetGender(eventData.target_gender);
+    setTargetIncomeLevel(eventData.target_income);
+    setTargetoccupation(eventData.target_occupation);
+    setEventCountry(eventData.country);
+    setTargetCommunicationChannel(eventData.communication_channel);
+    settargetInterests(eventData.target_interests);
+
+
+
     }
-  }, []);
-  const handleAgeChange = (event) => {
-    setAge(event.target.value);
+  }, [eventData]); 
+
+
+
+  const navigate = useNavigate();
+  
+  const handleEventName = (event) => {
+    setEventName(event.target.value);
   };
-  const handleCountryChange = (event, newValue) => {
-    setCountry((prevState) => ({
+  const handleEventDescription = (event) => {
+    setEventDescription(event.target.value);
+  };
+  const handleEventGoals = (event) => {
+    setEventGoals(event.target.value);
+  };
+  // const handleEventObjectives = (event) => {
+  //   setEventObjectives(event.target.value);
+  // };
+  const handleEventType = (event) => {
+    setEventType(event.target.value);
+  };
+  const handleStartTimeChange = (newTime) => {
+    // You can add any validation or processing logic here
+    setEventStartTime(newTime); // Assuming `startTime` is a state variable managed by useState
+  };
+  
+  const handleEndTimeChange = (newTime) => {
+    // You can add any validation or processing logic here
+    setEventEndTime(newTime); // Assuming `endTime` is a state variable managed by useState
+  };
+  const handleEventCountry = (event, newValue) => {
+    setEventCountry(prevState => ({
       ...prevState,
-      country: newValue,
+      country: newValue.label
     }));
   };
-  const handleObjectivesChange = (event) => {
-    setObjectives(event.target.value);
+
+
+  const handlesetEventBudget = (event) => {
+    setEventBudget(event.target.value);
+  };
+  const handlesetTargetAge = (event) => {
+    setTargetAge(event.target.value);
+  };
+  const handleTargetGender = (event) => {
+    setTargetGender(event.target.value);
+  };
+  const handleTargetIncomeLevel = (event) => {
+    setTargetIncomeLevel(event.target.value);
+  };
+  const handleTargetoccupation = (event) => {
+    setTargetoccupation(event.target.value);
+  };
+  const handleTargetCommunicationChannel = (event) => {
+    setTargetCommunicationChannel(event.target.value);
+  };
+  const handleTargetInterests = (event, value) => {
+    settargetInterests(value); 
   };
 
-  const handleGenderChange = (event) => {
-    setGender(event.target.value);
+
+  const handlestartDateChange = (newDate) => {
+    const currentDate = dayjs(); // Get the current date
+    // Check if newDate is before the current date
+    if (newDate.isBefore(currentDate, "day")) {
+      // Handle validation error for startDate
+      setstartDate({
+        value: newDate,
+        validationError: "Start date cannot be in the past.",
+      });
+    } else if (endDate && newDate.isAfter(endDate)) {
+      // Check if newDate is after endDate
+      // Handle validation error for startDate
+      setstartDate({
+        value: newDate,
+        validationError: "Start date must be before end date.",
+      });
+    } else {
+      // No validation error, update startDate
+      setstartDate({
+        value: newDate,
+      });
+    }
   };
 
-  const handleIncomeLevelChange = (event) => {
-    setIncomeLevel(event.target.value);
+  const handleendDateChange = (newDate) => {
+    const currentDate = dayjs(); // Get the current date
+    // Check if newDate is before the current date
+    if (newDate.isBefore(currentDate, "day")) {
+      // Handle validation error for endDate
+      setendDate({
+        value: newDate,
+        validationError: "End date cannot be in the past.",
+      });
+    } else if (startDate && newDate.isBefore(startDate)) {
+      // Check if newDate is before startDate
+      // Handle validation error for endDate
+      setendDate({
+        value: newDate,
+        validationError: "End date must be after start date.",
+      });
+    } else {
+      // No validation error, update endDate
+      setendDate({
+        value: newDate,
+      });
+    }
   };
 
-  const handleOccupationChange = (event) => {
-    setOccupation(event.target.value);
-  };
-
-  const handleCommunicationChannelChange = (event) => {
-    setCommunicationChannel(event.target.value);
-  };
-
-  const handleSelectedInterestsChange = (event, value) => {
-    setSelectedInterests(value);
-  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const user = JSON.parse(localStorage.getItem("user"));
-      const response = await fetch(
-        `https://influensys.vercel.app/api/interface-buisness/${user.slug}/goals/create`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            objectives,
-            age,
-            
-            country: country.country.label,
-            gender: [gender],
-            address,
-            income_level: incomeLevel,
-            occupation,
-            communication_channel: communicationChannel,
-            selected_interests: selectedInterests,
-          }),
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      console.log(eventStartTime)
+// Assuming your variable is named eventStartTime
+// Extracting relevant date and time components from eventStartTime
+const year = eventStartTime['$y'];
+const month = eventStartTime['$M'] - 1; // Month is zero-based in JavaScript Date objects
+const day = eventStartTime['$D'];
+const hour = eventStartTime['$H'];
+const minute = eventStartTime['$m'];
+const second = eventStartTime['$s'] || 0; // If second is not provided, default to 0
+const millisecond = eventStartTime['$ms'] || 0; // If millisecond is not provided, default to 0
+const jsDate = new Date(year, month, day, hour, minute, second, millisecond);
+
+
+const Eyear = eventEndTime['$y'];
+const Emonth = eventEndTime['$M'] - 1; // Month is zero-based in JavaScript Date objects
+const Eday = eventEndTime['$D'];
+const Ehour = eventEndTime['$H'];
+const Eminute = eventEndTime['$m'];
+const Esecond = eventEndTime['$s'] || 0; // If second is not provided, default to 0
+const Emillisecond = eventEndTime['$ms'] || 0; // If millisecond is not provided, default to 0
+const EjsDate = new Date(Eyear, Emonth, Eday, Ehour, Eminute, Esecond, Emillisecond);
+// Creating a new JavaScript Date object with extracted components
+
+// Formatting the time string in hh:mm[:ss[.uuuuuu]] format
+const eventStime = `${jsDate.getHours().toString().padStart(2, '0')}:${jsDate.getMinutes().toString().padStart(2, '0')}:${jsDate.getSeconds().toString().padStart(2, '0')}.${jsDate.getMilliseconds().toString().padStart(6, '0')}`;
+const eventEtime = `${EjsDate.getHours().toString().padStart(2, '0')}:${EjsDate.getMinutes().toString().padStart(2, '0')}:${EjsDate.getSeconds().toString().padStart(2, '0')}.${EjsDate.getMilliseconds().toString().padStart(6, '0')}`;
+
+
+
+
+      
+      
+      const user = JSON.parse(localStorage.getItem('user'))
+      const response = await fetch(`https://influensys.vercel.app/api/interface-buisness/${user.slug}/events/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({
+          name:eventName,
+          description:eventDescription,
+          goals:eventGoals,
+          event_type:[eventType],
+        start_date:moment(startDate).format('YYYY-MM-DD') ,
+        end_date:moment(endDate).format('YYYY-MM-DD') ,
+        start_time: eventStime,
+        end_time: eventEtime,
+        country:eventCountry.country,
+        budget:eventBudget,
+        target_age:targetAge,
+        target_gender:targetGender,
+        target_income:targetIncomeLevel,
+        target_occupation:targetoccupation,
+        communication_channel:targetCommunicationChannel,
+        target_interests:targetInterests
+        }),
+      });
       if (response.ok) {
+        navigate("/view/event");
         // Handle success
-        console.log(response); // Assuming 'response' contains the data you need
-        const user = JSON.parse(localStorage.getItem("user")); // Get user from localStorage
-        const data = await response.json();
-        // Assuming 'response.data' is the data you want to append to 'advGoals'
-        user.advGoals = data;
-
-        // Logging 'user' directly without attempting to parse it again
-        console.log("testing me ", user);
-
-        // Storing updated user back into localStorage
-        localStorage.setItem("nuser", JSON.stringify(user));
-
         console.log("Data sent successfully!");
       } else {
         // Handle error
@@ -113,116 +280,141 @@ export default function AdsDetails() {
       console.error("Error:", error);
     }
   };
+  if (eventData && eventData.validationError) {
+    // Access validationError property
+   console.log(eventData.validationError);
+  }
+
+  if (!eventData) {
+    return <div>Loading...</div>; // Render loading state until data is fetched
+  }
+
   return (
     <Box sx={{ width: 1 }}>
       <form onSubmit={handleSubmit}>
-        <Box sx={{ width: 1, display: "flex", marginTop: "50px" }}>
-          <Grid
-            container
-            spacing={4}
-            rowSpacing={3}
-            columnSpacing={{ xs: 2, sm: 2, md: 3 }}
-          >
-            <Grid item xs={12}>
-              <TextField
-                sx={{ width: 1 }}
-                id="Objectives"
-                label="Advertising Goals : Objectives"
-                variant="outlined"
-                value={objectives}
-                onChange={handleObjectivesChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Typography>Target Audiances</Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={4}>
-              <Select
-                id="Age"
-                sx={{ width: 1 }}
-                value={age}
-                displayEmpty
-                inputProps={{ "aria-label": "Without label" }}
-                onChange={handleAgeChange}
-              >
-                <MenuItem value="">
-                  <em>Age</em>
-                </MenuItem>
-                <MenuItem value={10}>0-10</MenuItem>
-                <MenuItem value={20}>10-20</MenuItem>
-                <MenuItem value={30}>20-30</MenuItem>
-                <MenuItem value={30}>30-40</MenuItem>
-                <MenuItem value={30}>40-50</MenuItem>
-                <MenuItem value={30}>50-60</MenuItem>
-                <MenuItem value={30}>Above 60</MenuItem>
-              </Select>
-            </Grid>
-            <Grid item xs={4}>
-              <Select
-                id="Gender"
-                sx={{ width: 1 }}
-                value={gender}
-                displayEmpty
-                inputProps={{ "aria-label": "Without label" }}
-                onChange={handleGenderChange}
-              >
-                <MenuItem value="">
-                  <em>Gender</em>
-                </MenuItem>
-                {users && users.advGoals && users.advGoals.gender && users.advGoals.gender.map((genderOption, index) => (
-        <MenuItem  style={{ display: 'none' }} key={index} value={genderOption}>{genderOption}</MenuItem>
-      ))}
-                <MenuItem value={"Male"}>Male</MenuItem>
-                <MenuItem value={"Female"}>Female</MenuItem>
-                <MenuItem value={"Other"}>Other</MenuItem>
-                <MenuItem value={"All"}>All</MenuItem>
-              </Select>
-            </Grid>
-            <Grid item xs={4}>
-              <Select
-                id="Income-Level"
-                sx={{ width: 1 }}
-                value={incomeLevel}
-                displayEmpty
-                inputProps={{ "aria-label": "Without label" }}
-                onChange={handleIncomeLevelChange}
-              >
-                <MenuItem value="">
-                  <em>Income Level</em>
-                </MenuItem>
-                <MenuItem value={10}>
-                  Less than ₹3,00,000 (3 lakh) per year
-                </MenuItem>
-                <MenuItem value={20}>
-                  ₹3,00,001 - ₹7,00,000 (3-7 lakhs) per year
-                </MenuItem>
-                <MenuItem value={30}>
-                  ₹7,00,001 - ₹15,00,000 (7-15 lakhs) per year
-                </MenuItem>
-                <MenuItem value={30}>
-                  ₹15,00,001 - ₹30,00,000 (15-30 lakhs) per year
-                </MenuItem>
-                <MenuItem value={30}>
-                  More than ₹30,00,000 (30 lakhs) per year
-                </MenuItem>
-              </Select>
-            </Grid>
-    
-            <Grid item xs={6}>
-              <Autocomplete
-                onChange={handleCountryChange}
+      <Box sx={{ width: 1, display: "flex", marginTop: "50px" }}>
+        <Grid
+          container
+          spacing={4}
+          rowSpacing={3}
+          columnSpacing={{ xs: 2, sm: 2, md: 3 }}
+        >
+          <Grid item xs={12}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Typography>Create Event</Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+            onChange={handleEventName}
+            value={eventName}
+              sx={{ width: 1 }}
+              id="Event-Name"
+              label="Event Name"
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+            onChange={handleEventDescription}
+            value={eventDescription}
+              sx={{ width: 1 }}
+              id="Event-Description"
+              label="Event Description"
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+             onChange={handleEventGoals}
+             value={eventGoals}
+              sx={{ width: 1 }}
+              id="Event-Goals-and-Objectives"
+              label="Event Goals and Objectives"
+              variant="outlined"
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <Select
+              id="Event-Type"
+              sx={{ width: 1 }}
+              onChange={handleEventType}
+              value={eventType}
+              displayEmpty
+              inputProps={{ "aria-label": "Without label" }}
+              
+            >
+              <MenuItem value="">
+                <em>Event Type</em>
+              </MenuItem>
+              <MenuItem value={1}>Product Launch</MenuItem>
+              <MenuItem value={2}>Press Conference</MenuItem>
+              <MenuItem value={3}>Trade Show</MenuItem>
+              <MenuItem value={4}>Webinar</MenuItem>
+              <MenuItem value={5}>Workshop</MenuItem>
+              <MenuItem value={6}>Networking Event</MenuItem>
+              <MenuItem value={7}>Other</MenuItem>
+            </Select>
+          </Grid>
+          <Grid item xs={6}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer sx={{ width: 1 }} components={["DatePicker"]}>
+                <DatePicker
+                  value={startDate}
+                  onChange={handlestartDateChange}
+                  sx={{ width: 1 }}
+                  label="Start Date"
+                />
+                {startDate.validationError && (
+                  <p style={{ color: "red" }}>{startDate.validationError}</p>
+                )}
+              </DemoContainer>
+            </LocalizationProvider>
+          </Grid>
+          <Grid item xs={6}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer sx={{ width: 1 }} components={["DatePicker"]}>
+                <DatePicker
+                   value={endDate } 
+                  onChange={handleendDateChange}
+                  sx={{ width: 1 }}
+                  label="End Date"
+                />
+                {endDate.validationError && (
+                  <p style={{ color: "red" }}>{endDate.validationError}</p>
+                )}
+              </DemoContainer>
+            </LocalizationProvider>
+          </Grid>
+          <Grid item xs={6}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer sx={{ width: 1 }} components={["TimePicker"]}>
+                <TimePicker value={eventStartTime} onChange={handleStartTimeChange} sx={{ width: 1 }} label="Basic time picker" />
+              </DemoContainer>
+            </LocalizationProvider>
+          </Grid>
+          <Grid item xs={6}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer sx={{ width: 1 }} components={["TimePicker"]}>
+                <TimePicker value={eventEndTime} onChange={handleEndTimeChange} sx={{ width: 1 }} label="Basic time picker" />
+              </DemoContainer>
+            </LocalizationProvider>
+          </Grid>
+          <Grid item xs={6}>
+          <Autocomplete
+             
+             onChange={handleEventCountry}
+            value={eventCountry}
                 id="country-select-demo"
                 sx={{ width: 1 }}
                 options={countries}
-                value={setCountry}
                 autoHighlight
                 getOptionLabel={(option) => option.label}
                 renderOption={(props, option) => (
@@ -243,6 +435,7 @@ export default function AdsDetails() {
                 )}
                 renderInput={(params) => (
                   <TextField
+                 
                     {...params}
                     sx={{ width: 1 }}
                     label="Choose a country"
@@ -253,66 +446,159 @@ export default function AdsDetails() {
                   />
                 )}
               />
-            </Grid>
-
-            <Grid item xs={6}>
-              <TextField
-                sx={{ width: 1 }}
-                id="Occupation"
-                label="Occupation"
-                variant="outlined"
-                value={occupation}
-                onChange={handleOccupationChange}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Select
-                id="Communication-Channels"
-                sx={{ width: 1 }}
-                value={communicationChannel}
-                displayEmpty
-                inputProps={{ "aria-label": "Without label" }}
-                onChange={handleCommunicationChannelChange}
-              >
-                <MenuItem value="">
-                  <em>Communication Channels</em>
-                </MenuItem>
-                <MenuItem value={10}>Instagram</MenuItem>
-                <MenuItem value={20}>Facebook</MenuItem>
-              </Select>
-            </Grid>
-            <Grid item xs={6}>
-              <Autocomplete
-                sx={{ width: 1 }}
-                multiple
-                id="tags-filled"
-                options={Interest.map((option) => option.title)}
-                value={selectedInterests}
-                onChange={handleSelectedInterestsChange}
-                freeSolo
-                renderTags={(value, getTagProps) =>
-                  value.map((option, index) => (
-                    <Chip
-                      variant="outlined"
-                      key={index}
-                      label={option}
-                      {...getTagProps({ index })}
-                    />
-                  ))
-                }
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    variant="outlined"
-                    sx={{ width: 1 }}
-                    placeholder="Interest"
-                  />
-                )}
-              />
-            </Grid>
           </Grid>
-        </Box>
-        <Box
+
+          <Grid item xs={6}>
+            <TextField
+             onChange={handlesetEventBudget}
+             value={eventBudget}
+              sx={{ width: 1 }}
+              id="Budget-and-Resources"
+              label="Budget and Resources"
+              variant="outlined"
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Typography>Target Audiances</Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={4}>
+            <Select
+              id="Age"
+              sx={{ width: 1 }}
+              value={targetAge}
+              displayEmpty
+              inputProps={{ "aria-label": "Without label" }}
+              onChange={handlesetTargetAge}
+            >
+              <MenuItem value="">
+                <em>Age</em>
+              </MenuItem>
+              <MenuItem value={10}>0-10</MenuItem>
+              <MenuItem value={20}>10-20</MenuItem>
+              <MenuItem value={30}>20-30</MenuItem>
+              <MenuItem value={30}>30-40</MenuItem>
+              <MenuItem value={30}>40-50</MenuItem>
+              <MenuItem value={30}>50-60</MenuItem>
+              <MenuItem value={30}>Above 60</MenuItem>
+            </Select>
+          </Grid>
+          <Grid item xs={4}>
+            <Select
+              id="Gender"
+              sx={{ width: 1 }}
+              value={targetGender}
+              displayEmpty
+              inputProps={{ "aria-label": "Without label" }}
+              onChange={handleTargetGender}
+            >
+              <MenuItem value="">
+                <em>Gender</em>
+              </MenuItem>
+              <MenuItem value={10}>Male</MenuItem>
+              <MenuItem value={20}>Female</MenuItem>
+              <MenuItem value={30}>Other</MenuItem>
+              <MenuItem value={30}>--</MenuItem>
+            </Select>
+          </Grid>
+          <Grid item xs={4}>
+            <Select
+              id="Income-Level"
+              sx={{ width: 1 }}
+              value={targetIncomeLevel}
+              displayEmpty
+              inputProps={{ "aria-label": "Without label" }}
+              onChange={handleTargetIncomeLevel}
+            >
+              <MenuItem value="">
+                <em>Income Level</em>
+              </MenuItem>
+              <MenuItem value={10}>
+                Less than ₹3,00,000 (3 lakh) per year
+              </MenuItem>
+              <MenuItem value={20}>
+                ₹3,00,001 - ₹7,00,000 (3-7 lakhs) per year
+              </MenuItem>
+              <MenuItem value={30}>
+                ₹7,00,001 - ₹15,00,000 (7-15 lakhs) per year
+              </MenuItem>
+              <MenuItem value={30}>
+                ₹15,00,001 - ₹30,00,000 (15-30 lakhs) per year
+              </MenuItem>
+              <MenuItem value={30}>
+                More than ₹30,00,000 (30 lakhs) per year
+              </MenuItem>
+            </Select>
+          </Grid>
+          
+
+          <Grid item xs={6}>
+            <TextField
+             onChange={handleTargetoccupation}
+             value={targetoccupation}
+              sx={{ width: 1 }}
+              id="Occupation"
+              label="Occupation"
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <Select
+            
+              id="Communication-Channels"
+              sx={{ width: 1 }}
+              value={targetCommunicationChannel}
+              displayEmpty
+              inputProps={{ "aria-label": "Without label" }}
+              onChange={handleTargetCommunicationChannel}
+            >
+              <MenuItem value="">
+                <em>Communication Channels</em>
+              </MenuItem>
+              <MenuItem value={10}>Instagram</MenuItem>
+              <MenuItem value={20}>Facebook</MenuItem>
+            </Select>
+          </Grid>
+          <Grid item xs={12}>
+            <Autocomplete
+              sx={{ width: 1 }}
+              multiple
+              id="tags-filled"
+              options={Interest.map((option) => option.title)}
+              freeSolo
+              onChange={handleTargetInterests}
+              value={targetInterests}
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => (
+                  <Chip
+                    variant="outlined"
+                    key={index}
+                    label={option}
+                    {...getTagProps({ index })}
+                  />
+                ))
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  sx={{ width: 1 }}
+                  placeholder="Interest"
+                />
+              )}
+            />
+          </Grid>
+        </Grid>
+      </Box>
+      <Box
           sx={{
             width: 1,
             marginTop: "20px",
@@ -407,6 +693,7 @@ const Interest = [
   { title: "Beauty Influencers" },
   { title: "Hairstyling" },
 ];
+
 
 const countries = [
   { code: "AD", label: "Andorra", phone: "376" },
