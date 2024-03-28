@@ -8,8 +8,6 @@ import Loadable from "ui-component/Loadable";
 
 
 
-// register 
-const AuthRegisterBusiness = Loadable(lazy(() => import('views/pages/authentication/authentication3/businessRegister')));
 
 // dashboard routing
 const DashboardDefault = Loadable(
@@ -88,10 +86,6 @@ const MainRoutes = {
   path: "/business",
   element: <MainLayout />,
   children: [
-    {
-      path: "register",
-      element:< AuthRegisterBusiness/>
-    },
     {
       path: "dashboard",
       element:<ProtectedRoute ><DashboardDefault  /></ProtectedRoute>

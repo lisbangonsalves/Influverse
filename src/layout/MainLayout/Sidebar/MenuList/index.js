@@ -8,6 +8,7 @@ import menuItem from 'menu-items';
 // ==============================|| SIDEBAR MENU LIST ||============================== //
 
 const MenuList = () => {
+  console.log("error : "+ (menuItem.items))
   const navItems = menuItem.items.map((item) => {
     switch (item.type) {
       case 'group':

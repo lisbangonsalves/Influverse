@@ -6,9 +6,6 @@ import PropTypes from 'prop-types';
 import MainLayout from "layout/MainLayout";
 import Loadable from "ui-component/Loadable";
 
-
-// register 
-const AuthRegisterInfluencer = Loadable(lazy(() => import('views/pages/authentication/authentication3/influencerRegister')));
 // dashboard routing
 const DashboardDefault = Loadable(
   lazy(() => import("views/dashboard/Default")),
@@ -45,10 +42,6 @@ const MainRoutes = {
   path: "/influencer",
   element: <MainLayout />,
   children: [
-    {
-      path: "register",
-      element:<AuthRegisterInfluencer />
-    },
     {
       path: "dashboard",
       element:<ProtectedRoute ><DashboardDefault  /></ProtectedRoute>
