@@ -73,7 +73,7 @@ const Login = () => {
         localStorage.setItem("user", JSON.stringify(response.data) );
      
         console.log("success");
-        navigate("/view/dashboard");
+        navigate("/business/dashboard");
       } else {
         const errorResponse = await response.json();
     setError(errorResponse.message || 'Something went wrong!');

@@ -14,7 +14,7 @@ const other = {
       id: 'account',
       title: 'Account',
       type: 'item',
-      url: '/business/account',
+      url: '/view/account',
       icon: icons.IconUser,
       breadcrumbs: false
     },
@@ -22,7 +22,7 @@ const other = {
       id: 'Setting',
       title: 'Setting',
       type: 'item',
-      url: '/business/setting',
+      url: '/view/setting',
       icon: icons.IconSettings,
       external: true,
     }

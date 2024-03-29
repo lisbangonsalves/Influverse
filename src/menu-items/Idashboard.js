@@ -13,9 +13,9 @@ const dashboard = {
   children: [
     {
       id: 'default',
-      title: 'Dashboard',
+      title: 'Influencer',
       type: 'item',
-      url: '/Business/dashboard',
+      url: '/influencer/dashboard',
       icon: icons.IconDashboard,
       breadcrumbs: false
     },

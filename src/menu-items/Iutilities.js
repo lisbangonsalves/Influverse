@@ -20,7 +20,7 @@ const utilities = {
       id: 'explore',
       title: 'Explore',
       type: 'item',
-      url: '/business/explore',
+      url: '/view/explore',
       icon: icons.IconWorld,
       breadcrumbs: false
     },
@@ -28,7 +28,7 @@ const utilities = {
       id: 'influvencer-gifting',
       title: 'Influvencer Gifting',
       type: 'item',
-      url: '/business/gifting/influencerlist',
+      url: '/view/gifting/influencerlist',
       icon: icons.IconGift,
       breadcrumbs: false
     },
@@ -37,7 +37,7 @@ const utilities = {
       title: 'Events',
       type: 'item',
       icon: icons.IconWindmill,
-      url: '/business/event',
+      url: '/view/event',
     }
   ]
 };
