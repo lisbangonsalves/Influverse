@@ -190,7 +190,7 @@ const eventEtime = `${EjsDate.getHours().toString().padStart(2, '0')}:${EjsDate.
       
       
       const user = JSON.parse(localStorage.getItem('user'))
-      const response = await fetch(`https://influensys.vercel.app/api/interface-buisness/${user.slug}/events/create`, {
+      const response = await fetch(`https://influensys.vercel.app/api/interface-buisness/${user.business[0].slug}/events/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

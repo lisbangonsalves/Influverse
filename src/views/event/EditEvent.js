@@ -38,11 +38,11 @@ const { id } = useParams();
     // Fetch event data from the API
     axios
       .get(
-        `https://influensys.vercel.app/api/interface-buisness/${userx.slug}/events/${id}`,
+        `https://influensys.vercel.app/api/interface-buisness/${userx.business[0].slug}/events/${id}`,
       )
       .then((response) => {
         setEventData(response.data); // Update state with fetched data
-        navigater(`/view/event/edit-event/${id}`);
+        navigater(`/business/event/edit-event/${id}`);
       })
       .catch((error) => {
         console.error("Error fetching event data:", error);

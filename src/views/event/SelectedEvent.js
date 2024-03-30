@@ -22,7 +22,7 @@ export default function SelectedEvent() {
     // Fetch event data from the API
     axios
       .get(
-        `https://influensys.vercel.app/api/interface-buisness/${user.slug}/events/${id}`,
+        `https://influensys.vercel.app/api/interface-buisness/${user.business[0].slug}/events/${id}`,
       )
       .then((response) => {
         setEventData(response.data); // Update state with fetched data
@@ -90,7 +90,7 @@ export default function SelectedEvent() {
               <IconButton aria-label="delete" size="large" sx={{marginRight:"20px","&:hover":{backgroundColor:'red', color:"white", }}}>
                 <DeleteIcon fontSize="inherit" />
               </IconButton>
-              <IconButton component={NavLink} to={`/view/event/edit-event/${id}`} aria-label="delete" size="large" sx={{"&:hover":{backgroundColor:'#161A30', color:"white"}}}>
+              <IconButton component={NavLink} to={`/business/event/edit-event/${id}`} aria-label="delete" size="large" sx={{"&:hover":{backgroundColor:'#161A30', color:"white"}}}>
                 <CreateIcon fontSize="inherit" />
               </IconButton>
             </Box>

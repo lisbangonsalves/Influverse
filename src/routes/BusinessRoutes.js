@@ -128,7 +128,7 @@ const MainRoutes = {
           element: <ProtectedRoute ><CampaignList /></ProtectedRoute>,
         },
         {
-          path: "selected-campaign",
+          path: ":slug/:id",
           element: <ProtectedRoute ><SelectedCampaign /></ProtectedRoute>,
         },
       ],

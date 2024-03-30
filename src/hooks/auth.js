@@ -17,6 +17,7 @@ export const useAuth = () => {
         const data = await response.json();
         const { is_business, is_influencer } = data;
         setUserType(is_business ? 'business' : is_influencer ? 'influencer' : null);
+        localStorage.setItem("user", JSON.stringify(data) );
       } catch (error) {
         console.error('Error fetching user type:', error);
       }finally {

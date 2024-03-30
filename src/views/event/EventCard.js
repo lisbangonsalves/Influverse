@@ -48,7 +48,7 @@ export default function EventCard(props) {
               </Box>
 
             </Box>
-            <Button component={NavLink} to={`/view/event/${slug}/${userid}`} variant="text" sx={{padding:0, color:"#E98EAD"}}>View Event Details</Button>
+            <Button component={NavLink} to={`/business/event/${slug}/${userid}`} variant="text" sx={{padding:0, color:"#E98EAD"}}>View Event Details</Button>
           </Box>
         </Box>
       

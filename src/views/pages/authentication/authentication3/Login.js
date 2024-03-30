@@ -1,4 +1,5 @@
 import "./login.css";
+import { useEffect } from "react";
 import img2 from "./assets/Group2.png";
 import img3 from "./assets/Group3.png";
 import { motion } from "framer-motion";
@@ -10,7 +11,6 @@ import { useState } from "react";
 import Snackbar from '@mui/material/Snackbar';
 import { useNavigate } from 'react-router-dom';
 
-
   function Login() {
   
       const [formData, setFormData] = useState({
@@ -19,6 +19,7 @@ import { useNavigate } from 'react-router-dom';
       });
       const [error, setError] = useState('');
       const [openSnackbar, setOpenSnackbar] = useState(false);
+      const [userType, setUserType] = useState(null);
       const navigate = useNavigate();
     
       const handleChange = (e) => {
@@ -45,9 +46,10 @@ import { useNavigate } from 'react-router-dom';
             localStorage.setItem("user", JSON.stringify(data.user) );
             console.log(data.user)
             console.log(data)
+            fetchUserType();
             
             console.log("success")
-            navigate('/');
+            
             // Redirect to dashboard or other page
           } else {
             const errorResponse = await response.json();
@@ -61,12 +63,39 @@ import { useNavigate } from 'react-router-dom';
         }
       };
 
-
-
-
-
-
-
+      const fetchUserType = async () => {
+        try {
+          const accessToken = localStorage.getItem("accessToken");
+          const response = await fetch(
+            "https://influensys.vercel.app/user_is",
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
+    
+          if (response.ok) {
+            const userData = await response.json();
+            const isBusiness = userData.is_business;
+            const isInfluencer = userData.is_influencer;
+            // Set user type
+            setUserType(isBusiness ? "business" : isInfluencer ? "influencer" : null);
+          } else {
+            console.error("Failed to fetch user type");
+          }
+        } catch (error) {
+          console.error("Error fetching user type:", error);
+        }
+      };
+    
+      useEffect(() => {
+        if (userType === "business") {
+          navigate('/business/dashboard');
+        } else if (userType === "influencer") {
+          navigate('/influencer/dashboard');
+        }
+      }, [userType, navigate]);
 
 
     return (
