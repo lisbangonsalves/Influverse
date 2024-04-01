@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
@@ -125,13 +124,6 @@ export default function BasicDetails() {
                 variant="outlined"
     
               />
-            </Grid>
-            <Grid item xs={12}>
-            <Box sx={{ width: 1, marginTop: '20px', display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <Button variant="contained" type="submit"  >
-            Add Product
-          </Button>
-        </Box>
             </Grid>
           </Grid>
         </Box>

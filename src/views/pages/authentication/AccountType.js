@@ -23,9 +23,9 @@ export default function AccountType() {
     // Send selectedOption to the server via POST request
           // Redirect to another page based on the selection
           if (selectedOption === "influencer") {
-            navigate("/register/influencer");
+            navigate("/connectwallet/influencer");
           } else if (selectedOption === "marketer") {
-            navigate("/register/business");
+            navigate("/connectwallet/business");
           }
       
   };

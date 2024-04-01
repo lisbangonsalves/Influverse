@@ -44,7 +44,7 @@ const MainRoutes = {
   children: [
     {
       path: "dashboard",
-      element:<ProtectedRoute ><DashboardDefault  /></ProtectedRoute>
+      element:<DashboardDefault  />
     },
     {
       path: "try",
@@ -52,7 +52,7 @@ const MainRoutes = {
     },
     {
       path: "completeprofile",
-      element:<ProtectedRoute><CompleteProfileInfluencer/></ProtectedRoute>
+      element:<CompleteProfileInfluencer/>
     },
     
   ],

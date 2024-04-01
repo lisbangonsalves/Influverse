@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-
+// import Web3 from 'web3';
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -39,6 +39,8 @@ import User1 from 'assets/images/users/user-round.svg';
 // assets
 import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons-react';
 
+
+
 // ==============================|| PROFILE MENU ||============================== //
 
 const ProfileSection = () => {
@@ -55,8 +57,17 @@ const ProfileSection = () => {
    * anchorRef is used on different componets and specifying one type leads to other components throwing an error
    * */
   const anchorRef = useRef(null);
+
   const handleLogout = async () => {
+    localStorage.clear();
+    navigate('/login');
     console.log('Logout');
+    if (window.ethereum) {
+        alert('Please disconnect your wallet from MetaMask manually.');
+    } else {
+        console.error('MetaMask is not installed');
+    }
+
   };
 
   const handleClose = (event) => {
@@ -86,6 +97,10 @@ const ProfileSection = () => {
 
     prevOpen.current = open;
   }, [open]);
+
+
+
+
 
   return (
     <>
@@ -183,6 +198,7 @@ const ProfileSection = () => {
                     <Divider />
                   </Box>
                   <PerfectScrollbar style={{ height: '100%', maxHeight: 'calc(100vh - 250px)', overflowX: 'hidden' }}>
+                    
                     <Box sx={{ p: 2 }}>
                       <UpgradePlanCard />
                       <Divider />
@@ -242,11 +258,12 @@ const ProfileSection = () => {
                           },
                           '& .MuiListItemButton-root': {
                             mt: 0.5
-                          }
+                          },
+                          
                         }}
                       >
                         <ListItemButton
-                          sx={{ borderRadius: `${customization.borderRadius}px` }}
+                          sx={{ borderRadius: `${customization.borderRadius}px` ,'&:hover': { backgroundColor: '#eef2f6' }}}
                           selected={selectedIndex === 0}
                           onClick={(event) => handleListItemClick(event, 0, '#')}
                         >
@@ -256,7 +273,7 @@ const ProfileSection = () => {
                           <ListItemText primary={<Typography variant="body2">Account Settings</Typography>} />
                         </ListItemButton>
                         <ListItemButton
-                          sx={{ borderRadius: `${customization.borderRadius}px` }}
+                          sx={{ borderRadius: `${customization.borderRadius}px`,'&:hover': { backgroundColor: '#eef2f6' } }}
                           selected={selectedIndex === 1}
                           onClick={(event) => handleListItemClick(event, 1, '#')}
                         >
@@ -284,7 +301,7 @@ const ProfileSection = () => {
                           />
                         </ListItemButton>
                         <ListItemButton
-                          sx={{ borderRadius: `${customization.borderRadius}px` }}
+                          sx={{ borderRadius: `${customization.borderRadius}px`,'&:hover': { backgroundColor: '#eef2f6' } }}
                           selected={selectedIndex === 4}
                           onClick={handleLogout}
                         >

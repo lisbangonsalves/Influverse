@@ -172,15 +172,15 @@ const SearchSection = () => {
               <IconSearch stroke={1.5} size="1rem" color={theme.palette.grey[500]} />
             </InputAdornment>
           }
-          endAdornment={
-            <InputAdornment position="end">
-              <ButtonBase sx={{ borderRadius: '12px' }}>
-                <HeaderAvatarStyle variant="rounded">
-                  <IconAdjustmentsHorizontal stroke={1.5} size="1.3rem" />
-                </HeaderAvatarStyle>
-              </ButtonBase>
-            </InputAdornment>
-          }
+          // endAdornment={
+          //   <InputAdornment position="end">
+          //     <ButtonBase sx={{ borderRadius: '12px' }}>
+          //       <HeaderAvatarStyle variant="rounded">
+          //         <IconAdjustmentsHorizontal stroke={1.5} size="1.3rem" />
+          //       </HeaderAvatarStyle>
+          //     </ButtonBase>
+          //   </InputAdornment>
+          // }
           aria-describedby="search-helper-text"
           inputProps={{ 'aria-label': 'weight' }}
         />

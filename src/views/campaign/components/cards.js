@@ -8,7 +8,7 @@ import { Typography } from '@mui/material';
 
 function EventRequest() {
   return (
-    <Card sx={{ display: 'flex' }}>
+    <Card sx={{ display: 'flex', boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)' }}>
     <CardMedia
       component="img"
       sx={{ width: 100 }}

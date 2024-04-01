@@ -10,8 +10,7 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Switch from '@mui/material/Switch';
-import FormControlLabel from '@mui/material/FormControlLabel';
+
 import { NavLink } from 'react-router-dom';
 
 export default function CampaignList() {
@@ -64,7 +63,6 @@ export default function CampaignList() {
                   <TableCell>End Date</TableCell>
                   <TableCell>Budget</TableCell>
                   <TableCell>Status</TableCell>
-                  <TableCell>Action</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -82,7 +80,7 @@ export default function CampaignList() {
                       <TableCell>{campaign.end_date}</TableCell>
                       <TableCell>{campaign.budget}</TableCell>
                       <TableCell>{campaign.status}</TableCell>
-                      <TableCell>{campaign.status}</TableCell>
+
                     </TableRow>
                   ))}
               </TableBody>
@@ -98,10 +96,7 @@ export default function CampaignList() {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Paper>
-        <FormControlLabel
-          control={<Switch />}
-          label="Dense padding"
-        />
+        
       </Box>
     </Box>
   );

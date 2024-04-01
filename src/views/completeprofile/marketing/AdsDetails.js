@@ -82,7 +82,7 @@ export default function AdsDetails() {
     try {
       const user = JSON.parse(localStorage.getItem("user"));
       const response = await fetch(
-        `https://influensys.vercel.app/api/interface-buisness/${user.slug}/goals/create`,
+        `https://influensys.vercel.app/api/interface-buisness/${user.business[0].slug}/goals/create`,
         {
           method: "POST",
           headers: {
@@ -189,7 +189,7 @@ export default function AdsDetails() {
                 <MenuItem value="">
                   <em>Age</em>
                 </MenuItem>
-                <MenuItem value={10}>0-10</MenuItem>
+                <MenuItem value={"0-10"}>0-10</MenuItem>
                 <MenuItem value={20}>10-20</MenuItem>
                 <MenuItem value={30}>20-30</MenuItem>
                 <MenuItem value={30}>30-40</MenuItem>

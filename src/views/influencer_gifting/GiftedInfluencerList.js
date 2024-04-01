@@ -13,6 +13,7 @@ import Button from '@mui/material/Button';
 import { Typography } from "@mui/material";
 import InventoryIcon from '@mui/icons-material/Inventory';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
+import { NavLink } from 'react-router-dom';
 
 export default function GiftedInfluencerList() {
   return (
@@ -23,8 +24,8 @@ export default function GiftedInfluencerList() {
         </Typography>
         <Box sx={{ display:"flex", justifyContent:"center", alignItems:"center"}}>
 
-        <Button variant="contained" sx={{backgroundColor:"#161A30", marginRight:"10px"}} endIcon={<CardGiftcardIcon />}>Send Gift</Button>
-        <Button variant="contained" sx={{backgroundColor:"#161A30"}} endIcon={<InventoryIcon />}>Product List</Button>
+        <Button variant="contained" component={NavLink} to=""  sx={{backgroundColor:"#161A30", marginRight:"10px"}} endIcon={<CardGiftcardIcon />}>Send Gift</Button>
+        <Button variant="contained" component={NavLink} to="/business/gifting/productlist" sx={{backgroundColor:"#161A30"}} endIcon={<InventoryIcon />}>Product List</Button>
         </Box>
         
       </Box>

@@ -78,12 +78,10 @@ export default function AdsDetails() {
           },
           body: JSON.stringify({
             objectives,
-            age,
-            
-            country: country.country.label,
-            gender: [gender],
-            address,
-            income_level: incomeLevel,
+            target_age: age,
+            country: country.country,
+            target_gender: [gender],
+            target_income_level: incomeLevel,
             occupation,
             communication_channel: communicationChannel,
             selected_interests: selectedInterests,

@@ -10,6 +10,7 @@ const AuthRegister = Loadable(lazy(() => import('views/pages/authentication/auth
 const AuthRegisterBusiness = Loadable(lazy(() => import('views/pages/authentication/authentication3/businessRegister')));
 const AuthRegisterInfluencer = Loadable(lazy(() => import('views/pages/authentication/authentication3/influencerRegister')));
 const AccountType = Loadable(lazy(() => import('views/pages/authentication/AccountType')));
+const ConnectWallet = Loadable(lazy(() => import('views/pages/authentication/ConnectWallet')));
 
 // ==============================|| AUTHENTICATION ROUTING ||============================== //
 
@@ -42,7 +43,11 @@ const AuthenticationRoutes = {
     {
       path: 'accounttype',
       element: <AccountType />
-    }
+    },
+    {
+      path: 'connectwallet/:type',
+      element: <ConnectWallet />
+    },
   ]
 };
 

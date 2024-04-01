@@ -20,7 +20,7 @@ const Login = () => {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
-    industry: [],
+    industry:[],
   });
 
   // Function to handle form field changes
@@ -60,7 +60,7 @@ const Login = () => {
         Authorization: 'Bearer ' + accessToken,
       };
       const response = await axios.post(
-        "https://influensys.vercel.app/api/interface-buisness/buisness/create",
+        "https://influensys.vercel.app/api/interface-influence/influencer/create",
         formData,
         { headers },
       );
@@ -73,7 +73,7 @@ const Login = () => {
         localStorage.setItem("user", JSON.stringify(response.data) );
      
         console.log("success");
-        navigate("/view/dashboard");
+        navigate("/influencer/dashboard");
       } else {
         const errorResponse = await response.json();
     setError(errorResponse.message || 'Something went wrong!');

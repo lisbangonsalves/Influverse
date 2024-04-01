@@ -14,7 +14,6 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Cards from "./components/cards";
-import Chip from '@mui/material/Chip';
 
 
 export default function SelectedEvent() {
@@ -47,21 +46,19 @@ export default function SelectedEvent() {
               alt="Event Image"
             />
           </Card>
-          <Chip label={eventData.objective} sx={{marginTop:"30px"}} />
-
+          <Box sx={{backgroundColor:"white",paddingX:"20px",paddingY:"15px", marginTop:"20px", borderRadius:"10px"}}>
           <Box
             sx={{
               display: "flex",
               width: "100%",
               justifyContent: "space-between",
-              
               alignItems: "center",
+              
             }}
           >
             <Box
               sx={{
                 display: "flex",
-                
                 width: "37%",
               }}
             >
@@ -97,6 +94,7 @@ export default function SelectedEvent() {
               </IconButton>
             </Box>
           </Box>
+          
           <Box>
           <Box
                 sx={{
@@ -118,7 +116,7 @@ export default function SelectedEvent() {
                 </Typography>
               </Box>
               <Box sx={{ display: "flex", alignItems: "center", }}>
-                <Box sx={{color:"#1DBB62", display: "flex", }}>
+                <Box sx={{color:"white", display: "flex", backgroundColor:"#109636", paddingX:"10px", paddingY:"5px" }}>
 
                 <Typography>Budget : </Typography>
                 <Typography sx={{fontWeight:"bold"}}>${eventData.budget}</Typography>
@@ -129,21 +127,24 @@ export default function SelectedEvent() {
           <Typography sx={{ marginTop: "10px" }}>
             {eventData.description}
           </Typography>
-          <Divider sx={{ marginY: "10px" }} />
+          </Box>
+          <Divider sx={{ marginY: "10px", marginTop:"15px" }} />
           <Box sx={{ marginTop: "15px" }}>
             <Box
               sx={{
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
+                marginX:'15px'
               }}
             >
-              <Typography>List Of Influencer</Typography>
+              <Typography sx={{fontSize:18,}}>List Of Influencer</Typography>
               <Button variant="contained" startIcon={<AddCircleIcon />}>
                 Add Influencer
               </Button>
             </Box>
-            <Box sx={{ marginTop: "15px" }}>
+
+            <Box sx={{ marginTop: "15px",marginX:'15px' }}>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
                   <Cards />
