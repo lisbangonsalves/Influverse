@@ -38,7 +38,7 @@ module.exports = {
       hardhat: {},
       goerli: {
         url: "HTTP://127.0.0.1:7545",
-        accounts: ["0x"],
+        accounts: ["0xd863622d11229c06218dde477565f3db222a1c2cf4cc0b34cc4168c791dff760"],
       },
     },
     settings: {
