@@ -2,7 +2,7 @@ import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
-import MetaMaskLogo from "../../../contract/MetaMask.svg";
+import MetaMaskLogo from "./MetaMask.svg";
 import Web3 from 'web3';
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";

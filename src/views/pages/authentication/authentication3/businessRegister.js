@@ -13,6 +13,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import img1 from "./assets/register1.png";
 import "./login2.css";
+// Import Web3 and Contract ABI
+import Web3 from 'web3';
+import Web3MarketingSuiteContract from '../../../../contracts/Web3MarketingSuite.json';
 
 
 const Login = () => {
@@ -67,6 +70,20 @@ const Login = () => {
 
       // // Handle the response as needed
       // console.log("Response:", response.data);
+      const web3 = new Web3(window.ethereum);
+      // Get the contract instance
+      const contract = new web3.eth.Contract(
+        Web3MarketingSuiteContract.abi,
+        '0x353f7471AB93ca54D6bfb5b9A7269931211e1F6d' // Replace with your contract address
+      );
+      const accounts = await web3.eth.getAccounts();
+      const defaultAccount = accounts[0];
+      // Make a call to the contract method
+      const result = await contract.methods.createBusiness(formData.name).send({ from: defaultAccount });
+
+      // Handle the result as needed
+      console.log(result);
+
       if (response.status===201) {
 
 
