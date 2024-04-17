@@ -13,7 +13,7 @@ const dashboard = {
   children: [
     {
       id: 'default',
-      title: 'Influencer',
+      title: 'Dashboard',
       type: 'item',
       url: '/influencer/dashboard',
       icon: icons.IconDashboard,

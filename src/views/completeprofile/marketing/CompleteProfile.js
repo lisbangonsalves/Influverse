@@ -48,9 +48,9 @@ function CompleteProfile() {
 
   const fetchData = async () => {
     try {
-      const user =JSON.parse(localStorage.getItem('user'))
+      // const user =JSON.parse(localStorage.getItem('user'))
       const response = await fetch(
-        `https://influensys.vercel.app/api/interface-buisness/buisness/${user.id}`,
+        `https://influensys.vercel.app/user_is`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,

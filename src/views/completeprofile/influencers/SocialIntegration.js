@@ -7,7 +7,23 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import XIcon from '@mui/icons-material/X';
 
+
+
+
 export default function SocialIntegration() {
+
+
+    const handleInstagramLogin = () => {
+      // Construct the OAuth request URL
+      const clientId = '1134098924458353';
+      const redirectUri = encodeURIComponent('https://influensys.vercel.app/api/interface-influence/influencer/insta/'); // Replace with your actual redirect URL
+      const scope = 'user_profile,user_media'; // Specify required scopes
+      const authUrl = `https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code&slug=jessica-gonsalves-7YVVv1`;
+  
+      // Redirect the user to Instagram login
+      window.location.href = authUrl;
+    }
+  
   return (
     <Box
       sx={{
@@ -29,6 +45,7 @@ export default function SocialIntegration() {
           }}
           component="label"
           role={undefined}
+          onClick={handleInstagramLogin}
           variant="contained"
           tabIndex={-1}
           startIcon={<InstagramIcon />}

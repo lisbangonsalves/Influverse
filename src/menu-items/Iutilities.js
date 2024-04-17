@@ -1,9 +1,9 @@
 // assets
-import { IconWorld, IconShadow, IconWindmill, IconGift } from '@tabler/icons-react';
+import { IconBrandCashapp, IconShadow, IconWindmill, IconGift } from '@tabler/icons-react';
 
 // constant
 const icons = {
-  IconWorld,
+  IconBrandCashapp,
   IconShadow,
   IconWindmill,
   IconGift
@@ -17,16 +17,16 @@ const utilities = {
   type: 'group',
   children: [
     {
-      id: 'explore',
-      title: 'Explore',
+      id: 'earnings',
+      title: 'Earnings',
       type: 'item',
       url: '/view/explore',
-      icon: icons.IconWorld,
+      icon: icons.IconBrandCashapp,
       breadcrumbs: false
     },
     {
-      id: 'influvencer-gifting',
-      title: 'Influvencer Gifting',
+      id: 'gifts',
+      title: 'Gifts',
       type: 'item',
       url: '/view/gifting/influencerlist',
       icon: icons.IconGift,
@@ -37,7 +37,7 @@ const utilities = {
       title: 'Events',
       type: 'item',
       icon: icons.IconWindmill,
-      url: '/view/event',
+      url: '/influencer/event',
     }
   ]
 };

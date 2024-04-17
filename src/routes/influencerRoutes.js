@@ -14,6 +14,18 @@ const DashboardDefault = Loadable(
 const CompleteProfileInfluencer = Loadable(
   lazy(() => import("views/completeprofile/influencers/CompleteProfile")),
 );
+const Campaign = Loadable(
+  lazy(() => import("views/campaign/Influencer/CampaignList")),
+);
+const CampaignDraft = Loadable(
+  lazy(() => import("views/campaign/Influencer/Draft")),
+);
+const Event = Loadable(
+  lazy(() => import("views/event/influencer_event/InfluencerEvent")),
+);
+const ExploreEvent = Loadable(
+  lazy(() => import("views/event/influencer_event/ExploreEvent")),
+);
 
 const Try = Loadable(lazy(() => import("views/Try")));
 
@@ -44,7 +56,7 @@ const MainRoutes = {
   children: [
     {
       path: "dashboard",
-      element:<DashboardDefault  />
+      element:<ProtectedRoute ><DashboardDefault  /></ProtectedRoute>
     },
     {
       path: "try",
@@ -52,7 +64,33 @@ const MainRoutes = {
     },
     {
       path: "completeprofile",
-      element:<CompleteProfileInfluencer/>
+      element:<ProtectedRoute ><CompleteProfileInfluencer/></ProtectedRoute>
+    },
+    {
+      path: "campaign",
+      children: [
+        {
+          path: "",
+          element: <ProtectedRoute ><Campaign /></ProtectedRoute>,
+        },
+        {
+          path: "draft",
+          element: <ProtectedRoute ><CampaignDraft /></ProtectedRoute>,
+        }
+      ],
+    },
+    {
+      path: "event",
+      children: [
+        {
+          path: "",
+          element: <ProtectedRoute ><Event /></ProtectedRoute>,
+        },
+        {
+          path: "explore",
+          element: <ProtectedRoute ><ExploreEvent /></ProtectedRoute>,
+        },
+      ],
     },
     
   ],

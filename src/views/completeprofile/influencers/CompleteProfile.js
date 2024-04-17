@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import BasicDetails from './BasicDetails';
 import SocialIntegration from './SocialIntegration';
 import AdsDetails from './AdsDetails';
+import { useState } from 'react';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -42,11 +43,45 @@ function a11yProps(index) {
 }
 
 function CompleteProfile() {
-    const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
+  const [data, setData] = useState(null);
+
+  const fetchData = async () => {
+    try {
+      // const user =JSON.parse(localStorage.getItem('user'))
+      const response = await fetch(
+        `https://influensys.vercel.app/user_is`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch data");
+      }
+
+      const jsonData = await response.json();
+      setData(jsonData);
+      //backupplan:)
+      console.log("imbodyyy",response.body)
+      localStorage.setItem("user", JSON.stringify(jsonData) );
+      
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    fetchData();
   };
+
+   // Call fetchData when component is opened
+   React.useEffect(() => {
+    fetchData();
+  }, [value]);
 
   
   return (
@@ -60,13 +95,13 @@ function CompleteProfile() {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <BasicDetails/>
+        <BasicDetails data={data}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <SocialIntegration/>
+        <SocialIntegration data={data}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <AdsDetails/>
+        <AdsDetails data={data}/>
       </CustomTabPanel>
     </Box>
       

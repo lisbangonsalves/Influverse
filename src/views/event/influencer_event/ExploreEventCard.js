@@ -27,6 +27,7 @@ export default function EventCard(props) {
           <Typography sx={{fontSize:22, fontWeight:"bold"}}>
           {title}
           </Typography>
+          <Button variant="outlined" sx={{padding:0, paddingX:"10px"}}>Join Event</Button>
           
           
           </Box>

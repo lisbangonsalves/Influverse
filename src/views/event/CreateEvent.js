@@ -215,7 +215,7 @@ const eventEtime = `${EjsDate.getHours().toString().padStart(2, '0')}:${EjsDate.
         }),
       });
       if (response.ok) {
-        navigate("/view/event");
+        navigate("/business/event");
         // Handle success
         console.log("Data sent successfully!");
       } else {

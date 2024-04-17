@@ -18,7 +18,7 @@ const pages = {
       title: 'Campaign',
       type: 'item',
       icon: icons.IconSpeakerphone,
-      url: '/view/campaign/campaign-list',
+      url: '/influencer/campaign',
     }
   ]
 };

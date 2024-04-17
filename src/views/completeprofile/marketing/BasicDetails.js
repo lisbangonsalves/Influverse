@@ -58,9 +58,9 @@ export default function BasicDetails() {
 // console.log(props.data.business[0].name)
 
 const users = JSON.parse(localStorage.getItem("user"));
-const [name, setFullName] = useState(users?.name ?? "");
-const [email, setEmail] = useState(users?.email ?? "");
-const [phoneNumber, setPhoneNumber] = useState(users?.phone ?? "");
+const [name, setFullName] = useState(users?.business[0].name ?? "");
+const [email, setEmail] = useState(users?.business[0].email ?? "");
+const [phoneNumber, setPhoneNumber] = useState(users?.business[0].phone ?? "");
   const [image, setImage] = useState("https://images.unsplash.com/photo-1556764900-fa065610b0e4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
 
   const handleImageUpload = (event) => {
@@ -101,7 +101,7 @@ const [phoneNumber, setPhoneNumber] = useState(users?.phone ?? "");
     // };
 
     console.log(formData)
-    axios.patch(`https://influensys.vercel.app/api/interface-buisness/buisness/${user.id}`, formData)
+    axios.patch(`https://influensys.vercel.app/api/interface-buisness/buisness/${user.business[0].id}`, formData)
       .then((response) => {
         // Handle success
         console.log("Data sent successfully:", response.data);

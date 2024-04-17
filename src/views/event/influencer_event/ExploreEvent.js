@@ -1,8 +1,7 @@
 import React,{ useState, useEffect } from "react";
-import EventCard from "./EventCard";
+import EventCard from "./ExploreEventCard";
 import { Box } from "@mui/system";
 import { Typography } from "@mui/material";
-import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -11,13 +10,12 @@ import Select from "@mui/material/Select";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import { NavLink } from "react-router-dom";
 import Grid from '@mui/material/Grid';
 
 
 
 
-export default function Event() {
+export default function ExploreEvent() {
 
   const [eventsData, setEventsData] = useState([]);
 const user=JSON.parse(localStorage.getItem('user'))
@@ -41,27 +39,8 @@ const user=JSON.parse(localStorage.getItem('user'))
         <Typography
           sx={{ fontSize: "20px", fontWeight: "bold", color: "#161a30" }}
         >
-          Manage your Events
+          Explore Events
         </Typography>
-        <Button
-          component={NavLink}
-          to="/influencer/event/explore"
-          sx={{
-            color: "white",
-            backgroundColor: "#161a30",
-            borderColor: "#161a30",
-            borderWidth: "2px",
-            "&:hover": {
-              backgroundColor: "white",
-              color: "#161a30",
-              borderColor: "#161a30",
-              borderWidth: "2px",
-            },
-          }}
-          variant="outlined"
-        >
-          Explore Event
-        </Button>
       </Box>
       <Box
         sx={{
@@ -104,7 +83,7 @@ const user=JSON.parse(localStorage.getItem('user'))
       <Box sx={{ width: "100%", marginTop: "30px" }}>
         <Grid container spacing={2}>
         {eventsData.map(event => (
-            <Grid key={event.id} item xs={6}>
+            <Grid key={event.id} item xs={12}>
               <EventCard
                 title={event.name}
                 description={event.description}

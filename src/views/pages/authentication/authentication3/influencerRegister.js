@@ -15,6 +15,7 @@ import img1 from "./assets/register1.png";
 import "./login2.css";
 
 
+
 const Login = () => {
   // const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -64,6 +65,7 @@ const Login = () => {
         formData,
         { headers },
       );
+      
 
       // // Handle the response as needed
       // console.log("Response:", response.data);

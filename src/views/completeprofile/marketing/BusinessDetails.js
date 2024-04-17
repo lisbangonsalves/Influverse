@@ -9,18 +9,18 @@ export default function BusinessDetails() {
 const users = JSON.parse(localStorage.getItem("user"));
 // const user = JSON.parse(localStorage.getItem("user"));
   const [formData, setFormData] = useState({
-    name: users.name,
-    crn: users.crn,
-    industry: users.industry,
-    address: users.address,
+    name: users.business[0].name,
+    crn: users.business[0].crn,
+    industry: users.business[0].industry,
+    address: users.business[0].address,
     country: "IN",
-    pincode: users.pincode,
-    description: users.description,
+    pincode: users.business[0].pincode,
+    description: users.business[0].description,
     numberOfEmployees: '',
-    annual_revenue: users.annual_revenue,
-    facebook: users.facebook,
-    instagram: users.instagram,
-    website: users.website
+    annual_revenue: users.business[0].annual_revenue,
+    facebook: users.business[0].facebook,
+    instagram: users.business[0].instagram,
+    website: users.business[0].website
   });
 
   const handleChange = (e) => {
@@ -51,7 +51,7 @@ const users = JSON.parse(localStorage.getItem("user"));
 
     try {
       console.log(JSON.stringify(formData))
-      const response = await fetch(`https://influensys.vercel.app/api/interface-buisness/buisness/${users.id}`, {
+      const response = await fetch(`https://influensys.vercel.app/api/interface-buisness/buisness/${users.business[0].id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'

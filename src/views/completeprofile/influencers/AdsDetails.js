@@ -154,13 +154,13 @@ export default function AdsDetails() {
                 <MenuItem value="">
                   <em>Age</em>
                 </MenuItem>
-                <MenuItem value={10}>0-10</MenuItem>
-                <MenuItem value={20}>10-20</MenuItem>
-                <MenuItem value={30}>20-30</MenuItem>
-                <MenuItem value={30}>30-40</MenuItem>
-                <MenuItem value={30}>40-50</MenuItem>
-                <MenuItem value={30}>50-60</MenuItem>
-                <MenuItem value={30}>Above 60</MenuItem>
+                <MenuItem value={"0-10"}>0-10</MenuItem>
+                <MenuItem value={"10-20"}>10-20</MenuItem>
+                <MenuItem value={"20-30"}>20-30</MenuItem>
+                <MenuItem value={"30-40"}>30-40</MenuItem>
+                <MenuItem value={"40-50"}>40-50</MenuItem>
+                <MenuItem value={"50-60"}>50-60</MenuItem>
+                <MenuItem value={"Above 60"}>Above 60</MenuItem>
               </Select>
             </Grid>
             <Grid item xs={4}>
@@ -196,19 +196,19 @@ export default function AdsDetails() {
                 <MenuItem value="">
                   <em>Income Level</em>
                 </MenuItem>
-                <MenuItem value={10}>
+                <MenuItem value={"Less than ₹3,00,000 (3 lakh) per year"}>
                   Less than ₹3,00,000 (3 lakh) per year
                 </MenuItem>
-                <MenuItem value={20}>
+                <MenuItem value={"₹3,00,001 - ₹7,00,000 (3-7 lakhs) per year"}>
                   ₹3,00,001 - ₹7,00,000 (3-7 lakhs) per year
                 </MenuItem>
-                <MenuItem value={30}>
+                <MenuItem value={"₹7,00,001 - ₹15,00,000 (7-15 lakhs) per year"}>
                   ₹7,00,001 - ₹15,00,000 (7-15 lakhs) per year
                 </MenuItem>
-                <MenuItem value={30}>
+                <MenuItem value={"₹15,00,001 - ₹30,00,000 (15-30 lakhs) per year"}>
                   ₹15,00,001 - ₹30,00,000 (15-30 lakhs) per year
                 </MenuItem>
-                <MenuItem value={30}>
+                <MenuItem value={"More than ₹30,00,000 (30 lakhs) per year"}>
                   More than ₹30,00,000 (30 lakhs) per year
                 </MenuItem>
               </Select>
@@ -275,8 +275,8 @@ export default function AdsDetails() {
                 <MenuItem value="">
                   <em>Communication Channels</em>
                 </MenuItem>
-                <MenuItem value={10}>Instagram</MenuItem>
-                <MenuItem value={20}>Facebook</MenuItem>
+                <MenuItem value={"Instagram"}>Instagram</MenuItem>
+                <MenuItem value={"Facebook"}>Facebook</MenuItem>
               </Select>
             </Grid>
             <Grid item xs={6}>

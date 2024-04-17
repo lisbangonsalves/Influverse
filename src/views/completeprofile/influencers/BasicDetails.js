@@ -61,21 +61,21 @@ export default function BusinessDetails() {
 const users = JSON.parse(localStorage.getItem("user"));
 // const user = JSON.parse(localStorage.getItem("user"));
   const [formData, setFormData] = useState({
-    name: users.name,
-    email:users.email,
-    image:users.image,
-    crn: users.crn,
-    industry: users.industry,
-    address: users.address,
+    name: users.influencer[0].name,
+    email:users.influencer[0].email,
+    image:users.influencer[0].image,
+    crn: users.influencer[0].crn,
+    industry: users.influencer[0].industry,
+    address: users.influencer[0].address,
     country: "IN",
-    pincode: users.pincode,
-    description: users.description,
-    phone:users.phone,
+    pincode: users.influencer[0].pincode,
+    description: users.influencer[0].description,
+    phone:users.influencer[0].phone,
     numberOfEmployees: '',
-    annual_revenue: users.annual_revenue,
-    facebook: users.facebook,
-    instagram: users.instagram,
-    website: users.website
+    annual_revenue: users.influencer[0].annual_revenue,
+    facebook: users.influencer[0].facebook,
+    instagram: users.influencer[0].instagram,
+    website: users.influencer[0].website
   });
 
    
@@ -100,6 +100,13 @@ const users = JSON.parse(localStorage.getItem("user"));
       [id]: value
     }));
   };
+  const handleEmailChange = (e) => {
+    const { id, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [id]: value
+    }));
+  };
 
   const handleIndustryTypeChange = (event, newValue) => {
     setFormData(prevState => ({
@@ -117,24 +124,35 @@ const users = JSON.parse(localStorage.getItem("user"));
   };
 
   const handleSubmit = async (e) => {
+     const user = JSON.parse(localStorage.getItem("user"));
+
+  // Check if access token exists
+  if (user) {
+    // Use the access token for further operations
+    console.log("user:", user);
+  } else {
+    console.log("user not found in local storage.");
+  }
+
     e.preventDefault();
 
     try {
       console.log(JSON.stringify(formData))
-      const response = await fetch(`https://influensys.vercel.app/api/interface-buisness/buisness/${users.id}`, {
+      const response = await fetch(`https://influensys.vercel.app/api/interface-influence/influencer/${user.influencer[0].id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(formData)
       });
-
+      console.log(response)
       if (response.ok) {
         // Handle success response
         console.log('Form data submitted successfully');
       } else {
         // Handle error response
         console.error('Failed to submit form data');
+      
       }
     } catch (error) {
       console.error('Error submitting form data:', error);
@@ -180,11 +198,11 @@ const users = JSON.parse(localStorage.getItem("user"));
             <Grid item xs={12}>
             <TextField
                 sx={{ width: 1 }}
-                id="Email-Address"
+                id="email"
                 label="Email Address"
                 variant="outlined"
                 value={formData.email}
-                onChange={handleChange}
+                onChange={handleEmailChange}
               />
             </Grid>
             <Grid item xs={12}>

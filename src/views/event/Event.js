@@ -45,7 +45,7 @@ const user=JSON.parse(localStorage.getItem('user'))
         </Typography>
         <Button
           component={NavLink}
-          to="/view/event/create-event"
+          to="/business/event/create-event"
           sx={{
             color: "white",
             backgroundColor: "#161a30",
