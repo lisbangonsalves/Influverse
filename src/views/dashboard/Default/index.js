@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 // material-ui
 import { Grid } from "@mui/material";
-
+import { NavLink } from 'react-router-dom';
 // project imports
 import EarningCard from "./EarningCard";
 import PopularCard from "./PopularCard";
@@ -18,35 +18,46 @@ import { gridSpacing } from "store/constant";
 const Dashboard = () => {
   const [isLoading, setLoading] = useState(true);
   const [showCompleteProfileCard, setShowCompleteProfileCard] = useState(false);
+  const [userType, setUserType] = useState(null);
  
   useEffect(() => {
      // Simulate fetching data from local storage
-     const payload = JSON.parse(localStorage.getItem('user'));
+     const payload1 = JSON.parse(localStorage.getItem('user'));
+     var payload=payload1
+     if (payload1.is_influencer===true)
+     {
+       payload=payload.influencer[0]
+       setUserType("influencer");
+     }
+     else if(payload1.is_business===true)
+     {
+       payload=payload.business[0]
+       setUserType("business");
+     }
+     
  
-     // Log the payload to ensure it's being retrieved correctly
-     console.log('Payload:', payload);
+    //  // Log the payload to ensure it's being retrieved correctly
+    //  console.log('Payload:', payload);
  
      // Check if any required value is null
-     const hasNullValues = payload && payload.length > 0 && (
-       payload[0].address === null ||
-       payload[0].annual_revenue === null ||
-       payload[0].country === null ||
-       payload[0].description === null ||
-       payload[0].email === null ||
-       payload[0].facebook === null ||
-       payload[0].id === null ||
-       payload[0].industry === null ||
-       payload[0].instagram === null ||
-       payload[0].name === null ||
-       payload[0].phone === null ||
-       payload[0].pincode === null ||
-       payload[0].slug === null ||
-       payload[0].user === null ||
-       payload[0].website === null ||
-       payload[0].is_business === null ||
-       payload[0].is_influencer === null
+     const hasNullValues = payload && (
+       payload.address === null ||
+       payload.annual_revenue === null ||
+       payload.country === null ||
+       payload.description === null ||
+       payload.email === null ||
+       payload.facebook === null ||
+       payload.id === null ||
+       payload.industry === null ||
+       payload.instagram === null ||
+       payload.name === null ||
+       payload.phone === null ||
+       payload.pincode === null ||
+       payload.slug === null ||
+       payload.user === null ||
+       payload.website === null
      );
- 
+
      // Log the result of the check to ensure it's working as expected
      console.log('Has null values:', hasNullValues);
  
@@ -54,11 +65,12 @@ const Dashboard = () => {
      setLoading(false);
   }, []);
 
+
   return (
     <Grid container spacing={gridSpacing}>
-      {showCompleteProfileCard && (
-        <Grid item sm={6} xs={12} md={6} lg={12}>
-          <CompleteProfileCard isLoading={isLoading} />
+       {showCompleteProfileCard && (
+        <Grid item  sm={12} xs={12} md={6} lg={12} component={NavLink} to={userType === "influencer" ? "/influencer/completeprofile" : "/business/completeprofile"}>
+          <CompleteProfileCard isLoading={isLoading}    />
         </Grid>
       )}
       <Grid item xs={12}>

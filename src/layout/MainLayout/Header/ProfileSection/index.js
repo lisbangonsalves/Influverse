@@ -53,6 +53,8 @@ const ProfileSection = () => {
   const theme = useTheme();
   const customization = useSelector((state) => state.customization);
   const navigate = useNavigate();
+  // eslint-disable-next-line
+  const [user, setUser] = useState(JSON.stringify(localStorage.getItem('user')))
 
   const [sdm, setSdm] = useState(true);
   const [value, setValue] = useState("");
@@ -155,6 +157,8 @@ const ProfileSection = () => {
     }
   };
 
+  
+
   return (
     <>
       <Chip
@@ -243,7 +247,7 @@ const ProfileSection = () => {
                           variant="h4"
                           sx={{ fontWeight: 400 }}
                         >
-                          Johne Doe
+                          Axill Ducnha
                         </Typography>
                       </Stack>
                       <Typography variant="subtitle2">Project Admin</Typography>

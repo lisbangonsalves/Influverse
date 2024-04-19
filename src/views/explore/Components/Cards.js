@@ -12,7 +12,10 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import XIcon from "@mui/icons-material/X";
 
-export default function Cards() {
+export default function Cards({ name, industry, country, id }) {
+
+  
+
   return (
     <Card
       sx={{
@@ -31,17 +34,17 @@ export default function Cards() {
           }}
         >
           <Avatar
-            alt="Remy Sharp"
+            alt={id}
             src="https://images.unsplash.com/photo-1621573321410-bf4db2a65ff1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             sx={{ width: 100, height: 100, marginRight: "20px" }}
           />
           <Box>
             <Typography sx={{ fontSize: "22px", fontWeight: "bold" }}>
-              Jessica Gonsalves
+            {name}
             </Typography>
-            <Typography>Fashion & Beauty</Typography>
+            <Typography>{industry.join(', ')}</Typography>
             <Typography sx={{ fontStyle: "italic", fontSize: "12px" }}>
-              Mumbai, Maharashtra
+            {country}
             </Typography>
           </Box>
         </Box>
