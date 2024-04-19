@@ -14,9 +14,9 @@ import {FormControl, InputLabel } from '@mui/material';
 export default function AdsDetails() {
   const users = JSON.parse(localStorage.getItem("nuser"));
   console.log( users?.advGoals?.country)
-  const [age, setAge] = useState(users?.advGoals?.target_age[0] ?? "");
-  const [gender, setGender] = useState(users?.advGoals?.target_gender[0] ?? "");
-  const [incomeLevel, setIncomeLevel] = useState(users?.advGoals?.target_income_level[0] ?? "");
+  const [age, setAge] = useState(users?.advGoals?.age[0] ?? "");
+  const [gender, setGender] = useState(users?.advGoals?.gender[0] ?? "");
+  const [incomeLevel, setIncomeLevel] = useState(users?.advGoals?.income_level[0] ?? "");
   const [occupation, setOccupation] = useState(users?.advGoals?.occupation ?? "");
   const [communicationChannel, setCommunicationChannel] = useState(users?.advGoals?.communication_channel ?? "");
   const [selectedInterests, setSelectedInterests] = useState(users?.advGoals?.selected_interests ?? []);
