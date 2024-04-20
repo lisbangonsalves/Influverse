@@ -21,9 +21,9 @@ const CompleteProfileBusiness = Loadable(
 
 
 // Setting Page
-const Setting = Loadable(lazy(() => import("views/setting/Setting")));
+const Setting = Loadable(lazy(() => import("views/setting/business/Setting")));
 // Account Page
-const AccountPage = Loadable(lazy(() => import("views/accounts/Account")));
+const AccountPage = Loadable(lazy(() => import("views/accounts/business/Account")));
 // events
 const Event = Loadable(lazy(() => import("views/event/Event")));
 const CreateEvent = Loadable(lazy(() => import("views/event/CreateEvent")));
@@ -51,6 +51,9 @@ const SendGift = Loadable(
 
 const CreateCampaign = Loadable(
   lazy(() => import("views/campaign/CreateCampaign")),
+);
+const ExploreCampaign = Loadable(
+  lazy(() => import("views/campaign/explore/Explore")),
 );
 const SelectedCampaign = Loadable(
   lazy(() => import("views/campaign/SelectedCampaign")),
@@ -122,6 +125,10 @@ const MainRoutes = {
         {
           path: "create-campaign",
           element: <ProtectedRoute ><CreateCampaign /> </ProtectedRoute> ,
+        },
+        {
+          path: "explore/:campaignId",
+          element: <ProtectedRoute ><ExploreCampaign/> </ProtectedRoute> ,
         },
         {
           path: "campaign-list",

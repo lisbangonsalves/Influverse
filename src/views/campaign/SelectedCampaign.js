@@ -14,11 +14,19 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Cards from "./components/cards";
+import RequestedCards from "./components/CampaignRequest";
+
+import PendingActionsIcon from '@mui/icons-material/PendingActions';
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
 
 
 export default function SelectedEvent() {
   const { id } = useParams();
   const [eventData, setEventData] = useState(null); // State to store event data
+  const [confirmedInfluencers, setConfirmedInfluencers] = useState([]); // State to store confirmed influencers data
+  const [unconfirmedInfluencers, setUnconfirmedInfluencers] = useState([]);
   const user = JSON.parse(localStorage.getItem("user"));
   useEffect(() => {
     // Fetch event data from the API
@@ -32,9 +40,37 @@ export default function SelectedEvent() {
       .catch((error) => {
         console.error("Error fetching event data:", error);
       });
-  }, []); // Empty dependency array to run the effect only once on component mount
+
+      axios
+      .get(
+        `https://influensys.vercel.app/api/interface-buisness/${user.business[0].slug}/campaign/status-info-business/${id}/list/`
+      )
+      .then((response) => {
+          // Filter influencers based on confirmation status
+          const confirmed = response.data.filter(influencer => influencer.confirmed === true);
+        const unconfirmed = response.data.filter(influencer => influencer.confirmed === false);
+        setConfirmedInfluencers(confirmed); // Update state with confirmed influencers data
+        setUnconfirmedInfluencers(unconfirmed);
+      })
+      .catch((error) => {
+        console.error("Error fetching influencers data:", error);
+      });
+
+  }, [ id, user.business]); // Empty dependency array to run the effect only once on component mount
+
+  
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
+    <React.Fragment>
     <Box>
       {eventData && ( // Render the component only when data is available
         <Box>
@@ -139,28 +175,63 @@ export default function SelectedEvent() {
               }}
             >
               <Typography sx={{fontSize:18,}}>List Of Influencer</Typography>
-              <Button variant="contained" startIcon={<AddCircleIcon />}>
+              <Box sx={{display:"flex"}}>
+              <Button variant="contained"  component = {NavLink} to = {`/business/campaign/explore/${id}`} startIcon={<AddCircleIcon />}>
                 Add Influencer
               </Button>
+              <Button sx={{marginLeft:"12px"}} variant="contained" startIcon={<PendingActionsIcon />} onClick={handleClickOpen}>
+                Requested Influencer
+              </Button>
+              </Box>
             </Box>
+            <Dialog
+          open={open}
+          onClose={handleClose}
+          PaperProps={{
+            component: "form",
+          }}
+          maxWidth="md"
+          fullWidth
+        >
+          <DialogTitle>Influencer Requested</DialogTitle>
+          <DialogContent>
+          {unconfirmedInfluencers.length > 0 ? (
+              <Grid container spacing={2}>
+                {unconfirmedInfluencers.map((influencer) => (
+                  <Grid item xs={12} key={influencer.id}>
+                    <RequestedCards
+                      influencerName={influencer.influencer.name}
+                      userName={influencer.influencer.user}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            ) : (
+              <Typography variant="body1">No unconfirmed influencers added.</Typography>
+            )}
+          </DialogContent>
+        </Dialog>
 
             <Box sx={{ marginTop: "15px",marginX:'15px' }}>
+            {confirmedInfluencers.length > 0 ? (
               <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <Cards />
-                </Grid>
-                <Grid item xs={6}>
-                  <Cards />
-                </Grid>
-                <Grid item xs={6}>
-                  <Cards />
-                </Grid>
-                
+                {confirmedInfluencers.map((influencer) => (
+                  <Grid item xs={12} key={influencer.id}>
+                    <Cards
+                      influencerName={influencer.influencer.name}
+                      userName={influencer.influencer.user}
+                    />
+                  </Grid>
+                ))}
               </Grid>
+            ) : (
+              <Typography variant="body1">No confirmed influencers added.</Typography>
+            )}
             </Box>
           </Box>
         </Box>
       )}
     </Box>
+    </React.Fragment>
   );
 }

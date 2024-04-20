@@ -11,6 +11,8 @@ const DashboardDefault = Loadable(
   lazy(() => import("views/dashboard/Default")),
 );
 
+const Setting = Loadable(lazy(() => import("views/setting/influencer/Setting")));
+
 const CompleteProfileInfluencer = Loadable(
   lazy(() => import("views/completeprofile/influencers/CompleteProfile")),
 );
@@ -26,6 +28,8 @@ const Event = Loadable(
 const ExploreEvent = Loadable(
   lazy(() => import("views/event/influencer_event/ExploreEvent")),
 );
+
+const Account = Loadable(lazy(() => import("views/accounts/influencer/account")));
 
 const Try = Loadable(lazy(() => import("views/Try")));
 
@@ -56,7 +60,15 @@ const MainRoutes = {
   children: [
     {
       path: "dashboard",
-      element:<ProtectedRoute ><DashboardDefault  /></ProtectedRoute>
+      element:<ProtectedRoute ><DashboardDefault/></ProtectedRoute>
+    },
+    {
+      path: "account",
+      element: <ProtectedRoute ><Account/></ProtectedRoute>,
+    },
+    {
+      path: "setting",
+      element: <ProtectedRoute ><Setting/></ProtectedRoute>,
     },
     {
       path: "try",

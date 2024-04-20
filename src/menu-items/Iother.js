@@ -14,7 +14,7 @@ const other = {
       id: 'account',
       title: 'Account',
       type: 'item',
-      url: '/view/account',
+      url: '/influencer/account',
       icon: icons.IconUser,
       breadcrumbs: false
     },
@@ -22,7 +22,7 @@ const other = {
       id: 'Setting',
       title: 'Setting',
       type: 'item',
-      url: '/view/setting',
+      url: '/influencer/setting',
       icon: icons.IconSettings,
       external: true,
     }

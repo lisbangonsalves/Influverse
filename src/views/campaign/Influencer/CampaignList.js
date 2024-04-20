@@ -26,7 +26,7 @@ export default function CampaignList() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://influensys.vercel.app/api/interface-buisness/${user.business[0].slug}/campaigns/list`,
+          `https://influensys.vercel.app/api/interface-influence/${user.influencer[0].slug}/campaign/status-info-influencer/list/`,
         );
         const data = await response.json();
         setCampaigns(data);
@@ -36,7 +36,7 @@ export default function CampaignList() {
     };
 
     fetchData();
-  }, []);
+  }, [user.business]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -55,6 +55,10 @@ export default function CampaignList() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+  
+  const removeCampaignFromList = (campaignId) => {
+    setCampaigns(campaigns.filter(campaign => campaign.campaign.id !== campaignId));
   };
 
   return (
@@ -103,7 +107,17 @@ export default function CampaignList() {
         >
           <DialogTitle>Campaign Request</DialogTitle>
           <DialogContent>
-            <CampaignRequest />
+          {campaigns.map((campaign) => (
+              <CampaignRequest
+                key={campaign.id}
+                businessName={campaign.business.name}
+                campaignName={campaign.campaign.name}
+                campaignId={campaign.campaign.id}
+                slug={user.influencer[0].slug}
+                removeCampaign={removeCampaignFromList}
+                
+              />
+            ))}
           </DialogContent>
         </Dialog>
 
@@ -131,7 +145,7 @@ export default function CampaignList() {
                       <TableRow
                         key={campaign.id}
                         component={NavLink}
-                        to={`/business/campaign/${user.business[0].slug}/${campaign.id}`}
+                        to={`/business/campaign/${user.influencer[0].slug}/${campaign.id}`}
                         sx={{ cursor: "pointer", textDecoration: "none" }}
                       >
                         <TableCell>{campaign.name}</TableCell>

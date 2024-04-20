@@ -2,13 +2,16 @@ import React from 'react'
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
+import Button from "@mui/material/Button";
 import { Typography } from '@mui/material';
 
 
 
-function EventRequest({ influencerName, userName }) {
+
+function EventRequest() {
   return (
-    <Card sx={{ display: 'flex', boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)' }}>
+    <>
+    <Card sx={{ display: 'flex', margin:"10px", backgroundColor:"#eef2f6" }}>
     <CardMedia
       component="img"
       sx={{ width: 100 }}
@@ -18,14 +21,19 @@ function EventRequest({ influencerName, userName }) {
     <Box sx={{ display: 'flex', justifyContent:"space-between" , width:1, padding:"20px" }}>
       <Box>
         <Typography sx={{fontWeight:"bold", fontSize:16}}>
-        {influencerName}
+            Influencer Name
         </Typography>
         <Typography>
-        {userName}
+            Influencer Name
         </Typography>
+      </Box>
+      <Box sx={{display:"flex", justifyContent:"space-between", alignItems:"center", }}>
+          <Button variant="outlined">View Profile</Button>
       </Box>
     </Box>
   </Card>
+    
+  </>
   )
 }
 
