@@ -8,7 +8,7 @@ import { Typography } from '@mui/material';
 
 
 
-function EventRequest() {
+function EventRequest({influencerName,userName}) {
   return (
     <>
     <Card sx={{ display: 'flex', margin:"10px", backgroundColor:"#eef2f6" }}>
@@ -21,10 +21,10 @@ function EventRequest() {
     <Box sx={{ display: 'flex', justifyContent:"space-between" , width:1, padding:"20px" }}>
       <Box>
         <Typography sx={{fontWeight:"bold", fontSize:16}}>
-            Influencer Name
+            {influencerName}
         </Typography>
         <Typography>
-            Influencer Name
+            {userName}
         </Typography>
       </Box>
       <Box sx={{display:"flex", justifyContent:"space-between", alignItems:"center", }}>

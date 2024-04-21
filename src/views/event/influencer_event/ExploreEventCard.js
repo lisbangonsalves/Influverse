@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 // import CardContent from "@mui/material/CardContent";
@@ -12,6 +13,32 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 export default function EventCard(props) {
   
   const { title, description, location, date,slug,userid } = props;
+  const [requested, setRequested] = useState(false);
+
+  const handleJoinClick = async () => {
+    try {
+      const response = await fetch(`https://influensys.vercel.app/api/interface-influence/${slug}/event/opt-in`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          event: userid
+        }),
+      });
+      
+      if (response.ok) {
+        setRequested(true); // Update state to indicate that the user has requested to join
+      } else {
+        // Handle error
+        console.error("Failed to join event");
+      }
+    } catch (error) {
+      // Handle fetch error
+      console.error("Error:", error);
+    }
+  };
+
   return (
     <Card sx={{ display: "flex" }}>
       <CardMedia
@@ -27,7 +54,13 @@ export default function EventCard(props) {
           <Typography sx={{fontSize:22, fontWeight:"bold"}}>
           {title}
           </Typography>
-          <Button variant="outlined" sx={{padding:0, paddingX:"10px"}}>Join Event</Button>
+          {!requested ? (
+            <Button onClick={handleJoinClick} variant="outlined" sx={{padding:0, paddingX:"10px"}}>
+              Join
+            </Button>
+          ) : (
+            <Typography sx={{ fontSize: 12, color: "#E98EAD" }}>Requested</Typography>
+          )}
           
           
           </Box>
@@ -50,7 +83,7 @@ export default function EventCard(props) {
               </Box>
 
             </Box>
-            <Button component={NavLink} to={`/view/event/${slug}/${userid}`} variant="text" sx={{padding:0, color:"#E98EAD"}}>View Event Details</Button>
+            <Button component={NavLink} to={`/influencer/event/${slug}/${userid}`} variant="text" sx={{padding:0, color:"#E98EAD"}}>View Event Details</Button>
           </Box>
         </Box>
       

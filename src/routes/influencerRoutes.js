@@ -25,6 +25,9 @@ const CampaignDraft = Loadable(
 const Event = Loadable(
   lazy(() => import("views/event/influencer_event/InfluencerEvent")),
 );
+const SelectedEvent = Loadable(
+  lazy(() => import("views/event/influencer_event/SelectedEvent")),
+);
 const ExploreEvent = Loadable(
   lazy(() => import("views/event/influencer_event/ExploreEvent")),
 );
@@ -101,6 +104,10 @@ const MainRoutes = {
         {
           path: "explore",
           element: <ProtectedRoute ><ExploreEvent /></ProtectedRoute>,
+        },
+        {
+          path: ":slug/:id",
+          element: <ProtectedRoute><SelectedEvent /></ProtectedRoute>,
         },
       ],
     },

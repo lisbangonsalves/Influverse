@@ -22,7 +22,7 @@ export default function SelectedEvent() {
     // Fetch event data from the API
     axios
       .get(
-        `https://influensys.vercel.app/api/interface-buisness/${user.slug}/events/${id}`,
+        `https://influensys.vercel.app/api/interface-influencer/${user.influencer[0].slug}/events/${id}`,
       )
       .then((response) => {
         setEventData(response.data); // Update state with fetched data

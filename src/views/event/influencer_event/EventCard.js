@@ -1,7 +1,6 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
-// import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { NavLink } from "react-router-dom";
 import { Typography } from "@mui/material";
@@ -12,6 +11,8 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 export default function EventCard(props) {
   
   const { title, description, location, date,slug,userid } = props;
+  
+
   return (
     <Card sx={{ display: "flex" }}>
       <CardMedia

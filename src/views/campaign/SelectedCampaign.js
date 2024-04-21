@@ -56,7 +56,7 @@ export default function SelectedEvent() {
         console.error("Error fetching influencers data:", error);
       });
 
-  }, [ id, user.business]); // Empty dependency array to run the effect only once on component mount
+  }, [ id, user.business[0].slug]); // Empty dependency array to run the effect only once on component mount
 
   
   const [open, setOpen] = React.useState(false);

@@ -1,15 +1,14 @@
-import React from 'react'
+import React , { useState }from 'react'
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import Button from "@mui/material/Button";
 import { Typography } from '@mui/material';
-import { useEffect } from 'react';
 
 
 
-function EventRequest({ businessName, campaignName, campaignId, slug, removeCampaign }) {
-
+function EventRequest({ businessName, campaignName, campaignId, slug, onAccept}) {
+  const [accepted, setAccepted] = useState(false);
   const handleAccept = async () => {
     try {
       const response = await fetch(
@@ -24,8 +23,9 @@ function EventRequest({ businessName, campaignName, campaignId, slug, removeCamp
       );
       if (response.ok) {
         // Handle success (if needed)
+        setAccepted(true);
         console.log("Campaign accepted successfully!");
-        removeCampaign(campaignId);
+        onAccept();
       } else {
         // Handle error (if needed)
         console.error("Error accepting campaign:", response.statusText);
@@ -36,10 +36,6 @@ function EventRequest({ businessName, campaignName, campaignId, slug, removeCamp
   };
 
 
-  useEffect(() => {
-    // Remove campaign from list after accepting
-    removeCampaign(campaignId);
-  }, [campaignId, removeCampaign]);
 
 
   return (
@@ -61,20 +57,28 @@ function EventRequest({ businessName, campaignName, campaignId, slug, removeCamp
         </Typography>
       </Box>
       <Box sx={{display:"flex", justifyContent:"space-between", alignItems:"center", }}>
-      <Button
-            variant="outlined"
-            sx={{
-              color: "red",
-              borderColor: "red",
-              "&:hover": {
-                borderColor: "red",
-              },
-              marginRight:"10px"
-            }}
-          >
-            Reject
-          </Button>
-          <Button variant="outlined" onClick={handleAccept}>Accept</Button>
+      {accepted ? (
+              <Typography sx={{ color: "green", fontWeight: "bold" }}>Accepted</Typography>
+            ) : (
+              <>
+                <Button
+                  variant="outlined"
+                  sx={{
+                    color: "red",
+                    borderColor: "red",
+                    "&:hover": {
+                      borderColor: "red",
+                    },
+                    marginRight: "10px",
+                  }}
+                >
+                  Reject
+                </Button>
+                <Button variant="outlined" onClick={handleAccept}>
+                  Accept
+                </Button>
+              </>
+            )}
       </Box>
     </Box>
   </Card>

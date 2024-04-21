@@ -56,9 +56,16 @@ export default function CampaignList() {
   const handleClose = () => {
     setOpen(false);
   };
-  
-  const removeCampaignFromList = (campaignId) => {
-    setCampaigns(campaigns.filter(campaign => campaign.campaign.id !== campaignId));
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        `https://influensys.vercel.app/api/interface-influence/${user.influencer[0].slug}/campaign/status-info-influencer/list/`
+      );
+      const data = await response.json();
+      setCampaigns(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
   return (
@@ -107,15 +114,14 @@ export default function CampaignList() {
         >
           <DialogTitle>Campaign Request</DialogTitle>
           <DialogContent>
-          {campaigns.map((campaign) => (
+          {campaigns.filter((campaign) => campaign.confirmed === false).map((campaign) => (
               <CampaignRequest
                 key={campaign.id}
                 businessName={campaign.business.name}
                 campaignName={campaign.campaign.name}
                 campaignId={campaign.campaign.id}
                 slug={user.influencer[0].slug}
-                removeCampaign={removeCampaignFromList}
-                
+                onAccept={fetchData}
               />
             ))}
           </DialogContent>
@@ -140,6 +146,7 @@ export default function CampaignList() {
                 </TableHead>
                 <TableBody>
                   {campaigns
+                  .filter((campaign) => campaign.confirmed === true)
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((campaign) => (
                       <TableRow
@@ -148,11 +155,11 @@ export default function CampaignList() {
                         to={`/business/campaign/${user.influencer[0].slug}/${campaign.id}`}
                         sx={{ cursor: "pointer", textDecoration: "none" }}
                       >
-                        <TableCell>{campaign.name}</TableCell>
-                        <TableCell>{campaign.start_date}</TableCell>
-                        <TableCell>{campaign.end_date}</TableCell>
-                        <TableCell>{campaign.budget}</TableCell>
-                        <TableCell>{campaign.status}</TableCell>
+                        <TableCell>{campaign.campaign.name}</TableCell>
+                        <TableCell>{campaign.campaign.start_date}</TableCell>
+                        <TableCell>{campaign.campaign.end_date}</TableCell>
+                        <TableCell>{campaign.campaign.budget}</TableCell>
+                        <TableCell>{campaign.confirmed ? "Confirmed" : "Pending"}</TableCell>
                       </TableRow>
                     ))}
                 </TableBody>
@@ -161,7 +168,7 @@ export default function CampaignList() {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={campaigns.length}
+              count={campaigns.filter((campaign) => campaign.confirmed === true).length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}

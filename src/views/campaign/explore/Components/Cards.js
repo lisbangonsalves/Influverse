@@ -19,7 +19,7 @@ const AddInfluencerButton = ({ campaignId, influencerId }) => {
   const user = JSON.parse(localStorage.getItem("user"))
   const handleClick = async () => {
     try {
-      const response = await fetch(`https://influensys.vercel.app/api/interface-buisness/lisban-company-576BXZ/campaigns/${campaignId}/add-influencer`, {
+      const response = await fetch(`https://influensys.vercel.app/api/interface-buisness/${user.business[0].slug}/campaigns/${campaignId}/add-influencer`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
