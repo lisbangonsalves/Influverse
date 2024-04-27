@@ -25,6 +25,9 @@ const CampaignDraft = Loadable(
 const Event = Loadable(
   lazy(() => import("views/event/influencer_event/InfluencerEvent")),
 );
+const Gifting = Loadable(
+  lazy(() => import("views/influencer_gifting/GiftedInfluencerList")),
+);
 const SelectedEvent = Loadable(
   lazy(() => import("views/event/influencer_event/SelectedEvent")),
 );
@@ -111,6 +114,15 @@ const MainRoutes = {
         },
       ],
     },
+    {
+      path:"gifting",
+      children:[
+        {
+          path:"",
+          element:<ProtectedRoute><Gifting/></ProtectedRoute>
+        }
+      ]
+    }
     
   ],
 };

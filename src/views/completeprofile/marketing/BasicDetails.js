@@ -61,16 +61,23 @@ const users = JSON.parse(localStorage.getItem("user"));
 const [name, setFullName] = useState(users?.business[0].name ?? "");
 const [email, setEmail] = useState(users?.business[0].email ?? "");
 const [phoneNumber, setPhoneNumber] = useState(users?.business[0].phone ?? "");
-  const [image, setImage] = useState("https://images.unsplash.com/photo-1556764900-fa065610b0e4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+  const [image, setImage] = useState("");
 
+  // const handleImageUpload = (event) => {
+  //   const file = event.target.files[0];
+  //   const reader = new FileReader();
+  //   reader.onloadend = () => {
+  //     setImage(reader.result);
+  //   };
+  //   if (file) {
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImage(reader.result);
-    };
     if (file) {
-      reader.readAsDataURL(file);
+      console.log("Selected file:", file);
+      setImage(URL.createObjectURL(file));
     }
   };
 
@@ -94,7 +101,7 @@ const [phoneNumber, setPhoneNumber] = useState(users?.business[0].phone ?? "");
     formData.append("name", name);
     formData.append("email", email);
     formData.append("phone", phoneNumber);
-    // formData.append("image", image);
+    formData.append("image", event.target['image-upload'].files[0]);
     // const headers = {
     //   "Content-Type": "application/json",
     //   "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzExMzkwNTk3LCJqdGkiOiI2ZDQxZGE1NTVmMmQ0ZmIwOTJkNWI1OTg4M2QwYmU4YSIsInVzZXJfaWQiOjR9.P_oEQhrV-lQdGlvjSYFzqAqZlEmcf5Cuo0aOeX36ySk"
@@ -114,7 +121,7 @@ const [phoneNumber, setPhoneNumber] = useState(users?.business[0].phone ?? "");
 
   return (
     <Box sx={{ width: 1 }}>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
         <Box sx={{ width: 1, display: "flex", justifyContent: "center" }}>
           <ImageButton htmlFor="image-upload">
             <input

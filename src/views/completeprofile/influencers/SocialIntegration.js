@@ -6,6 +6,8 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from '@mui/icons-material/Facebook';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import XIcon from '@mui/icons-material/X';
+import { NavLink } from 'react-router-dom';
+
 
 
 
@@ -83,13 +85,14 @@ export default function SocialIntegration() {
           Connect Youtube
         </Button>
         <Button
+        component = {NavLink} to = "http://localhost:7000/login"
           sx={{
             paddingX: "50px",
             paddingY: "10px",
             fontSize: "14px",
             backgroundColor: "black",
           }}
-          component="label"
+          
           role={undefined}
           variant="contained"
           tabIndex={-1}

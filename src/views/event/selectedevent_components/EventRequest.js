@@ -7,7 +7,7 @@ import { Typography } from '@mui/material';
 
 
 
-function EventRequest({ influencerName, userName, slug, event, influencerId }) {
+function EventRequest({ influencerName, userName, slug, event, influencerId , reloadInfluencers}) {
 
   const [accepted, setAccepted] = useState(false);
 
@@ -25,6 +25,7 @@ function EventRequest({ influencerName, userName, slug, event, influencerId }) {
 
       if (response.ok) {
         setAccepted(true);
+        reloadInfluencers();
         // You can perform additional actions here upon successful acceptance
       } else {
         throw new Error('Failed to accept event');

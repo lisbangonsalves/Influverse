@@ -28,7 +28,7 @@ const utilities = {
       id: 'gifts',
       title: 'Gifts',
       type: 'item',
-      url: '/view/gifting/influencerlist',
+      url: '/influencer/gifting',
       icon: icons.IconGift,
       breadcrumbs: false
     },

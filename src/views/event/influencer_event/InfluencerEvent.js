@@ -23,7 +23,7 @@ export default function Event() {
 const user=JSON.parse(localStorage.getItem('user'))
   useEffect(() => {
     
-    fetch(`https://influensys.vercel.app/api/interface-buisness/${user.slug}/events/list`)
+    fetch(`https://influensys.vercel.app/api/interface-influence/${user.influencer[0].slug}/events/opt-in/list`)
       .then(response => response.json())
       .then(data => setEventsData(data))
       .catch(error => console.error("Error fetching events:", error));
@@ -106,12 +106,12 @@ const user=JSON.parse(localStorage.getItem('user'))
         {eventsData.map(event => (
             <Grid key={event.id} item xs={6}>
               <EventCard
-                title={event.name}
-                description={event.description}
-                location={event.country}
-                date={event.start_date}
-                slug={user.slug}
-                userid={event.id}
+                title={event.event.name}
+                description={event.event.description}
+                location={event.event.country}
+                date={event.event.start_date}
+                slug={user.influencer[0].slug}
+                userid={event.event.id}
               />
             </Grid>
           ))}

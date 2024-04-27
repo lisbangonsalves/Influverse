@@ -54,8 +54,9 @@ const ProfileSection = () => {
   const customization = useSelector((state) => state.customization);
   const navigate = useNavigate();
   // eslint-disable-next-line
-  const [user, setUser] = useState(JSON.stringify(localStorage.getItem('user')))
-
+  const storedUser = JSON.parse(localStorage.getItem('user'));
+  const name = storedUser?.business ? storedUser.business[0].name : storedUser?.influencer ? storedUser.influencer[0].name : 'Guest';
+  const type =storedUser?.business ? "Business" : storedUser?.influencer ? "Influencer" : 'Guest';
   const [sdm, setSdm] = useState(true);
   const [value, setValue] = useState("");
   const [notification, setNotification] = useState(false);
@@ -247,10 +248,10 @@ const ProfileSection = () => {
                           variant="h4"
                           sx={{ fontWeight: 400 }}
                         >
-                          Axill Ducnha
+                         {name}
                         </Typography>
                       </Stack>
-                      <Typography variant="subtitle2">Project Admin</Typography>
+                      <Typography variant="subtitle2">{type}</Typography>
                     </Stack>
                     <OutlinedInput
                       sx={{ width: "100%", pr: 1, pl: 2, my: 2 }}
@@ -275,6 +276,7 @@ const ProfileSection = () => {
                     <Divider />
                     {isConnected ? (
                       <>
+                      {/* <Typography variant="h4">Connected MetaMask Wallet</Typography> */}
                         <Button
                           variant="outlined"
                           sx={{

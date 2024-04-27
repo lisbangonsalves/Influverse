@@ -68,6 +68,23 @@ export default function SelectedEvent() {
     setOpen(false);
   };
 
+  const reloadInfluencers = () => {
+    axios
+      .get(
+        `https://influensys.vercel.app/api/interface-buisness/${user.business[0].slug}/events/${id}/status-info/list/`
+      )
+      .then((response) => {
+        // Filter influencers based on confirmation status
+        const confirmed = response.data.filter(influencer => influencer.confirmed === true);
+        const unconfirmed = response.data.filter(influencer => influencer.confirmed === false);
+        setConfirmedInfluencers(confirmed); // Update state with confirmed influencers data
+        setUnconfirmedInfluencers(unconfirmed);
+      })
+      .catch((error) => {
+        console.error("Error fetching influencers data:", error);
+      });
+  };
+
 
   return (
     <React.Fragment>
@@ -180,6 +197,7 @@ export default function SelectedEvent() {
                       slug={user.business[0].slug}
                       event={influencer.event}
                       influencerId={influencer.influencer.id}
+                      reloadInfluencers={reloadInfluencers}
 
                     />
                   </Grid>
@@ -203,6 +221,7 @@ export default function SelectedEvent() {
                       slug={user.business[0].slug}
                       event={influencer.event}
                       influencerId={influencer.influencer.id}
+                      reloadInfluencers={reloadInfluencers}
                     />
                   </Grid>
                 ))}

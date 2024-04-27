@@ -10,7 +10,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 export default function EventCard(props) {
   
-  const { title, description, location, date,slug,userid } = props;
+  const { title, description, location, date, slug, userid } = props;
   
 
   return (
@@ -50,7 +50,7 @@ export default function EventCard(props) {
               </Box>
 
             </Box>
-            <Button component={NavLink} to={`/view/event/${slug}/${userid}`} variant="text" sx={{padding:0, color:"#E98EAD"}}>View Event Details</Button>
+            <Button component={NavLink} to={`/influencer/event/${slug}/${userid}`} variant="text" sx={{padding:0, color:"#E98EAD"}}>View Event Details</Button>
           </Box>
         </Box>
       
