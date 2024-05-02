@@ -24,7 +24,7 @@ export default function GiftedInfluencerList() {
         </Typography>
         <Box sx={{ display:"flex", justifyContent:"center", alignItems:"center"}}>
 
-        <Button variant="contained" component={NavLink} to=""  sx={{backgroundColor:"#161A30", marginRight:"10px"}} endIcon={<CardGiftcardIcon />}>Send Gift</Button>
+        <Button variant="contained" component={NavLink} to="/business/gifting/explore"  sx={{backgroundColor:"#161A30", marginRight:"10px"}} endIcon={<CardGiftcardIcon />}>Send Gift</Button>
         <Button variant="contained" component={NavLink} to="/business/gifting/productlist" sx={{backgroundColor:"#161A30"}} endIcon={<InventoryIcon />}>Product List</Button>
         </Box>
         

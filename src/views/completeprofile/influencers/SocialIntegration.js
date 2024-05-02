@@ -18,7 +18,7 @@ export default function SocialIntegration() {
     const handleInstagramLogin = () => {
       // Construct the OAuth request URL
       const clientId = '1134098924458353';
-      const redirectUri = encodeURIComponent('https://influensys.vercel.app/api/interface-influence/influencer/insta/'); // Replace with your actual redirect URL
+      const redirectUri = encodeURIComponent('http://127.0.0.1:8000/api/interface-influence/influencer/insta/'); // Replace with your actual redirect URL
       const scope = 'user_profile,user_media'; // Specify required scopes
       const authUrl = `https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code&slug=jessica-gonsalves-7YVVv1`;
   
@@ -70,13 +70,13 @@ export default function SocialIntegration() {
           Connect Facebook
         </Button>
         <Button
+         component = {NavLink} to = "http://localhost:7000/login"
           sx={{
             paddingX: "50px",
             paddingY: "10px",
             fontSize: "14px",
             backgroundColor: "red",
           }}
-          component="label"
           role={undefined}
           variant="contained"
           tabIndex={-1}
@@ -85,7 +85,6 @@ export default function SocialIntegration() {
           Connect Youtube
         </Button>
         <Button
-        component = {NavLink} to = "http://localhost:7000/login"
           sx={{
             paddingX: "50px",
             paddingY: "10px",

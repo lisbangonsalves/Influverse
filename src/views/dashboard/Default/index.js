@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import axios from "axios";
 // material-ui
 import { Grid } from "@mui/material";
 import { NavLink } from 'react-router-dom';
@@ -19,8 +19,15 @@ const Dashboard = () => {
   const [isLoading, setLoading] = useState(true);
   const [showCompleteProfileCard, setShowCompleteProfileCard] = useState(false);
   const [userType, setUserType] = useState(null);
- 
+  const [overallChannelAnalytics, setOverallChannelAnalytics] = useState()
+  const [avgView, setavgView] = useState("")
+  // const [sub, setsub] = useState("")
+  const [monthlyAnalytics,setmonthlyAnalytics]=useState([])
+  const [data,setdata]=useState()
+  // const [viewsData,setviewsData]=useState("")
+  // const [subscribersGainedData,setsubscribersGainedData]=useState("")
   useEffect(() => {
+    
      // Simulate fetching data from local storage
      const payload1 = JSON.parse(localStorage.getItem('user'));
      var payload=payload1
@@ -60,9 +67,43 @@ const Dashboard = () => {
 
      // Log the result of the check to ensure it's working as expected
      console.log('Has null values:', hasNullValues);
- 
+
+
+     const fetchData = async () => 
+     {
+      try {
+        // Fetch access tokens from local storage
+        const accessToken = localStorage.getItem('youtubeAccessToken');
+        const refreshToken = localStorage.getItem('youtubeRefreshToken');
+
+        const response = await axios.get('http://localhost:7000/data', {
+          headers: {
+            'auth-token': `${accessToken}`,
+            'refresh-token': refreshToken ,
+          }
+        });
+
+  
+        const data = response.data;
+        console.log(response.data)
+        setdata(data)
+        setmonthlyAnalytics(data.monthlyAnalytics);
+        setOverallChannelAnalytics(data.overallChannelAnalytics.averageViewPercentage)
+        setavgView(data.overallChannelAnalytics.averageViewDuration)
+        setsub(data.overallChannelAnalytics.subscribersGained)
+     
+      } catch (error) {
+        console.error('Error fetching data:', error);
+       
+      }finally {
+        setLoading(false); // Set loading state to false regardless of success or failure
+      }
+    };
+
+
+
+    fetchData();
      setShowCompleteProfileCard(hasNullValues);
-     setLoading(false);
   }, []);
 
 
@@ -76,10 +117,10 @@ const Dashboard = () => {
       <Grid item xs={12}>
         <Grid container spacing={gridSpacing}>
           <Grid item lg={4} md={6} sm={6} xs={12}>
-            <EarningCard isLoading={isLoading} />
+            <EarningCard isLoading={isLoading} avgView={avgView}/>
           </Grid>
           <Grid item lg={4} md={6} sm={6} xs={12}>
-            <TotalOrderLineChartCard isLoading={isLoading} />
+            <TotalOrderLineChartCard isLoading={isLoading} data={data}/>
           </Grid>
           <Grid item lg={4} md={12} sm={12} xs={12}>
             <Grid container spacing={gridSpacing}>
@@ -96,10 +137,10 @@ const Dashboard = () => {
       <Grid item xs={12}>
         <Grid container spacing={gridSpacing}>
           <Grid item xs={12} md={8}>
-            <TotalGrowthBarChart isLoading={isLoading} />
+            <TotalGrowthBarChart isLoading={isLoading} overallChannelAnalytics={overallChannelAnalytics} monthlyAnalytics={monthlyAnalytics} />
           </Grid>
           <Grid item xs={12} md={4}>
-            <PopularCard isLoading={isLoading} />
+            <PopularCard isLoading={isLoading}  />
           </Grid>
         </Grid>
       </Grid>

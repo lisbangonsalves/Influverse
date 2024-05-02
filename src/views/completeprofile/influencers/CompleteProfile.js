@@ -50,7 +50,7 @@ function CompleteProfile() {
     try {
       // const user =JSON.parse(localStorage.getItem('user'))
       const response = await fetch(
-        `https://influensys.vercel.app/user_is`,
+        `http://127.0.0.1:8000/user_is`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,

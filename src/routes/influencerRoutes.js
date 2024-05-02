@@ -38,6 +38,7 @@ const ExploreEvent = Loadable(
 const Account = Loadable(lazy(() => import("views/accounts/influencer/account")));
 
 const Try = Loadable(lazy(() => import("views/Try")));
+const Youtube = Loadable(lazy(() => import("views/youtube/Youtube")));
 
 
 const ProtectedRoute = ({ children }) => {
@@ -122,6 +123,10 @@ const MainRoutes = {
           element:<ProtectedRoute><Gifting/></ProtectedRoute>
         }
       ]
+    },
+    {
+      path:"youtube",
+      element:<ProtectedRoute><Youtube/></ProtectedRoute>
     }
     
   ],

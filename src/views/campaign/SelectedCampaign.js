@@ -32,7 +32,7 @@ export default function SelectedEvent() {
     // Fetch event data from the API
     axios
       .get(
-        `https://influensys.vercel.app/api/interface-buisness/${user.business[0].slug}/campaigns/${id}`,
+        `http://127.0.0.1:8000/api/interface-buisness/${user.business[0].slug}/campaigns/${id}`,
       )
       .then((response) => {
         setEventData(response.data); // Update state with fetched data
@@ -43,7 +43,7 @@ export default function SelectedEvent() {
 
       axios
       .get(
-        `https://influensys.vercel.app/api/interface-buisness/${user.business[0].slug}/campaign/status-info-business/${id}/list/`
+        `http://127.0.0.1:8000/api/interface-buisness/${user.business[0].slug}/campaign/status-info-business/${id}/list/`
       )
       .then((response) => {
           // Filter influencers based on confirmation status
@@ -67,6 +67,17 @@ export default function SelectedEvent() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleDeleteClick = async () => {
+    try {
+      await axios.delete(`http://127.0.0.1:8000/api/interface-buisness/${user.business[0].slug}/campaigns/${id}`);
+      // Handle success, maybe update UI accordingly
+      console.log('Event deleted successfully');
+    } catch (error) {
+      console.error('Error deleting event:', error);
+      // Handle error, maybe show a notification to the user
+    }
   };
 
   return (
@@ -114,6 +125,7 @@ export default function SelectedEvent() {
                   marginRight: "20px",
                   "&:hover": { backgroundColor: "red", color: "white" },
                 }}
+                onClick={handleDeleteClick}
               >
                 <DeleteIcon fontSize="inherit" />
               </IconButton>
@@ -202,6 +214,7 @@ export default function SelectedEvent() {
                     <RequestedCards
                       influencerName={influencer.influencer.name}
                       userName={influencer.influencer.user}
+                      influencerId ={influencer.id}
                     />
                   </Grid>
                 ))}
@@ -220,6 +233,7 @@ export default function SelectedEvent() {
                     <Cards
                       influencerName={influencer.influencer.name}
                       userName={influencer.influencer.user}
+                      influencerId ={influencer.id}
                     />
                   </Grid>
                 ))}

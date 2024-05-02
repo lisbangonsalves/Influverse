@@ -1,23 +1,12 @@
-import PropTypes from 'prop-types';
-import { useState } from 'react';
 
-// material-ui
+import { useState, useEffect } from 'react';
+import { Avatar, Box, Grid, Typography } from '@mui/material';
 import { useTheme, styled } from '@mui/material/styles';
-import { Avatar, Box, Button, Grid, Typography } from '@mui/material';
-
-// third-party
 import Chart from 'react-apexcharts';
-
-// project imports
 import MainCard from 'ui-component/cards/MainCard';
 import SkeletonTotalOrderCard from 'ui-component/cards/Skeleton/EarningCard';
-
+import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
 import ChartDataMonth from './chart-data/total-order-month-line-chart';
-import ChartDataYear from './chart-data/total-order-year-line-chart';
-
-// assets
-import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
   backgroundColor: theme.palette.primary.dark,
@@ -61,15 +50,42 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
   }
 }));
 
-// ==============================|| DASHBOARD - TOTAL ORDER LINE CHART CARD ||============================== //
-
-const TotalOrderLineChartCard = ({ isLoading }) => {
+const TotalOrderLineChartCard = ({data}) => {
   const theme = useTheme();
+  const [isLoading, setIsLoading] = useState(true);
+  const [subscribersData, setSubscribersData] = useState(null);
 
-  const [timeValue, setTimeValue] = useState(false);
-  const handleChangeTime = (event, newValue) => {
-    setTimeValue(newValue);
-  };
+  useEffect(({data}) => {
+    const fetchData = async () => {
+      try {
+        // Fetch access tokens from local storage
+        // const accessToken = localStorage.getItem('youtubeAccessToken');
+        // const refreshToken = localStorage.getItem('youtubeRefreshToken');
+
+        // const response = await axios.get('http://localhost:7000/data', {
+        //   headers: {
+        //     'auth-token': `${accessToken}`,
+        //     'refresh-token': refreshToken ,
+        //   }
+        // });
+
+  
+        // const data = response.data;
+        // console.log(data)
+        setSubscribersData(data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [data]);
+
+  // const [timeValue, setTimeValue] = useState(false);
+
+
 
   return (
     <>
@@ -92,29 +108,10 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                         mt: 1
                       }}
                     >
-                      <LocalMallOutlinedIcon fontSize="inherit" />
+                      <SubscriptionsIcon fontSize="inherit" />
                     </Avatar>
                   </Grid>
-                  <Grid item>
-                    <Button
-                      disableElevation
-                      variant={timeValue ? 'contained' : 'text'}
-                      size="small"
-                      sx={{ color: 'inherit' }}
-                      onClick={(e) => handleChangeTime(e, true)}
-                    >
-                      Month
-                    </Button>
-                    <Button
-                      disableElevation
-                      variant={!timeValue ? 'contained' : 'text'}
-                      size="small"
-                      sx={{ color: 'inherit' }}
-                      onClick={(e) => handleChangeTime(e, false)}
-                    >
-                      Year
-                    </Button>
-                  </Grid>
+                  
                 </Grid>
               </Grid>
               <Grid item sx={{ mb: 0.75 }}>
@@ -122,24 +119,11 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                   <Grid item xs={6}>
                     <Grid container alignItems="center">
                       <Grid item>
-                        {timeValue ? (
-                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>$108</Typography>
-                        ) : (
-                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>$961</Typography>
-                        )}
+
+                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>{rr}</Typography>
+                       
                       </Grid>
-                      <Grid item>
-                        <Avatar
-                          sx={{
-                            ...theme.typography.smallAvatar,
-                            cursor: 'pointer',
-                            backgroundColor: theme.palette.primary[200],
-                            color: theme.palette.primary.dark
-                          }}
-                        >
-                          <ArrowDownwardIcon fontSize="inherit" sx={{ transform: 'rotate3d(1, 1, 1, 45deg)' }} />
-                        </Avatar>
-                      </Grid>
+                      
                       <Grid item xs={12}>
                         <Typography
                           sx={{
@@ -148,13 +132,13 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                             color: theme.palette.primary[200]
                           }}
                         >
-                          Total Order
+                          Subscribers Gained
                         </Typography>
                       </Grid>
                     </Grid>
                   </Grid>
                   <Grid item xs={6}>
-                    {timeValue ? <Chart {...ChartDataMonth} /> : <Chart {...ChartDataYear} />}
+                  <Chart {...(chartDataMonth)} />
                   </Grid>
                 </Grid>
               </Grid>
@@ -164,10 +148,6 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
       )}
     </>
   );
-};
-
-TotalOrderLineChartCard.propTypes = {
-  isLoading: PropTypes.bool
 };
 
 export default TotalOrderLineChartCard;

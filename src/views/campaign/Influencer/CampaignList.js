@@ -26,7 +26,7 @@ export default function CampaignList() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://influensys.vercel.app/api/interface-influence/${user.influencer[0].slug}/campaign/status-info-influencer/list/`,
+          `http://127.0.0.1:8000/api/interface-influence/${user.influencer[0].slug}/campaign/status-info-influencer/list/`,
         );
         const data = await response.json();
         setCampaigns(data);
@@ -59,7 +59,7 @@ export default function CampaignList() {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `https://influensys.vercel.app/api/interface-influence/${user.influencer[0].slug}/campaign/status-info-influencer/list/`
+        `http://127.0.0.1:8000/api/interface-influence/${user.influencer[0].slug}/campaign/status-info-influencer/list/`
       );
       const data = await response.json();
       setCampaigns(data);
@@ -114,7 +114,7 @@ export default function CampaignList() {
         >
           <DialogTitle>Campaign Request</DialogTitle>
           <DialogContent>
-          {campaigns.filter((campaign) => campaign.confirmed === false).map((campaign) => (
+          {campaigns.filter((campaign) => campaign.confirmed === false && campaign.status !="Rejected").map((campaign) => (
               <CampaignRequest
                 key={campaign.id}
                 businessName={campaign.business.name}

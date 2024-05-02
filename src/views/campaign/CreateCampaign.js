@@ -41,9 +41,13 @@ export default function CreateCampaign() {
   const [distributionChannels, setdistributionChannels] = useState("");
   const [offerDescription, setofferDescription] = useState("");
   const [offerTerms, setofferTerms] = useState("");
+  const [message, setMessage] = useState("");
 
   const handlecampaignDescriptionChange = (event) => {
     setcampaignDescription(event.target.value);
+  };
+  const handleMessageChange = (event) => {
+    setMessage(event.target.value);
   };
   const handlecampaignNameChange = (event) => {
     setcampaignName(event.target.value);
@@ -157,7 +161,7 @@ export default function CreateCampaign() {
       const user = JSON.parse(localStorage.getItem("user"));
       
       const response = await fetch(
-        `https://influensys.vercel.app/api/interface-buisness/${user.business[0].slug}/campaigns/create`,
+        `http://127.0.0.1:8000/api/interface-buisness/${user.business[0].slug}/campaigns/create`,
         {
           method: "POST",
           headers: {
@@ -173,6 +177,7 @@ export default function CreateCampaign() {
         end_date:moment(endDate).format('YYYY-MM-DD') ,
             duration: durations,
             budget,
+            remaining_budget : budget,
             breakdown,
             target_age: targetAge,
             target_gender: ["male"],
@@ -185,6 +190,7 @@ export default function CreateCampaign() {
             distribution_channels: distributionChannels,
             offer_description: offerDescription,
             offer_terms: offerTerms,
+            message : message,
           }),
         },
       );
@@ -597,6 +603,27 @@ export default function CreateCampaign() {
                 sx={{ width: 1 }}
                 id="Terms-and-Conditions"
                 label="Terms and Conditions"
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Typography>Message for Influencer</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                onChange={handleMessageChange}
+                value={message}
+                sx={{ width: 1 }}
+                id="Message"
+                label="Message"
                 variant="outlined"
               />
             </Grid>

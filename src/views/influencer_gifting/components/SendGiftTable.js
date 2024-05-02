@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -22,31 +22,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 
-function createData(id, name, calories, fat) {
-  return {
-    id,
-    name,
-    calories,
-    fat,
-  };
-}
-
-const rows = [
-  createData(1, 'Cupcake', 305, 3.7, 67, 4.3),
-  createData(2, 'Donut', 452, 25.0, 51, 4.9),
-  createData(3, 'Eclair', 262, 16.0, 24, 6.0),
-  createData(4, 'Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData(5, 'Gingerbread', 356, 16.0, 49, 3.9),
-  createData(6, 'Honeycomb', 408, 3.2, 87, 6.5),
-  createData(7, 'Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData(8, 'Jelly Bean', 375, 0.0, 94, 0.0),
-  createData(9, 'KitKat', 518, 26.0, 65, 7.0),
-  createData(10, 'Lollipop', 392, 0.2, 98, 0.0),
-  createData(11, 'Marshmallow', 318, 0, 81, 2.0),
-  createData(12, 'Nougat', 360, 19.0, 9, 37.0),
-  createData(13, 'Oreo', 437, 18.0, 63, 4.0),
-];
-
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -63,10 +38,6 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-// Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
-// stableSort() brings sort stability to non-modern browsers (notably IE11). If you
-// only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
-// with exampleArray.slice().sort(exampleComparator)
 function stableSort(array, comparator) {
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
@@ -87,13 +58,13 @@ const headCells = [
     label: 'Product Name',
   },
   {
-    id: 'calories',
+    id: 'specification',
     numeric: true,
     disablePadding: false,
     label: 'Specification',
   },
   {
-    id: 'fat',
+    id: 'price',
     numeric: true,
     disablePadding: false,
     label: 'Price',
@@ -159,6 +130,8 @@ EnhancedTableHead.propTypes = {
 function EnhancedTableToolbar(props) {
   const { numSelected } = props;
 
+  
+
   return (
     <Toolbar
       sx={{
@@ -191,8 +164,8 @@ function EnhancedTableToolbar(props) {
       )}
 
       {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
+        <Tooltip title="Send Gift">
+          <IconButton >
             <DeleteIcon />
           </IconButton>
         </Tooltip>
@@ -209,15 +182,32 @@ function EnhancedTableToolbar(props) {
 
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
+
 };
 
-export default function EnhancedTable() {
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('calories');
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+export default function SendGiftTable({ slug ,  setSelectedProducts }) {
+  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState('name');
+  const [selected, setSelected] = useState([]);
+  const [page, setPage] = useState(0);
+  const [dense, setDense] = useState(false);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [products, setProducts] = useState([]);
+  const user = JSON.parse(localStorage.getItem("user"))
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/api/interface-buisness/${user.business[0].slug}/product/list`);
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    fetchProducts();
+  }, [slug]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -227,7 +217,7 @@ export default function EnhancedTable() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = rows.map((n) => n.id);
+      const newSelected = products.map((n) => n.id);
       setSelected(newSelected);
       return;
     }
@@ -251,6 +241,8 @@ export default function EnhancedTable() {
       );
     }
     setSelected(newSelected);
+    setSelectedProducts(newSelected);
+    console.log(selected)
   };
 
   const handleChangePage = (event, newPage) => {
@@ -268,23 +260,24 @@ export default function EnhancedTable() {
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - products.length) : 0;
 
   const visibleRows = React.useMemo(
     () =>
-      stableSort(rows, getComparator(order, orderBy)).slice(
+      stableSort(products, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage,
       ),
-    [order, orderBy, page, rowsPerPage],
+    [order, orderBy, page, rowsPerPage, products],
   );
+
+  
 
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar numSelected={selected.length}  />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -297,7 +290,7 @@ export default function EnhancedTable() {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={products.length}
             />
             <TableBody>
               {visibleRows.map((row, index) => {
@@ -332,9 +325,8 @@ export default function EnhancedTable() {
                     >
                       {row.name}
                     </TableCell>
-                    <TableCell align="right">{row.calories}</TableCell>
-                    <TableCell align="right">{row.fat}</TableCell>
-                
+                    <TableCell align="right">{row.specification}</TableCell>
+                    <TableCell align="right">{row.price}</TableCell>
                   </TableRow>
                 );
               })}
@@ -353,7 +345,7 @@ export default function EnhancedTable() {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={products.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
@@ -367,3 +359,7 @@ export default function EnhancedTable() {
     </Box>
   );
 }
+
+SendGiftTable.propTypes = {
+  slug: PropTypes.string.isRequired,
+};

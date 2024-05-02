@@ -10,10 +10,11 @@ import { Typography } from '@mui/material';
 function EventRequest({ influencerName, userName, slug, event, influencerId , reloadInfluencers}) {
 
   const [accepted, setAccepted] = useState(false);
+  const [rejected, setRejected] = useState(false);
 
   const handleAccept = async () => {
     try {
-      const response = await fetch(`https://influensys.vercel.app/api/interface-buisness/${slug}/events/status-info/${event}/${influencerId}/`, {
+      const response = await fetch(`http://127.0.0.1:8000/api/interface-buisness/${slug}/events/status-info/${event}/${influencerId}/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -25,6 +26,30 @@ function EventRequest({ influencerName, userName, slug, event, influencerId , re
 
       if (response.ok) {
         setAccepted(true);
+        reloadInfluencers();
+        // You can perform additional actions here upon successful acceptance
+      } else {
+        throw new Error('Failed to accept event');
+      }
+    } catch (error) {
+      console.error(error);
+      // Handle error
+    }
+  };
+  const handleReject = async () => {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/interface-buisness/${slug}/events/status-info/${event}/${influencerId}/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          confirmed: false
+        })
+      });
+
+      if (response.ok) {
+        setRejected(true);
         reloadInfluencers();
         // You can perform additional actions here upon successful acceptance
       } else {
@@ -55,29 +80,33 @@ function EventRequest({ influencerName, userName, slug, event, influencerId , re
         </Typography>
       </Box>
       <Box sx={{display:"flex", justifyContent:"space-between", alignItems:"center", }}>
-      {!accepted && (
-            <>
-              <Button
-                variant="outlined"
-                sx={{
-                  color: "red",
-                  borderColor: "red",
-                  "&:hover": {
+      {!accepted && !rejected && (
+              <>
+                <Button
+                  variant="outlined"
+                  sx={{
+                    color: "red",
                     borderColor: "red",
-                  },
-                  marginRight: "10px",
-                }}
-              >
-                Reject
-              </Button>
-              <Button variant="outlined" onClick={handleAccept}>
-                Accept
-              </Button>
-            </>
-          )}
-          {accepted && (
-            <Typography variant="body2" sx={{ color: 'green' }}>Accepted</Typography>
-          )}
+                    "&:hover": {
+                      borderColor: "red",
+                    },
+                    marginRight: "10px",
+                  }}
+                  onClick={handleReject}
+                >
+                  Reject
+                </Button>
+                <Button variant="outlined" onClick={handleAccept}>
+                  Accept
+                </Button>
+              </>
+            )}
+            {accepted && (
+              <Typography variant="body2" sx={{ color: 'green' }}>Accepted</Typography>
+            )}
+            {rejected && (
+              <Typography variant="body2" sx={{ color: 'red' }}>Rejected</Typography>
+            )}
       </Box>
     </Box>
   </Card>

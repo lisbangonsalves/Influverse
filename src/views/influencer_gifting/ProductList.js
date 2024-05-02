@@ -21,45 +21,39 @@ import AddIcon from "@mui/icons-material/Add";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CreateIcon from "@mui/icons-material/Create";
+import { NavLink } from 'react-router-dom';
 
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import AddProduct from "./AddProduct";
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
 
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
 
-export default function BasicTable() {
-  const [open, setOpen] = React.useState(false);
-  const [editopen, setEditOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleEditOpen = () => {
-    setEditOpen(true);
-  };
-  const handleEditClose = () => {
-    setEditOpen(false);
-  };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+
+export default function ProductList() {
+  const user = JSON.parse(localStorage.getItem("user"))
+
+  const [productData, setProductData] = React.useState([]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `http://127.0.0.1:8000/api/interface-buisness/${user.business[0].slug}/product/list`
+        );
+        const data = await response.json();
+        setProductData(data);
+      } catch (error) {
+        console.error("Error fetching product data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
   return (
     <Box>
-      <React.Fragment>
+  
         <Box
           sx={{
             paddingBottom: "20px",
@@ -72,37 +66,15 @@ export default function BasicTable() {
             Influencer Gifting Product List
           </Typography>
           <Button
-            onClick={handleClickOpen}
+          component={NavLink}
+          to = "/business/gifting/addproduct"
             variant="contained"
             sx={{ backgroundColor: "#161A30" }}
             startIcon={<AddIcon />}
           >
             Add Product
           </Button>
-          <Dialog
-            open={open}
-            onClose={handleClose}
-            PaperProps={{
-              component: "form",
-              onSubmit: (event) => {
-                event.preventDefault();
-                const formData = new FormData(event.currentTarget);
-                const formJson = Object.fromEntries(formData.entries());
-                const email = formJson.email;
-                console.log(email);
-                handleClose();
-              },
-            }}
-          >
-            <DialogTitle>Add Product</DialogTitle>
-            <DialogContent>
-              <AddProduct />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose}>Cancel</Button>
-              <Button type="submit">Add Product</Button>
-            </DialogActions>
-          </Dialog>
+          
         </Box>
         <Box
           sx={{
@@ -153,23 +125,23 @@ export default function BasicTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
+            {productData.map((product) => (
                 <TableRow
-                  key={row.name}
+                  key={product.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    {row.name}
+                  {product.name}
                   </TableCell>
                   <TableCell align="center">
                     <img
                       alt="productimage"
-                      src="https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                      src={product.image}
                       width={100}
                     />
                   </TableCell>
-                  <TableCell align="center">{row.fat}</TableCell>
-                  <TableCell align="center">{row.carbs}</TableCell>
+                  <TableCell align="center">{product.specification}</TableCell>
+                  <TableCell align="center">{product.price}</TableCell>
                   <TableCell align="right">
                     <Box>
                       <IconButton
@@ -183,7 +155,6 @@ export default function BasicTable() {
                         <DeleteIcon fontSize="inherit" />
                       </IconButton>
                       <IconButton
-                        onClick={handleEditOpen}
                         aria-label="delete"
                         size="large"
                         sx={{
@@ -195,32 +166,6 @@ export default function BasicTable() {
                       >
                         <CreateIcon fontSize="inherit" />
                       </IconButton>
-                      <Dialog
-                        open={editopen}
-                        onClose={handleEditClose}
-                        PaperProps={{
-                          component: "form",
-                          onSubmit: (event) => {
-                            event.preventDefault();
-                            const formData = new FormData(event.currentTarget);
-                            const formJson = Object.fromEntries(
-                              formData.entries(),
-                            );
-                            const email = formJson.email;
-                            console.log(email);
-                            handleClose();
-                          },
-                        }}
-                      >
-                        <DialogTitle>Add Product</DialogTitle>
-                        <DialogContent>
-                          <AddProduct />
-                        </DialogContent>
-                        <DialogActions>
-                          <Button onClick={handleEditClose}>Cancel</Button>
-                          <Button type="submit">Add Product</Button>
-                        </DialogActions>
-                      </Dialog>
                     </Box>
                   </TableCell>
                 </TableRow>
@@ -228,7 +173,7 @@ export default function BasicTable() {
             </TableBody>
           </Table>
         </TableContainer>
-      </React.Fragment>
+
     </Box>
   );
 }

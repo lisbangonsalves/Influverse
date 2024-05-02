@@ -84,15 +84,12 @@ const users = JSON.parse(localStorage.getItem("user"));
    
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
+    if (file) {
+      console.log("Selected file:", file);
       setFormData(prevState => ({
         ...prevState,
-        image: reader.result
-      }));
-    };
-    if (file) {
-      reader.readAsDataURL(file);
+        image:URL.createObjectURL(file)
+      }))
     }
   };
 
@@ -144,7 +141,7 @@ const users = JSON.parse(localStorage.getItem("user"));
 
     try {
       console.log(JSON.stringify(formData))
-      const response = await fetch(`https://influensys.vercel.app/api/interface-influence/influencer/${user.influencer[0].id}`, {
+      const response = await fetch(`http://127.0.0.1:8000/api/interface-influence/influencer/${user.influencer[0].id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'
@@ -167,7 +164,7 @@ const users = JSON.parse(localStorage.getItem("user"));
 
   return (
     <Box sx={{ width: 1 }}>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
       <Box sx={{ width: 1, display: "flex", justifyContent: "center" }}>
           <ImageButton htmlFor="image-upload">
             <input

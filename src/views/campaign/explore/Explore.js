@@ -3,44 +3,66 @@ import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from "@mui/material/InputAdornment";
-import FilterBar from "./Components/FilterBar";
 import { useParams } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Cards from "./Components/Cards";
 import { Typography } from "@mui/material";
-import axios from 'axios';
+import Lottie from 'lottie-react';
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
+
+// Import your loader animation JSON file
+import loaderAnimation from './Components/loader.json';
+
+
 
 export default function ExploreCampaign() {
-  const user = JSON.parse(localStorage.getItem("user"));
+  // const user = JSON.parse(localStorage.getItem("user"));
+  const [loading, setLoading] = useState(true); // State to track loading
   const [influencers, setInfluencers] = useState([]);
-  const [influencersRecommendation, setInfluencersRecommendation] = useState([]);
+  const user = JSON.parse(localStorage.getItem("user"))
 // eslint-disable-next-line
   const { campaignId } = useParams();
+  const [age, setAge] = React.useState("");
+
+  const handleAgeChange = (event) => {
+    setAge(event.target.value);
+  };
   useEffect(() => {
-    // Fetch data from the API endpoint
-    fetch(
-      "https://influensys.vercel.app/api/interface-influence/influencer/list",
-    )
+    setLoading(true);
+    let url = '';
+    if (age === 1) {
+      url = "http://127.0.0.1:8000/api/interface-influence/influencer/list";
+    } else if (age === 2) {
+      // Recommendation based on your profile
+      url = `http://127.0.0.1:8000/data/get-recommendations/campaign/${campaignId}/`;
+    } else if (age === 3 ){
+      url = `http://127.0.0.1:8000/data/get-recommendations/${user.business[0].id}/`;
+    } else {
+      url = "http://127.0.0.1:8000/api/interface-influence/influencer/list";
+    }
+  
+    fetch(url)
       .then((response) => response.json())
       .then((data) => {
         // Update state with the fetched data
         setInfluencers(data);
+        setLoading(false); // Set loading to false when data is fetched
       })
       .catch((error) => console.error("Error fetching data:", error));
+  }, [age, campaignId]);
+  
 
-      axios.get(`http://127.0.0.1:8000/data/get-recommendations/${user.business[0].id}/`)
-      .then((response) => {
-        // Update state with the fetched data
-        setInfluencersRecommendation(response.data);
-      })
-      .catch((error) => console.error("Error fetching data:", error));
-  }, []);
 
+
+  
   return (
-    <Box>
+    <Box sx={{width:1}}>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <TextField
-          sx={{ width: 1 }}
+          sx={{ width: "75%" }}
           placeholder="Explore"
           id="outlined-search"
           variant="outlined"
@@ -52,7 +74,31 @@ export default function ExploreCampaign() {
             ),
           }}
         />
+        <Box
+        sx={{
+          width:"23%"
+        }}
+      >
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Filter</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={age}
+            label="Age"
+            onChange={handleAgeChange}
+          >
+            <MenuItem value={1}>All Influencer</MenuItem>
+            <MenuItem value={2}>Recommendation based on Campaign</MenuItem>
+            <MenuItem value={3}>Recommendation based on your profile</MenuItem>
+          </Select>
+        </FormControl>
       </Box>
+      </Box>
+    
+      
+
+      
       <Box
         sx={{
           display: "flex",
@@ -60,28 +106,18 @@ export default function ExploreCampaign() {
           justifyContent: "space-between",
         }}
       >
-        <Box sx={{ width: "28%", backgroundColor: "white", padding: "20px" }}>
-          <FilterBar />
+        {loading ? ( // Display loader when loading is true
+        <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "5%",width:1  }}>
+          <Lottie animationData={loaderAnimation} style={{ width: "60%", height: "60%" }} />
         </Box>
-        <Box sx={{ width: "70%" }}>
+      ) : (
+        <Box sx={{ width: 1 }}>
           <Box sx={{marginBottom:"15px"}}>
-            <Typography sx={{fontSize:18, fontWeight:"bold"}}>Top Recommendation for you</Typography>
+            <Typography sx={{fontSize:18, fontWeight:"bold"}}>Find Influencer for your Campaign</Typography>
           </Box>
           <Grid container spacing={2}>
-          {influencersRecommendation.map(influencer => (
-              <Grid item xs={6} key={influencer.id}>
-                {/* Pass relevant information as props to Cards component */}
-                <Cards
-                  name={influencer.name}
-                  industry={influencer.industry}
-                  country={influencer.country}
-                  id={influencer.id}
-                  campaignId={campaignId}
-                />
-              </Grid>
-            ))}
           {influencers.map(influencer => (
-              <Grid item xs={6} key={influencer.id}>
+              <Grid item xs={4} key={influencer.id}>
                 {/* Pass relevant information as props to Cards component */}
                 <Cards
                   name={influencer.name}
@@ -94,6 +130,7 @@ export default function ExploreCampaign() {
             ))}
           </Grid>
         </Box>
+    )}
       </Box>
     </Box>
   );

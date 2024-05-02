@@ -46,6 +46,9 @@ const AddProduct = Loadable(
 const SendGift = Loadable(
   lazy(() => import("views/influencer_gifting/components/SendGift")),
 );
+const GiftingExplore = Loadable(
+  lazy(() => import("views/influencer_gifting/explore_gifting/Explore")),
+);
 
 // campaign 
 
@@ -114,7 +117,7 @@ const MainRoutes = {
           element: <ProtectedRoute><EditEvent /></ProtectedRoute>,
         },
         {
-          path: ":slug/:id",
+          path: ":id",
           element: <ProtectedRoute><SelectedEvent /></ProtectedRoute>,
         },
       ],
@@ -160,8 +163,12 @@ const MainRoutes = {
           element: <AddProduct />,
         },
         {
-          path: "sendgift",
+          path: "sendgift/:id",
           element: <SendGift />,
+        },
+        {
+          path: "explore",
+          element: <GiftingExplore />,
         },
       ],
     },

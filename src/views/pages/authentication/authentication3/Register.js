@@ -47,7 +47,7 @@ const Register = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        "https://influensys.vercel.app/auth/registration/",
+        "http://127.0.0.1:8000/auth/registration/",
         {
           method: "POST",
           headers: {

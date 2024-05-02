@@ -8,6 +8,7 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { NavLink } from "react-router-dom";
 import EventCard from "./selectedevent_components/EventRequest";
+import SelectedInfluencer from "./selectedevent_components/SelectedInfluencer";
 import axios from "axios"; // Import axios for making HTTP requests
 import { useParams } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -29,7 +30,7 @@ export default function SelectedEvent() {
     // Fetch event data from the API
     axios
       .get(
-        `https://influensys.vercel.app/api/interface-buisness/${user.business[0].slug}/events/${id}`,
+        `http://127.0.0.1:8000/api/interface-buisness/events/${id}`,
       )
       .then((response) => {
         setEventData(response.data); // Update state with fetched data
@@ -40,12 +41,12 @@ export default function SelectedEvent() {
 
       axios
       .get(
-        `https://influensys.vercel.app/api/interface-buisness/${user.business[0].slug}/events/${id}/status-info/list/`
+        `http://127.0.0.1:8000/api/interface-buisness/${user.business[0].slug}/events/${id}/status-info/list/`
       )
       .then((response) => {
           // Filter influencers based on confirmation status
           const confirmed = response.data.filter(influencer => influencer.confirmed === true);
-        const unconfirmed = response.data.filter(influencer => influencer.confirmed === false);
+        const unconfirmed = response.data.filter(influencer => influencer.confirmed === false && influencer.status !="Rejected");
         setConfirmedInfluencers(confirmed); // Update state with confirmed influencers data
         setUnconfirmedInfluencers(unconfirmed);
 
@@ -71,12 +72,12 @@ export default function SelectedEvent() {
   const reloadInfluencers = () => {
     axios
       .get(
-        `https://influensys.vercel.app/api/interface-buisness/${user.business[0].slug}/events/${id}/status-info/list/`
+        `http://127.0.0.1:8000/api/interface-buisness/${user.business[0].slug}/events/${id}/status-info/list/`
       )
       .then((response) => {
         // Filter influencers based on confirmation status
         const confirmed = response.data.filter(influencer => influencer.confirmed === true);
-        const unconfirmed = response.data.filter(influencer => influencer.confirmed === false);
+        const unconfirmed = response.data.filter(influencer => influencer.confirmed === false && influencer.status !="Rejected");
         setConfirmedInfluencers(confirmed); // Update state with confirmed influencers data
         setUnconfirmedInfluencers(unconfirmed);
       })
@@ -84,6 +85,19 @@ export default function SelectedEvent() {
         console.error("Error fetching influencers data:", error);
       });
   };
+
+  const handleDeleteEvent = () => {
+  axios
+    .delete(`http://127.0.0.1:8000/api/interface-buisness/events/${id}`)
+    .then(() => {
+      console.log("Event deleted successfully");
+      // Optionally, perform any necessary actions after deletion, such as redirecting to another page or refreshing data
+    })
+    .catch((error) => {
+      console.error("Error deleting event:", error);
+      // Optionally, handle error cases, such as displaying an error message to the user
+    });
+};
 
 
   return (
@@ -142,7 +156,7 @@ export default function SelectedEvent() {
               </Box>
             </Box>
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <IconButton aria-label="delete" size="large" sx={{marginRight:"20px","&:hover":{backgroundColor:'red', color:"white", }}}>
+              <IconButton aria-label="delete" onClick={handleDeleteEvent} size="large" sx={{marginRight:"20px","&:hover":{backgroundColor:'red', color:"white", }}}>
                 <DeleteIcon fontSize="inherit" />
               </IconButton>
               <IconButton component={NavLink} to={`/business/event/edit-event/${id}`} aria-label="delete" size="large" sx={{"&:hover":{backgroundColor:'#161A30', color:"white"}}}>
@@ -215,7 +229,7 @@ export default function SelectedEvent() {
               <Grid container spacing={2}>
                 {confirmedInfluencers.map((influencer) => (
                   <Grid item xs={12} key={influencer.id}>
-                    <EventCard
+                    <SelectedInfluencer
                       influencerName={influencer.influencer.name}
                       userName={influencer.influencer.user}
                       slug={user.business[0].slug}

@@ -55,7 +55,7 @@ const users = JSON.parse(localStorage.getItem("user"));
 
     try {
       console.log(JSON.stringify(formData))
-      const response = await fetch(`https://influensys.vercel.app/api/interface-buisness/buisness/${users.business[0].id}`, {
+      const response = await fetch(`http://127.0.0.1:8000/api/interface-buisness/buisness/${users.business[0].id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'

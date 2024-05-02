@@ -83,7 +83,7 @@ export default function AdsDetails() {
     try {
       const user = JSON.parse(localStorage.getItem("user"));
       const response = await fetch(
-        `https://influensys.vercel.app/api/interface-buisness/${user.business[0].slug}/goals/create`,
+        `http://127.0.0.1:8000/api/interface-buisness/${user.business[0].slug}/goals/create`,
         {
           method: "POST",
           headers: {

@@ -11,7 +11,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 export default function EventCard(props) {
   
-  const { title, description, location, date,slug,userid } = props;
+  const { title, description, location, date,userid } = props;
   return (
     <Card sx={{ display: "flex" }}>
       <CardMedia
@@ -48,7 +48,7 @@ export default function EventCard(props) {
               </Box>
 
             </Box>
-            <Button component={NavLink} to={`/business/event/${slug}/${userid}`} variant="text" sx={{padding:0, color:"#E98EAD"}}>View Event Details</Button>
+            <Button component={NavLink} to={`/business/event/${userid}`} variant="text" sx={{padding:0, color:"#E98EAD"}}>View Event Details</Button>
           </Box>
         </Box>
       

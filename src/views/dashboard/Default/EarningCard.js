@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import React, { useState } from 'react';
+// import axios from 'axios'; // Import axios for making HTTP requests
 
 // material-ui
 import { styled, useTheme } from '@mui/material/styles';
@@ -10,9 +11,9 @@ import MainCard from 'ui-component/cards/MainCard';
 import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 
 // assets
-import EarningIcon from 'assets/images/icons/earning.svg';
+import YouTubeIcon from '@mui/icons-material/YouTube';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+
 import GetAppTwoToneIcon from '@mui/icons-material/GetAppOutlined';
 import FileCopyTwoToneIcon from '@mui/icons-material/FileCopyOutlined';
 import PictureAsPdfTwoToneIcon from '@mui/icons-material/PictureAsPdfOutlined';
@@ -56,10 +57,11 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 // ===========================|| DASHBOARD DEFAULT - EARNING CARD ||=========================== //
 
-const EarningCard = ({ isLoading }) => {
+const EarningCard = ({avgView}) => { // Accept overallChannelAnalytics as a prop
   const theme = useTheme();
-
   const [anchorEl, setAnchorEl] = useState(null);
+  const [a,seta]=useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -69,6 +71,32 @@ const EarningCard = ({ isLoading }) => {
     setAnchorEl(null);
   };
 
+
+
+
+
+
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+       
+      seta(avgView)
+      console.log("hiii",a)
+      setIsLoading(false)
+      } catch (error) {
+        console.error('Error:', error);
+        
+     
+      }
+    };
+
+    fetchData();
+  }, [avgView]);
+
+
+
+  
   return (
     <>
       {isLoading ? (
@@ -86,10 +114,11 @@ const EarningCard = ({ isLoading }) => {
                         ...theme.typography.commonAvatar,
                         ...theme.typography.largeAvatar,
                         backgroundColor: theme.palette.secondary[800],
+                        color: '#fff',
                         mt: 1
                       }}
                     >
-                      <img src={EarningIcon} alt="Notification" />
+                      <YouTubeIcon fontSize="inherit" />
                     </Avatar>
                   </Grid>
                   <Grid item>
@@ -143,20 +172,12 @@ const EarningCard = ({ isLoading }) => {
               <Grid item>
                 <Grid container alignItems="center">
                   <Grid item>
-                    <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>$500.00</Typography>
+                    {/* Pass views from overallChannelAnalytics */}
+                    <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>
+                    {avgView}
+                    </Typography>
                   </Grid>
-                  <Grid item>
-                    <Avatar
-                      sx={{
-                        cursor: 'pointer',
-                        ...theme.typography.smallAvatar,
-                        backgroundColor: theme.palette.secondary[200],
-                        color: theme.palette.secondary.dark
-                      }}
-                    >
-                      <ArrowUpwardIcon fontSize="inherit" sx={{ transform: 'rotate3d(1, 1, 1, 45deg)' }} />
-                    </Avatar>
-                  </Grid>
+                  
                 </Grid>
               </Grid>
               <Grid item sx={{ mb: 1.25 }}>
@@ -167,7 +188,7 @@ const EarningCard = ({ isLoading }) => {
                     color: theme.palette.secondary[200]
                   }}
                 >
-                  Total Earning
+                  Average View Duration
                 </Typography>
               </Grid>
             </Grid>
@@ -179,7 +200,8 @@ const EarningCard = ({ isLoading }) => {
 };
 
 EarningCard.propTypes = {
-  isLoading: PropTypes.bool
+  isLoading: PropTypes.bool,
+  overallChannelAnalytics: PropTypes.number // Define prop type for overallChannelAnalytics
 };
 
 export default EarningCard;

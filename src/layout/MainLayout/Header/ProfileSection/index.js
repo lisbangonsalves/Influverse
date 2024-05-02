@@ -56,6 +56,7 @@ const ProfileSection = () => {
   // eslint-disable-next-line
   const storedUser = JSON.parse(localStorage.getItem('user'));
   const name = storedUser?.business ? storedUser.business[0].name : storedUser?.influencer ? storedUser.influencer[0].name : 'Guest';
+  const avatar = storedUser?.business ? storedUser.business[0].image : storedUser?.influencer ? storedUser.influencer[0].image : User1;
   const type =storedUser?.business ? "Business" : storedUser?.influencer ? "Influencer" : 'Guest';
   const [sdm, setSdm] = useState(true);
   const [value, setValue] = useState("");
@@ -184,7 +185,7 @@ const ProfileSection = () => {
         }}
         icon={
           <Avatar
-            src={User1}
+            src={avatar}
             sx={{
               ...theme.typography.mediumAvatar,
               margin: "8px 0 8px 8px !important",

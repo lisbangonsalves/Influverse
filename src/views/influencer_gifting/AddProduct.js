@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
+import { Button } from "@mui/material";
 
 const ImageButton = styled("label")(({ theme }) => ({
   position: "relative",
@@ -52,25 +53,57 @@ const Image = styled("span")(({ theme }) => ({
   color: theme.palette.common.white,
 }));
 
-export default function BasicDetails() {
-// console.log(props.data.business[0].name)
-  const [image, setImage] = useState("https://images.unsplash.com/photo-1556764900-fa065610b0e4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+export default function AddProduct() {
+  const [image, setImage] = useState("");
+  const [productName, setProductName] = useState("");
+  const [specification, setSpecification] = useState("");
+  const [price, setPrice] = useState("");
+  const [message, setMessage] = useState("");
+  const user = JSON.parse(localStorage.getItem("user"))
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImage(reader.result);
-    };
-    if (file) {
-      reader.readAsDataURL(file);
+    setImage(file);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData();
+    formData.append("name", productName);
+    formData.append("image", image);
+    formData.append("specification", specification);
+    formData.append("price", price);
+
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/api/interface-buisness/${user.business[0].slug}/product/create`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (response.ok) {
+        setMessage("Product added successfully.");
+        // Clear form fields
+        setProductName("");
+        setImage("");
+        setSpecification("");
+        setPrice("");
+      } else {
+        // Handle error response
+        setMessage("Failed to add product.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setMessage("Failed to add product.");
     }
   };
 
-
   return (
     <Box sx={{ width: 1 }}>
-      <form >
+      <form onSubmit={handleSubmit}>
         <Box sx={{ width: 1, display: "flex", justifyContent: "center" }}>
           <ImageButton htmlFor="image-upload">
             <input
@@ -82,7 +115,7 @@ export default function BasicDetails() {
             />
             <ImageSrc
               style={{
-                backgroundImage: `url(${image})`,
+                backgroundImage: `url(${image ? URL.createObjectURL(image) : ''})`,
                 borderRadius: "10%",
               }}
             />
@@ -104,7 +137,8 @@ export default function BasicDetails() {
                 id="name"
                 label="Product Name"
                 variant="outlined"
-                
+                value={productName}
+                onChange={(e) => setProductName(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -113,7 +147,8 @@ export default function BasicDetails() {
                 id="specification"
                 label="Specification"
                 variant="outlined"
-                
+                value={specification}
+                onChange={(e) => setSpecification(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -122,12 +157,20 @@ export default function BasicDetails() {
                 id="price"
                 label="Price"
                 variant="outlined"
-    
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
               />
+            </Grid>
+            <Grid item xs={12}>
+              <Box sx={{display:"flex", width:1, justifyContent:"center" }}>
+              <Button variant="contained" type="submit">Add Product</Button>
+
+              </Box>
             </Grid>
           </Grid>
         </Box>
       </form>
+      {message && <p>{message}</p>}
     </Box>
   );
 }

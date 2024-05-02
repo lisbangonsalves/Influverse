@@ -61,7 +61,7 @@ const Login = () => {
         Authorization: 'Bearer ' + accessToken,
       };
       const response = await axios.post(
-        "https://influensys.vercel.app/api/interface-influence/influencer/create",
+        "http://127.0.0.1:8000/api/interface-influence/influencer/create",
         formData,
         { headers },
       );

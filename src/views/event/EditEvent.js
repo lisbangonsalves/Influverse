@@ -38,7 +38,7 @@ const { id } = useParams();
     // Fetch event data from the API
     axios
       .get(
-        `https://influensys.vercel.app/api/interface-buisness/${userx.business[0].slug}/events/${id}`,
+        `http://127.0.0.1:8000/api/interface-buisness/${userx.business[0].slug}/events/${id}`,
       )
       .then((response) => {
         setEventData(response.data); // Update state with fetched data
@@ -244,7 +244,7 @@ const eventEtime = `${EjsDate.getHours().toString().padStart(2, '0')}:${EjsDate.
       
       
       const user = JSON.parse(localStorage.getItem('user'))
-      const response = await fetch(`https://influensys.vercel.app/api/interface-buisness/${user.slug}/events/create`, {
+      const response = await fetch(`http://127.0.0.1:8000/api/interface-buisness/${user.slug}/events/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
