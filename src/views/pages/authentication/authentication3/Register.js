@@ -47,7 +47,7 @@ const Register = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/auth/registration/",
+        "https://influverse-backend.onrender.com/auth/registration/",
         {
           method: "POST",
           headers: {

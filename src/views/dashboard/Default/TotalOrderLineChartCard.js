@@ -1,12 +1,14 @@
-
 import { useState, useEffect } from 'react';
-import { Avatar, Box, Grid, Typography } from '@mui/material';
+import { Avatar, Box, Button, Grid, Typography } from '@mui/material';
 import { useTheme, styled } from '@mui/material/styles';
 import Chart from 'react-apexcharts';
 import MainCard from 'ui-component/cards/MainCard';
 import SkeletonTotalOrderCard from 'ui-component/cards/Skeleton/EarningCard';
-import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
+import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ChartDataMonth from './chart-data/total-order-month-line-chart';
+import ChartDataYear from './chart-data/total-order-year-line-chart';
+import axios from 'axios';
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
   backgroundColor: theme.palette.primary.dark,
@@ -53,37 +55,51 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 const TotalOrderLineChartCard = ({data}) => {
   const theme = useTheme();
   const [isLoading, setIsLoading] = useState(true);
-  const [subscribersData, setSubscribersData] = useState(null);
+  const [subscribersData, setSubscribersData] = useState(data);
+  const [subscribersGainedMonthly, setSubscribersGainedMonthly] = useState(data);
 
-  useEffect(({data}) => {
+  useEffect(() => {
     const fetchData = async () => {
       try {
         // Fetch access tokens from local storage
-        // const accessToken = localStorage.getItem('youtubeAccessToken');
-        // const refreshToken = localStorage.getItem('youtubeRefreshToken');
+        const accessToken = localStorage.getItem('youtubeAccessToken');
+        const refreshToken = localStorage.getItem('youtubeRefreshToken');
 
-        // const response = await axios.get('http://localhost:7000/data', {
-        //   headers: {
-        //     'auth-token': `${accessToken}`,
-        //     'refresh-token': refreshToken ,
-        //   }
-        // });
+        const response = await axios.get('http://localhost:7000/data', {
+          headers: {
+            'auth-token': `${accessToken}`,
+            'refresh-token': refreshToken ,
+          }
+        });
 
-  
-        // const data = response.data;
-        // console.log(data)
+        const data = response.data;
+        console.log(data)
         setSubscribersData(data);
+          // Ensure subscribersData is not null before accessing its properties
+  const subscribersGainedMonthly = subscribersData?.monthlyAnalytics.reduce((total, data) => total + data.subscribersGained, 0) ?? 0;
+  const subscribersGainedYearly = subscribersData?.overallChannelAnalytics?.subscribersGained ?? 0;
+  setSubscribersGainedMonthly(subscribersGainedMonthly)
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']; // Example months array
+   // eslint-disable-next-line  
+  const chartDataMonth = ChartDataMonth(subscribersGainedMonthly, months);
+  // eslint-disable-next-line
+  const chartDataYear = ChartDataYear(subscribersGainedYearly);
         setIsLoading(false);
+
       } catch (error) {
         console.error('Error fetching data:', error);
         setIsLoading(false);
+  
       }
     };
 
-    fetchData();
+    fetchData(data);
   }, [data]);
 
-  // const [timeValue, setTimeValue] = useState(false);
+  const [timeValue, setTimeValue] = useState(false);
+  const handleChangeTime = (event, newValue) => {
+    setTimeValue(newValue);
+  };
 
 
 
@@ -108,10 +124,29 @@ const TotalOrderLineChartCard = ({data}) => {
                         mt: 1
                       }}
                     >
-                      <SubscriptionsIcon fontSize="inherit" />
+                      <LocalMallOutlinedIcon fontSize="inherit" />
                     </Avatar>
                   </Grid>
-                  
+                  <Grid item>
+                    <Button
+                      disableElevation
+                      variant={timeValue ? 'contained' : 'text'}
+                      size="small"
+                      sx={{ color: 'inherit' }}
+                      onClick={(e) => handleChangeTime(e, true)}
+                    >
+                      Month
+                    </Button>
+                    <Button
+                      disableElevation
+                      variant={!timeValue ? 'contained' : 'text'}
+                      size="small"
+                      sx={{ color: 'inherit' }}
+                      onClick={(e) => handleChangeTime(e, false)}
+                    >
+                      Year
+                    </Button>
+                  </Grid>
                 </Grid>
               </Grid>
               <Grid item sx={{ mb: 0.75 }}>
@@ -119,11 +154,22 @@ const TotalOrderLineChartCard = ({data}) => {
                   <Grid item xs={6}>
                     <Grid container alignItems="center">
                       <Grid item>
-
-                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>{rr}</Typography>
-                       
+                        <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>
+                          {timeValue ? subscribersGainedMonthly : subscribersGainedMonthly}
+                        </Typography>
                       </Grid>
-                      
+                      <Grid item>
+                        <Avatar
+                          sx={{
+                            ...theme.typography.smallAvatar,
+                            cursor: 'pointer',
+                            backgroundColor: theme.palette.primary[200],
+                            color: theme.palette.primary.dark
+                          }}
+                        >
+                          <ArrowDownwardIcon fontSize="inherit" sx={{ transform: 'rotate3d(1, 1, 1, 45deg)' }} />
+                        </Avatar>
+                      </Grid>
                       <Grid item xs={12}>
                         <Typography
                           sx={{
@@ -138,7 +184,7 @@ const TotalOrderLineChartCard = ({data}) => {
                     </Grid>
                   </Grid>
                   <Grid item xs={6}>
-                  <Chart {...(chartDataMonth)} />
+                    {timeValue ? <Chart {...ChartDataMonth} /> : <Chart {...ChartDataMonth} />}
                   </Grid>
                 </Grid>
               </Grid>

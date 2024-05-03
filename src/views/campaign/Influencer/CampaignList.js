@@ -26,7 +26,7 @@ export default function CampaignList() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://127.0.0.1:8000/api/interface-influence/${user.influencer[0].slug}/campaign/status-info-influencer/list/`,
+          `https://influverse-backend.onrender.com/api/interface-influence/${user.influencer[0].slug}/campaign/status-info-influencer/list/`,
         );
         const data = await response.json();
         setCampaigns(data);
@@ -59,7 +59,7 @@ export default function CampaignList() {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/interface-influence/${user.influencer[0].slug}/campaign/status-info-influencer/list/`
+        `https://influverse-backend.onrender.com/api/interface-influence/${user.influencer[0].slug}/campaign/status-info-influencer/list/`
       );
       const data = await response.json();
       setCampaigns(data);

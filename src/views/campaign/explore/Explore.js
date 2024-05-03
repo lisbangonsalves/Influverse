@@ -34,14 +34,14 @@ export default function ExploreCampaign() {
     setLoading(true);
     let url = '';
     if (age === 1) {
-      url = "http://127.0.0.1:8000/api/interface-influence/influencer/list";
+      url = "https://influverse-backend.onrender.com/api/interface-influence/influencer/list";
     } else if (age === 2) {
       // Recommendation based on your profile
-      url = `http://127.0.0.1:8000/data/get-recommendations/campaign/${campaignId}/`;
+      url = `https://influverse-backend.onrender.com/data/get-recommendations/campaign/${campaignId}/`;
     } else if (age === 3 ){
-      url = `http://127.0.0.1:8000/data/get-recommendations/${user.business[0].id}/`;
+      url = `https://influverse-backend.onrender.com/data/get-recommendations/${user.business[0].id}/`;
     } else {
-      url = "http://127.0.0.1:8000/api/interface-influence/influencer/list";
+      url = "https://influverse-backend.onrender.com/api/interface-influence/influencer/list";
     }
   
     fetch(url)

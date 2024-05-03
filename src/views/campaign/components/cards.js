@@ -10,7 +10,7 @@ function EventRequest({ influencerName, userName, influencerId }) {
   const handleRemoveClick = async () => {
     try {
       // Make a request to remove the influencer from the campaign
-      await axios.delete(`http://127.0.0.1:8000/api/interface-buisness/${user.business[0].slug}/campaigns/influencer/${influencerId}`);
+      await axios.delete(`https://influverse-backend.onrender.com/api/interface-buisness/${user.business[0].slug}/campaigns/influencer/${influencerId}`);
       
       // If successful, maybe update UI accordingly or show a success message
     } catch (error) {

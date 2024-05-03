@@ -61,7 +61,7 @@ const Login = () => {
         Authorization: 'Bearer ' + accessToken,
       };
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/interface-influence/influencer/create",
+        "https://influverse-backend.onrender.com/api/interface-influence/influencer/create",
         formData,
         { headers },
       );

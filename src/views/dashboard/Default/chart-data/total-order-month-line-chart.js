@@ -22,7 +22,7 @@ const ChartDataMonth = (subscribersGainedData, months) => {
       },
       yaxis: {
         min: 0,
-        max: Math.max(...subscribersGainedData), // Update max value dynamically
+        max:Math.max(...subscribersGainedData), // Update max value dynamically
       },
       xaxis: {
         categories: months // Include months dynamically

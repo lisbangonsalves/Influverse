@@ -22,7 +22,7 @@ export default function CampaignList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/interface-buisness/${user.business[0].slug}/campaigns/list`);
+        const response = await fetch(`https://influverse-backend.onrender.com/api/interface-buisness/${user.business[0].slug}/campaigns/list`);
         const data = await response.json();
         setCampaigns(data);
       } catch (error) {

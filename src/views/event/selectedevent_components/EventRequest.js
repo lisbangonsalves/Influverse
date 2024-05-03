@@ -14,7 +14,7 @@ function EventRequest({ influencerName, userName, slug, event, influencerId , re
 
   const handleAccept = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/interface-buisness/${slug}/events/status-info/${event}/${influencerId}/`, {
+      const response = await fetch(`https://influverse-backend.onrender.com/api/interface-buisness/${slug}/events/status-info/${event}/${influencerId}/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -38,7 +38,7 @@ function EventRequest({ influencerName, userName, slug, event, influencerId , re
   };
   const handleReject = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/interface-buisness/${slug}/events/status-info/${event}/${influencerId}/`, {
+      const response = await fetch(`https://influverse-backend.onrender.com/api/interface-buisness/${slug}/events/status-info/${event}/${influencerId}/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

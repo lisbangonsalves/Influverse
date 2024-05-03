@@ -21,7 +21,7 @@ const MenuList = () => {
           return;
         }
 
-        const response = await fetch('http://127.0.0.1:8000/user_is', {
+        const response = await fetch('https://influverse-backend.onrender.com/user_is', {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },

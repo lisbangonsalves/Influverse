@@ -20,7 +20,7 @@ export default function SendGift() {
   useEffect(() => {
     const nuser = JSON.parse(localStorage.getItem("user"));
     // Fetch influencer data
-    fetch(`http://127.0.0.1:8000/api/interface-influence/influencer/${id}`)
+    fetch(`https://influverse-backend.onrender.com/api/interface-influence/influencer/${id}`)
       .then((response) => response.json())
       .then((data) => {
         setInfluencer(data);
@@ -28,7 +28,7 @@ export default function SendGift() {
       .catch((error) => console.error("Error fetching influencer:", error));
   
     // Fetch products data
-    fetch(`http://127.0.0.1:8000/api/interface-buisness/${nuser.business[0].slug}/product/list`)
+    fetch(`https://influverse-backend.onrender.com/api/interface-buisness/${nuser.business[0].slug}/product/list`)
       .then((response) => response.json())
       .then((data) => {
         setProducts(data);
@@ -46,7 +46,7 @@ export default function SendGift() {
       amount: amount
     };
 
-    fetch(`http://127.0.0.1:8000/api/interface-buisness/${user.business[0].slug}/gift/add`, {
+    fetch(`https://influverse-backend.onrender.com/api/interface-buisness/${user.business[0].slug}/gift/add`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

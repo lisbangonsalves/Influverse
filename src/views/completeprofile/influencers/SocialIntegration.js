@@ -18,7 +18,7 @@ export default function SocialIntegration() {
     const handleInstagramLogin = () => {
       // Construct the OAuth request URL
       const clientId = '1134098924458353';
-      const redirectUri = encodeURIComponent('http://127.0.0.1:8000/api/interface-influence/influencer/insta/'); // Replace with your actual redirect URL
+      const redirectUri = encodeURIComponent('https://influverse-backend.onrender.com/api/interface-influence/influencer/insta/'); // Replace with your actual redirect URL
       const scope = 'user_profile,user_media'; // Specify required scopes
       const authUrl = `https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code&slug=jessica-gonsalves-7YVVv1`;
   

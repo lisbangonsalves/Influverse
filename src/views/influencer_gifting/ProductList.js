@@ -38,7 +38,7 @@ export default function ProductList() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://127.0.0.1:8000/api/interface-buisness/${user.business[0].slug}/product/list`
+          `https://influverse-backend.onrender.com/api/interface-buisness/${user.business[0].slug}/product/list`
         );
         const data = await response.json();
         setProductData(data);

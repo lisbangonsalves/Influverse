@@ -14,7 +14,7 @@ export default function Explore() {
   useEffect(() => {
     // Fetch data from the API endpoint
     fetch(
-      "http://127.0.0.1:8000/api/interface-influence/influencer/list",
+      "https://influverse-backend.onrender.com/api/interface-influence/influencer/list",
     )
       .then((response) => response.json())
       .then((data) => {

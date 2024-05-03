@@ -50,7 +50,7 @@ function CompleteProfile() {
     try {
       // const user =JSON.parse(localStorage.getItem('user'))
       const response = await fetch(
-        `http://127.0.0.1:8000/user_is`,
+        `https://influverse-backend.onrender.com/user_is`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,

@@ -31,7 +31,7 @@ function Login() {
     e.preventDefault();
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/auth/login/",
+        "https://influverse-backend.onrender.com/auth/login/",
         {
           method: "POST",
           headers: {
@@ -68,7 +68,7 @@ function Login() {
   const fetchUserType = async () => {
     try {
       const accessToken = localStorage.getItem("accessToken");
-      const response = await fetch("http://127.0.0.1:8000/user_is", {
+      const response = await fetch("https://influverse-backend.onrender.com/user_is", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

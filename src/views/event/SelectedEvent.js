@@ -30,7 +30,7 @@ export default function SelectedEvent() {
     // Fetch event data from the API
     axios
       .get(
-        `http://127.0.0.1:8000/api/interface-buisness/events/${id}`,
+        `https://influverse-backend.onrender.com/api/interface-buisness/events/${id}`,
       )
       .then((response) => {
         setEventData(response.data); // Update state with fetched data
@@ -41,7 +41,7 @@ export default function SelectedEvent() {
 
       axios
       .get(
-        `http://127.0.0.1:8000/api/interface-buisness/${user.business[0].slug}/events/${id}/status-info/list/`
+        `https://influverse-backend.onrender.com/api/interface-buisness/${user.business[0].slug}/events/${id}/status-info/list/`
       )
       .then((response) => {
           // Filter influencers based on confirmation status
@@ -72,7 +72,7 @@ export default function SelectedEvent() {
   const reloadInfluencers = () => {
     axios
       .get(
-        `http://127.0.0.1:8000/api/interface-buisness/${user.business[0].slug}/events/${id}/status-info/list/`
+        `https://influverse-backend.onrender.com/api/interface-buisness/${user.business[0].slug}/events/${id}/status-info/list/`
       )
       .then((response) => {
         // Filter influencers based on confirmation status
@@ -88,7 +88,7 @@ export default function SelectedEvent() {
 
   const handleDeleteEvent = () => {
   axios
-    .delete(`http://127.0.0.1:8000/api/interface-buisness/events/${id}`)
+    .delete(`https://influverse-backend.onrender.com/api/interface-buisness/events/${id}`)
     .then(() => {
       console.log("Event deleted successfully");
       // Optionally, perform any necessary actions after deletion, such as redirecting to another page or refreshing data

@@ -83,7 +83,7 @@ export default function AdsDetails() {
     try {
       const user = JSON.parse(localStorage.getItem("user"));
       const response = await fetch(
-        `http://127.0.0.1:8000/api/interface-buisness/${user.business[0].slug}/goals/create`,
+        `https://influverse-backend.onrender.com/api/interface-buisness/${user.business[0].slug}/goals/create`,
         {
           method: "POST",
           headers: {

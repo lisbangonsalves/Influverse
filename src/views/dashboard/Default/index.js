@@ -6,7 +6,6 @@ import { NavLink } from 'react-router-dom';
 // project imports
 import EarningCard from "./EarningCard";
 import PopularCard from "./PopularCard";
-import TotalOrderLineChartCard from "./TotalOrderLineChartCard";
 import TotalIncomeDarkCard from "./TotalIncomeDarkCard";
 import CompleteProfileCard from "./CompleteProfileCard";
 import TotalIncomeLightCard from "./TotalIncomeLightCard";
@@ -23,7 +22,7 @@ const Dashboard = () => {
   const [avgView, setavgView] = useState("")
   // const [sub, setsub] = useState("")
   const [monthlyAnalytics,setmonthlyAnalytics]=useState([])
-  const [data,setdata]=useState()
+  // const [data,setdata]=useState()
   // const [viewsData,setviewsData]=useState("")
   // const [subscribersGainedData,setsubscribersGainedData]=useState("")
   useEffect(() => {
@@ -86,7 +85,7 @@ const Dashboard = () => {
   
         const data = response.data;
         console.log(response.data)
-        setdata(data)
+        // setdata(data)
         setmonthlyAnalytics(data.monthlyAnalytics);
         setOverallChannelAnalytics(data.overallChannelAnalytics.averageViewPercentage)
         setavgView(data.overallChannelAnalytics.averageViewDuration)
@@ -120,7 +119,8 @@ const Dashboard = () => {
             <EarningCard isLoading={isLoading} avgView={avgView}/>
           </Grid>
           <Grid item lg={4} md={6} sm={6} xs={12}>
-            <TotalOrderLineChartCard isLoading={isLoading} data={data}/>
+            <EarningCard isLoading={isLoading} avgView={avgView}/>
+            
           </Grid>
           <Grid item lg={4} md={12} sm={12} xs={12}>
             <Grid container spacing={gridSpacing}>

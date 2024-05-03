@@ -108,7 +108,7 @@ const [phoneNumber, setPhoneNumber] = useState(users?.business[0].phone ?? "");
     // };
 
     console.log(formData)
-    axios.patch(`http://127.0.0.1:8000/api/interface-buisness/buisness/${user.business[0].id}`, formData)
+    axios.patch(`https://influverse-backend.onrender.com/api/interface-buisness/buisness/${user.business[0].id}`, formData)
       .then((response) => {
         // Handle success
         console.log("Data sent successfully:", response.data);

@@ -23,7 +23,7 @@ export default function Event() {
 const user=JSON.parse(localStorage.getItem('user'))
   useEffect(() => {
     
-    fetch(`http://127.0.0.1:8000/api/interface-buisness/${user.business[0].slug}/events/list`)
+    fetch(`https://influverse-backend.onrender.com/api/interface-buisness/${user.business[0].slug}/events/list`)
       .then(response => response.json())
       .then(data => setEventsData(data))
       .catch(error => console.error("Error fetching events:", error));

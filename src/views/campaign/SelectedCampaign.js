@@ -32,7 +32,7 @@ export default function SelectedEvent() {
     // Fetch event data from the API
     axios
       .get(
-        `http://127.0.0.1:8000/api/interface-buisness/${user.business[0].slug}/campaigns/${id}`,
+        `https://influverse-backend.onrender.com/api/interface-buisness/${user.business[0].slug}/campaigns/${id}`,
       )
       .then((response) => {
         setEventData(response.data); // Update state with fetched data
@@ -43,7 +43,7 @@ export default function SelectedEvent() {
 
       axios
       .get(
-        `http://127.0.0.1:8000/api/interface-buisness/${user.business[0].slug}/campaign/status-info-business/${id}/list/`
+        `https://influverse-backend.onrender.com/api/interface-buisness/${user.business[0].slug}/campaign/status-info-business/${id}/list/`
       )
       .then((response) => {
           // Filter influencers based on confirmation status
@@ -71,7 +71,7 @@ export default function SelectedEvent() {
 
   const handleDeleteClick = async () => {
     try {
-      await axios.delete(`http://127.0.0.1:8000/api/interface-buisness/${user.business[0].slug}/campaigns/${id}`);
+      await axios.delete(`https://influverse-backend.onrender.com/api/interface-buisness/${user.business[0].slug}/campaigns/${id}`);
       // Handle success, maybe update UI accordingly
       console.log('Event deleted successfully');
     } catch (error) {

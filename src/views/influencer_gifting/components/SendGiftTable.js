@@ -198,7 +198,7 @@ export default function SendGiftTable({ slug ,  setSelectedProducts }) {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/interface-buisness/${user.business[0].slug}/product/list`);
+        const response = await fetch(`https://influverse-backend.onrender.com/api/interface-buisness/${user.business[0].slug}/product/list`);
         const data = await response.json();
         setProducts(data);
       } catch (error) {

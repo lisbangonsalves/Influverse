@@ -22,7 +22,7 @@ export default function SelectedEvent() {
     // Fetch event data from the API
     axios
       .get(
-        `http://127.0.0.1:8000/api/interface-influencer/${user.influencer[0].slug}/events/${id}`,
+        `https://influverse-backend.onrender.com/api/interface-influencer/${user.influencer[0].slug}/events/${id}`,
       )
       .then((response) => {
         setEventData(response.data); // Update state with fetched data

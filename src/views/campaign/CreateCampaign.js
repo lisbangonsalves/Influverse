@@ -17,6 +17,8 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Button from "@mui/material/Button";
 import { useNavigate } from 'react-router-dom';
 const moment = require('moment');
+import Web3 from 'web3';
+import Web3MarketingSuiteContract from '../../contracts/Web3MarketingSuite.json';
 
 export default function CreateCampaign() {
   const navigate = useNavigate();
@@ -161,7 +163,7 @@ export default function CreateCampaign() {
       const user = JSON.parse(localStorage.getItem("user"));
       
       const response = await fetch(
-        `http://127.0.0.1:8000/api/interface-buisness/${user.business[0].slug}/campaigns/create`,
+        `https://influverse-backend.onrender.com/api/interface-buisness/${user.business[0].slug}/campaigns/create`,
         {
           method: "POST",
           headers: {
@@ -197,6 +199,19 @@ export default function CreateCampaign() {
       if (response.ok) {
         // Handle success
         console.log("Data sent successfully!");
+        const web3 = new Web3(window.ethereum);
+        // Get the contract instance
+        const contract = new web3.eth.Contract(
+          Web3MarketingSuiteContract.abi,
+          '0x353f7471AB93ca54D6bfb5b9A7269931211e1F6d' // Replace with your contract address
+        );
+        const accounts = await web3.eth.getAccounts();
+        const defaultAccount = accounts[0];
+        // Make a call to the contract method
+        const result = await contract.methods.createCampaign(user.business[0].name,campaignName,12,23,budget).send({ from: defaultAccount });
+  
+        // Handle the result as needed
+        console.log(result);
         navigate("/business/campaign/campaign-list");
       } else {
         // Handle error
