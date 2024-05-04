@@ -19,6 +19,9 @@ const CompleteProfileInfluencer = Loadable(
 const Campaign = Loadable(
   lazy(() => import("views/campaign/Influencer/CampaignList")),
 );
+const SelectedCampaign = Loadable(
+  lazy(() => import("views/campaign/Influencer/SelectedCampaign")),
+);
 const CampaignDraft = Loadable(
   lazy(() => import("views/campaign/Influencer/Draft")),
 );
@@ -93,7 +96,11 @@ const MainRoutes = {
           element: <ProtectedRoute ><Campaign /></ProtectedRoute>,
         },
         {
-          path: "draft",
+          path: ":slug/:id",
+          element: <ProtectedRoute ><SelectedCampaign /></ProtectedRoute>,
+        },
+        {
+          path: "draft/:id/:slug",
           element: <ProtectedRoute ><CampaignDraft /></ProtectedRoute>,
         }
       ],
@@ -126,7 +133,7 @@ const MainRoutes = {
     },
     {
       path:"youtube",
-      element:<ProtectedRoute><Youtube/></ProtectedRoute>
+      element:<Youtube/>
     }
     
   ],

@@ -18,7 +18,7 @@ const DashboardDefault = Loadable(
 const CompleteProfileBusiness = Loadable(
   lazy(() => import("views/completeprofile/marketing/CompleteProfile")),
 );
-
+const Youtube = Loadable(lazy(() => import("views/youtube/Youtube")));
 
 // Setting Page
 const Setting = Loadable(lazy(() => import("views/setting/business/Setting")));
@@ -189,6 +189,10 @@ const MainRoutes = {
         },
       ]
     },
+    {
+      path:"youtube",
+      element:<Youtube/>
+    }
     
   ],
 };

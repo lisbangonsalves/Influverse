@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 // material-ui
-import { Grid } from "@mui/material";
+import { Grid, Typography, Box } from "@mui/material";
 import { NavLink } from 'react-router-dom';
 // project imports
 import EarningCard from "./EarningCard";
+import TotalView from "./TotalView";
 import PopularCard from "./PopularCard";
 import TotalIncomeDarkCard from "./TotalIncomeDarkCard";
 import CompleteProfileCard from "./CompleteProfileCard";
 import TotalIncomeLightCard from "./TotalIncomeLightCard";
 import TotalGrowthBarChart from "./TotalGrowthBarChart";
 import { gridSpacing } from "store/constant";
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import Button from "@mui/material/Button";
 
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 
@@ -20,6 +23,7 @@ const Dashboard = () => {
   const [userType, setUserType] = useState(null);
   const [overallChannelAnalytics, setOverallChannelAnalytics] = useState()
   const [avgView, setavgView] = useState("")
+  const [views,setViews]= useState("")
   // const [sub, setsub] = useState("")
   const [monthlyAnalytics,setmonthlyAnalytics]=useState([])
   // const [data,setdata]=useState()
@@ -74,6 +78,11 @@ const Dashboard = () => {
         // Fetch access tokens from local storage
         const accessToken = localStorage.getItem('youtubeAccessToken');
         const refreshToken = localStorage.getItem('youtubeRefreshToken');
+        if (!accessToken || !refreshToken) {
+          // If YouTube tokens are not available, set loading to false
+          setLoading(false);
+          return;
+        }
 
         const response = await axios.get('http://localhost:7000/data', {
           headers: {
@@ -87,9 +96,10 @@ const Dashboard = () => {
         console.log(response.data)
         // setdata(data)
         setmonthlyAnalytics(data.monthlyAnalytics);
-        setOverallChannelAnalytics(data.overallChannelAnalytics.averageViewPercentage)
+        setOverallChannelAnalytics(data.overallChannelAnalytics)
         setavgView(data.overallChannelAnalytics.averageViewDuration)
-        setsub(data.overallChannelAnalytics.subscribersGained)
+        setViews(data.overallChannelAnalytics.views)
+        // setsub(data.overallChannelAnalytics.subscribersGained)
      
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -106,21 +116,46 @@ const Dashboard = () => {
   }, []);
 
 
+
   return (
     <Grid container spacing={gridSpacing}>
        {showCompleteProfileCard && (
-        <Grid item  sm={12} xs={12} md={6} lg={12} component={NavLink} to={userType === "influencer" ? "/influencer/completeprofile" : "/business/completeprofile"}>
+        <Grid item  sm={12} xs={12} md={12} lg={12} component={NavLink} to={userType === "influencer" ? "/influencer/completeprofile" : "/business/completeprofile"}>
           <CompleteProfileCard isLoading={isLoading}    />
         </Grid>
       )}
+      {!localStorage.getItem("youtubeAccessToken") ||
+      !localStorage.getItem("youtubeRefreshToken") ? (
+        <Grid item xs={12} sm={12} md={6} lg={12}>
+          <Box sx={{width:1, height:"400px", display:"flex", justifyContent:"center", alignItems:"center", flexDirection:"column"}}>
+            <Typography sx={{fontSize:24}}>Your Youtube account is not connected</Typography>
+            <Button
+         component = {NavLink} to = "http://localhost:7000/login"
+          sx={{
+            marginTop:"20px",
+            paddingX: "40px",
+            paddingY: "10px",
+            fontSize: "14px",
+            backgroundColor: "red",
+          }}
+          role={undefined}
+          variant="contained"
+          tabIndex={-1}
+          startIcon={<YouTubeIcon />}
+        >
+          Connect Youtube
+        </Button>
+          </Box>
+        </Grid>
+      ) : (
+        <>
       <Grid item xs={12}>
         <Grid container spacing={gridSpacing}>
           <Grid item lg={4} md={6} sm={6} xs={12}>
             <EarningCard isLoading={isLoading} avgView={avgView}/>
           </Grid>
           <Grid item lg={4} md={6} sm={6} xs={12}>
-            <EarningCard isLoading={isLoading} avgView={avgView}/>
-            
+            <TotalView isLoading={isLoading} avgView={views}/>
           </Grid>
           <Grid item lg={4} md={12} sm={12} xs={12}>
             <Grid container spacing={gridSpacing}>
@@ -144,8 +179,12 @@ const Dashboard = () => {
           </Grid>
         </Grid>
       </Grid>
+      </>
+    )}
     </Grid>
   );
 };
+
+
 
 export default Dashboard;

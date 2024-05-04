@@ -234,6 +234,7 @@ export default function SelectedEvent() {
                       influencerName={influencer.influencer.name}
                       userName={influencer.influencer.user}
                       influencerId ={influencer.id}
+                      amount = {influencer.cost}
                     />
                   </Grid>
                 ))}

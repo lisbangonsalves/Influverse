@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Grid,  Typography } from '@mui/material';
+import { Grid,  Typography, Box} from '@mui/material';
 
 // third-party
 // eslint-disable-next-line
@@ -133,16 +133,43 @@ const TotalGrowthBarChart = ({ isLoading ,overallChannelAnalytics,monthlyAnalyti
           <Grid container spacing={gridSpacing}>
             <Grid item xs={12}>
               <Grid container alignItems="center" justifyContent="space-between">
-                <Grid item>
+         
+                  <Box sx={{display:'flex', width:1}}>
                   <Grid container direction="column" spacing={1}>
                     <Grid item>
                       <Typography variant="subtitle2">Average View Percentage</Typography>
                     </Grid>
                     <Grid item>
-                      <Typography variant="h3">{overallChannelAnalytics}%</Typography>
+                      <Typography variant="h3">{overallChannelAnalytics.averageViewPercentage}%</Typography>
                     </Grid>
                   </Grid>
-                </Grid>
+                  <Grid container direction="column" spacing={1}>
+                    <Grid item>
+                      <Typography variant="subtitle2">Subscribers Gained</Typography>
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="h3">{overallChannelAnalytics.subscribersGained}</Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid container direction="column" spacing={1}>
+                    <Grid item>
+                      <Typography variant="subtitle2">Comments</Typography>
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="h3">{overallChannelAnalytics.comments}</Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid container direction="column" spacing={1}>
+                    <Grid item>
+                      <Typography variant="subtitle2">Likes</Typography>
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="h3">{overallChannelAnalytics.likes}</Typography>
+                    </Grid>
+                  </Grid>
+                  </Box>
+                  
+           
                 
               </Grid>
             </Grid>

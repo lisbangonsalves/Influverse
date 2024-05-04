@@ -24,9 +24,10 @@ const RedirectComponent = () => {
       // Optionally, you can store tokens in local storage
       localStorage.setItem("youtubeAccessToken", accessTokenParam);
       localStorage.setItem("youtubeRefreshToken", refreshTokenParam);
-
+      const storedUser = JSON.parse(localStorage.getItem('user'));
+      const type =storedUser?.business ? "business" : storedUser?.influencer ? "influencer":"" 
       // Redirect to complete profile page
-      navigate("/influencer/completeprofile/");
+      navigate(`/${type}/dashboard/`);
     }
   }, [history]);
 

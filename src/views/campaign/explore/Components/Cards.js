@@ -125,11 +125,11 @@ export default function Cards({ name, industry, country, id, campaignId }) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          How Much do you want to pay influencer
+          How Much do you want to pay influencer ?
         </DialogTitle>
         <DialogContent>
         <TextField onChange={handleAmountChange}
-                value={amount} id="outlined-basic" label="Outlined" variant="outlined" />
+                value={amount} id="outlined-basic" placeholder="Amount in ETH" variant="outlined" />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Disagree</Button>

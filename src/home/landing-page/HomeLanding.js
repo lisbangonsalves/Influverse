@@ -22,10 +22,6 @@ const theme = createTheme({
 export default function Hero() {
   return (
     <>
-      {/* <SvgIcon> */}
-      <Homesvg />
-      {/* </SvgIcon> */}
-
       <Box
         id="hero"
         sx={(theme) => ({
@@ -112,6 +108,9 @@ export default function Hero() {
             })}
           ></Box>
         </Container>
+        {/* <SvgIcon> */}
+      <Homesvg />
+      {/* </SvgIcon> */}
       </Box>
     </>
   );

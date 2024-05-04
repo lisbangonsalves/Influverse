@@ -4,8 +4,10 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import { Button, Typography } from "@mui/material";
 import axios from "axios"; // Import axios for making HTTP requests
+import Web3 from 'web3';
+import Web3MarketingSuiteContract from '../../../contracts/Web3MarketingSuite.json';
 
-function EventRequest({ influencerName, userName, influencerId }) {
+function EventRequest({ influencerName, userName, influencerId, amount }) {
   const user = JSON.parse(localStorage.getItem("user"));
   const handleRemoveClick = async () => {
     try {
@@ -18,6 +20,37 @@ function EventRequest({ influencerName, userName, influencerId }) {
       // Handle error, maybe show a notification to the user
     }
   };
+
+
+
+// Assuming you have a provider set up
+const web3 = new Web3(window.ethereum);
+
+// Define the contract ABI and address
+const contract = new web3.eth.Contract(
+  Web3MarketingSuiteContract.abi,
+  '0x750C8BF95170379773c5fCDD5a88346228bBCE99'// Replace with your contract address
+);
+// Function to handle making a payment to the influencer
+const handleMakePayment = async () => {
+  try {
+    // Convert 0.2 ETH to wei
+    const accounts = await web3.eth.getAccounts();
+      const defaultAccount = accounts[0];
+    const amountInWei = web3.utils.toWei(`${amount}`, 'ether');
+
+    // Call the makeTransactionToInfluencer function
+    const transaction = await contract.methods.makeTransactionToInfluencer(influencerName, amountInWei).send({ from: defaultAccount, value : amountInWei,  gas: 100000 });
+
+    // Handle transaction success
+    console.log("Payment successful:", transaction);
+  } catch (error) {
+    console.error("Error making payment:", error);
+  }
+};
+
+
+
   return (
     <Card sx={{ display: "flex", boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)" }}>
       <CardMedia
@@ -40,9 +73,10 @@ function EventRequest({ influencerName, userName, influencerId }) {
               {influencerName}
             </Typography>
             <Typography>{userName}</Typography>
+            <Typography>{amount}</Typography>
           </Box>
           <Box>
-            <Button>View Account</Button>
+            <Button onClick={handleMakePayment} >Make Payment</Button>
             <Button sx={{color:"red"}} onClick={handleRemoveClick}>Remove</Button>
           </Box>
         

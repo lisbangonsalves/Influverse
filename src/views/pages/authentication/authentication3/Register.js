@@ -20,8 +20,16 @@ import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [showPassword, setShowPassword] = React.useState(false);
-
+  const [usernameError, setUsernameError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [password1Error, setPassword1Error] = useState("");
+  const [error, setError] = useState("");
+  const [openSnackbar, setOpenSnackbar] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -33,15 +41,11 @@ const Register = () => {
     password1: "",
     password2: "",
   });
-  const [error, setError] = useState("");
-  const [openSnackbar, setOpenSnackbar] = useState(false);
+
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-  const handleCloseSnackbar = () => {
-    setOpenSnackbar(false);
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -70,15 +74,21 @@ const Register = () => {
         navigate("/accounttype");
         // Redirect to dashboard or other page
       } else {
-        
         const errorResponse = await response.json();
-        setError(errorResponse.message || "Something went wrong!");
-        setOpenSnackbar(true);
+      console.log(errorResponse);
+      setUsernameError(errorResponse.username ? errorResponse.username[0] : "");
+      setEmailError(errorResponse.email ? errorResponse.email[0] : "");
+      setPassword1Error(errorResponse.password1 ? errorResponse.password1[0] : "");
+      setError(errorResponse.password1 ? errorResponse.password1[0] : "");
+      setOpenSnackbar(true);
+        
+        
       }
     } catch (error) {
-      console.error("Error logging in:", error);
-      setError("Network error. Please try again later.");
-      setOpenSnackbar(true);
+    console.error("Error logging in:", error);
+    setError("Network error. Please try again later.");
+    setOpenSnackbar(true);
+      
     }
   };
 
@@ -129,6 +139,8 @@ const Register = () => {
                   name="username"
                   value={formData.username}
                   onChange={handleChange}
+                  error={Boolean(usernameError)}
+                  helperText={usernameError}
                 />
                 <TextField
                   id="outlined-basic"
@@ -139,13 +151,16 @@ const Register = () => {
                   name="email"
                   variant="outlined"
                   sx={{ width: "85%", marginY: "20px" }}
+                  error={Boolean(emailError)}
+                  helperText={emailError}
                 />
 
                 <Box sx={{ width: "85%", marginY: "20px" }}>
                   <OutlinedInput
                   sx={{width:1}}
                     name="password1"
-                    
+                    error={Boolean(password1Error)}
+                  helperText={password1Error}
                     value={formData.password1}
                     onChange={handleChange}
                     id="outlined-adornment-password"
@@ -169,7 +184,8 @@ const Register = () => {
                   <OutlinedInput
                   sx={{width:1}}
                     name="password2"
-                    
+                    error={Boolean(password1Error)}
+                  helperText={password1Error}
                     value={formData.password2}
                     onChange={handleChange}
                     id="outlined-adornment-password"

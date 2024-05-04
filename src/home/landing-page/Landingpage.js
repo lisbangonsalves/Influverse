@@ -90,13 +90,13 @@ function LandingPage(props) {
           </Box>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
               <Button component = {NavLink} to = "/features"  sx={{ color: '#fff' , marginRight : 2 }}>
-                Featuress
+                Features
               </Button>
               <Button component = {NavLink} to = "/pricing"  sx={{ color: '#fff' , marginRight : 1 }}>
                 Pricing
               </Button>
               <Button component = {NavLink} to = "/blog"  sx={{ color: '#fff' }}>
-                Blog
+                About Us
               </Button>
               <Button component = {NavLink} to = "/login"  sx={{ color: '#fff'}}>
                 Login

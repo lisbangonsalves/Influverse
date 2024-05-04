@@ -120,6 +120,7 @@ export default function CampaignList() {
                 businessName={campaign.business.name}
                 campaignName={campaign.campaign.name}
                 campaignId={campaign.campaign.id}
+                amount = {campaign.cost}
                 slug={user.influencer[0].slug}
                 onAccept={fetchData}
               />
@@ -152,7 +153,7 @@ export default function CampaignList() {
                       <TableRow
                         key={campaign.id}
                         component={NavLink}
-                        to={`/business/campaign/${user.influencer[0].slug}/${campaign.id}`}
+                        to={`/influencer/campaign/${campaign.business.slug}/${campaign.campaign.id}`}
                         sx={{ cursor: "pointer", textDecoration: "none" }}
                       >
                         <TableCell>{campaign.campaign.name}</TableCell>

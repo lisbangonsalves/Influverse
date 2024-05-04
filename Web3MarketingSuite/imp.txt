@@ -1,0 +1,18 @@
+   Deploying 'Web3MarketingSuite'
+   ------------------------------
+   > transaction hash:    0x760bd79d8f5c3c2734cd6bfe786d5ada82d4133d2175a356b4f93f9f8718d615
+   > Blocks: 0            Seconds: 0
+   > contract address:    0x750C8BF95170379773c5fCDD5a88346228bBCE99
+   > block number:        3
+   > block timestamp:     1714755373
+   > account:             0xd3aA18C5683cb98D022C26B3410e75Ea46126Fb3
+   > balance:             999999999.995248275151135398
+   > gas used:            1162414 (0x11bcae)
+   > gas price:           3.169921876 gwei
+   > value sent:          0 ETH
+   > total cost:          0.003684761567568664 ETH
+
+   > Saving migration to chain.                                                                                                        
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:     0.003684761567568664 ETH

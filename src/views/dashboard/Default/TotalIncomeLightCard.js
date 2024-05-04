@@ -9,7 +9,7 @@ import MainCard from 'ui-component/cards/MainCard';
 import TotalIncomeCard from 'ui-component/cards/Skeleton/TotalIncomeCard';
 
 // assets
-import StorefrontTwoToneIcon from '@mui/icons-material/StorefrontTwoTone';
+import EventIcon from '@mui/icons-material/Event';
 
 // styles
 const CardWrapper = styled(MainCard)(({ theme }) => ({
@@ -61,7 +61,7 @@ const TotalIncomeLightCard = ({ isLoading }) => {
                       color: theme.palette.warning.dark
                     }}
                   >
-                    <StorefrontTwoToneIcon fontSize="inherit" />
+                    <EventIcon fontSize="inherit" />
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
@@ -70,7 +70,7 @@ const TotalIncomeLightCard = ({ isLoading }) => {
                     mt: 0.45,
                     mb: 0.45
                   }}
-                  primary={<Typography variant="h4">$203k</Typography>}
+                  primary={<Typography variant="h4">12</Typography>}
                   secondary={
                     <Typography
                       variant="subtitle2"
@@ -79,7 +79,7 @@ const TotalIncomeLightCard = ({ isLoading }) => {
                         mt: 0.5
                       }}
                     >
-                      Total Income
+                      Ongoing Events
                     </Typography>
                   }
                 />

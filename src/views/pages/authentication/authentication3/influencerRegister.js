@@ -13,6 +13,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import img1 from "./assets/register1.png";
 import "./login2.css";
+import Web3 from 'web3';
+import Web3MarketingSuiteContract from '../../../../contracts/Web3MarketingSuite.json';
 
 
 
@@ -67,9 +69,23 @@ const Login = () => {
       );
       
 
-      // // Handle the response as needed
-      // console.log("Response:", response.data);
+
+
+
       if (response.status===201) {
+        // ######################################################
+        const web3 = new Web3(window.ethereum);
+
+        const contract = new web3.eth.Contract(
+          Web3MarketingSuiteContract.abi,
+          '0x750C8BF95170379773c5fCDD5a88346228bBCE99' 
+        );
+        const accounts = await web3.eth.getAccounts();
+        const defaultAccount = accounts[0];
+  
+        const result = await contract.methods.registerInfluencer(formData.name,defaultAccount).send({ from: defaultAccount });
+        console.log(result);
+        // #######################################################
 
 
         localStorage.setItem("user", JSON.stringify(response.data) );
@@ -132,6 +148,7 @@ const Login = () => {
                   placeholder="Full Name"
                   variant="outlined"
                   value={formData.name}
+                  required
                   onChange={handleFormChange}
                   sx={{ width: "85%", marginY: "20px" }}
                 />
@@ -141,6 +158,7 @@ const Login = () => {
                   placeholder="Phone No"
                   value={formData.phone}
                   onChange={handleFormChange}
+                  required
                   variant="outlined"
                   sx={{ width: "85%", marginY: "20px" }}
                 />
@@ -193,7 +211,7 @@ const Login = () => {
                         color: "black",
                       }}
                       component={NavLink}
-                      to="/signin"
+                      to="/login"
                     >
                       SignIn
                     </Typography>

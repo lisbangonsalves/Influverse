@@ -40,6 +40,7 @@ function Login() {
           body: JSON.stringify(formData),
         },
       );
+      
       console.log(response);
       if (response.ok) {
         const data = await response.json();
@@ -55,7 +56,7 @@ function Login() {
         // Redirect to dashboard or other page
       } else {
         const errorResponse = await response.json();
-        setError(errorResponse.message || "Something went wrong!");
+        setError(errorResponse.message || "Please check your credentials!");
         setOpenSnackbar(true);
       }
     } catch (error) {

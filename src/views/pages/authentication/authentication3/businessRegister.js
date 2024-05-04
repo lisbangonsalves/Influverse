@@ -14,9 +14,8 @@ import { useNavigate } from "react-router-dom";
 import img1 from "./assets/register1.png";
 import "./login2.css";
 // Import Web3 and Contract ABI
-import Web3 from 'web3';
-import Web3MarketingSuiteContract from '../../../../contracts/Web3MarketingSuite.json';
-
+import Web3 from "web3";
+import Web3MarketingSuiteContract from "../../../../contracts/Web3MarketingSuite.json";
 
 const Login = () => {
   // const navigate = useNavigate();
@@ -60,7 +59,7 @@ const Login = () => {
       // Make a POST request to your server endpoint
       const headers = {
         "Content-Type": "application/json",
-        Authorization: 'Bearer ' + accessToken,
+        Authorization: "Bearer " + accessToken,
       };
       const response = await axios.post(
         "https://influverse-backend.onrender.com/api/interface-buisness/buisness/create",
@@ -68,35 +67,31 @@ const Login = () => {
         { headers },
       );
 
-      // // Handle the response as needed
-      // console.log("Response:", response.data);
-      const web3 = new Web3(window.ethereum);
-      // Get the contract instance
-      const contract = new web3.eth.Contract(
-        Web3MarketingSuiteContract.abi,
-        '0x353f7471AB93ca54D6bfb5b9A7269931211e1F6d' // Replace with your contract address
-      );
-      const accounts = await web3.eth.getAccounts();
-      const defaultAccount = accounts[0];
-      // Make a call to the contract method
-      const result = await contract.methods.createBusiness(formData.name).send({ from: defaultAccount });
+      if (response.status === 201) {
+        // ##################################################
+        const web3 = new Web3(window.ethereum);
+        const contract = new web3.eth.Contract(
+          Web3MarketingSuiteContract.abi,
+          "0x750C8BF95170379773c5fCDD5a88346228bBCE99",
+        );
+        const accounts = await web3.eth.getAccounts();
+        const defaultAccount = accounts[0];
+        const result = await contract.methods
+          .registerBusiness(formData.name)
+          .send({ from: defaultAccount });
+        console.log(result);
+        // ##################################################
 
-      // Handle the result as needed
-      console.log(result);
+        localStorage.setItem("user", JSON.stringify(response.data));
 
-      if (response.status===201) {
-
-
-        localStorage.setItem("user", JSON.stringify(response.data) );
-     
         console.log("success");
         navigate("/business/dashboard");
       } else {
         const errorResponse = await response.json();
-    setError(errorResponse.message || 'Something went wrong!');
-    setOpenSnackbar(true);
+        setError(errorResponse.message || "Something went wrong!");
+        setOpenSnackbar(true);
       }
-        // Redirect to dashboard or other page
+      // Redirect to dashboard or other page
     } catch (error) {
       // Handle error
       console.error("Error:", error);
@@ -147,6 +142,7 @@ const Login = () => {
                   placeholder="Company Name"
                   variant="outlined"
                   value={formData.name}
+                  required
                   onChange={handleFormChange}
                   sx={{ width: "85%", marginY: "20px" }}
                 />
@@ -158,6 +154,7 @@ const Login = () => {
                   onChange={handleFormChange}
                   variant="outlined"
                   sx={{ width: "85%", marginY: "20px" }}
+                  required
                 />
 
                 <Autocomplete
@@ -167,6 +164,7 @@ const Login = () => {
                   options={industryType.map((option) => option.title)}
                   freeSolo
                   value={formData.industry}
+          
                   onChange={handleIndustryTypeChange}
                   renderTags={(value, getTagProps) =>
                     value.map((option, index) => (
@@ -180,6 +178,7 @@ const Login = () => {
                   }
                   renderInput={(params) => (
                     <TextField
+                    
                       {...params}
                       variant="outlined"
                       sx={{ width: 1 }}
@@ -208,7 +207,7 @@ const Login = () => {
                         color: "black",
                       }}
                       component={NavLink}
-                      to="/signin"
+                      to="/login"
                     >
                       SignIn
                     </Typography>
