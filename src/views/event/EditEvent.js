@@ -16,11 +16,59 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
+import { styled } from "@mui/material/styles";
+// import { Interest } from "views/data/interest";
+// import { countries } from "views/data/countries";
 import axios from "axios"; // Import axios for making HTTP requests
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
+const ImageButton = styled("label")(({ theme }) => ({
+  position: "relative",
+  height: 200,
+  width: 200,
+  cursor: "pointer",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  border: "2px solid",
+  borderColor: theme.palette.primary.main,
+  "&:hover, &.Mui-focusVisible": {
+    zIndex: 1,
+    "& .MuiImageBackdrop-root": {
+      opacity: 0.15,
+    },
+    "& .MuiImageMarked-root": {
+      opacity: 0,
+    },
+    "& .MuiTypography-root": {
+      border: "4px solid currentColor",
+    },
+  },
+}));
+
+const ImageSrc = styled("span")({
+  position: "absolute",
+  left: 0,
+  right: 0,
+  top: 0,
+  bottom: 0,
+  backgroundSize: "cover",
+  backgroundPosition: "center 40%",
+});
+
+const Image = styled("span")(({ theme }) => ({
+  position: "absolute",
+  left: 0,
+  right: 0,
+  top: 0,
+  bottom: 0,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  color: theme.palette.common.white,
+}));
 
 
 
@@ -38,7 +86,7 @@ const { id } = useParams();
     // Fetch event data from the API
     axios
       .get(
-        `https://influverse-backend.onrender.com/api/interface-buisness/${userx.business[0].slug}/events/${id}`,
+        `https://influverse-backend.onrender.com/api/interface-buisness/events/${id}`,
       )
       .then((response) => {
         setEventData(response.data); // Update state with fetched data
@@ -77,7 +125,7 @@ const { id } = useParams();
       setEventGoals(eventData.goals); 
       setEventType(eventData.event_type);
       setEventCountry(eventData.country);
-    //   setEventBudget(eventData.event_budget);
+      setEventBudget("300000");
     setTargetAge(eventData.target_age);
     setTargetGender(eventData.target_gender);
     setTargetIncomeLevel(eventData.target_income);
@@ -85,8 +133,55 @@ const { id } = useParams();
     setEventCountry(eventData.country);
     setTargetCommunicationChannel(eventData.communication_channel);
     settargetInterests(eventData.target_interests);
+    setImage(eventData.image)
+    setstartDate(dayjs(eventData.start_date));
+    setendDate(dayjs(eventData.end_date));
+  // Get current date
+  const currentDate = new Date();
 
+  // Parse hours, minutes, and seconds from eventData.start_time
+  const startHours = eventData.start_time.$H;
+  const startMinutes = eventData.start_time.$m;
+  const startSeconds = eventData.start_time.$s;
 
+  // Construct start time object with current date
+  const formattedStartTime = {
+    $y: currentDate.getFullYear(),
+    $M: currentDate.getMonth(),
+    $D: currentDate.getDate(),
+    $H: startHours,
+    $m: startMinutes,
+    $s: startSeconds,
+    $ms: 0, // Assuming milliseconds are not provided
+    $L: "en",
+    $u: undefined,
+    $x: {},
+    isDayjsObject: true
+  };
+
+  // Parse hours, minutes, and seconds from eventData.end_time
+  const endHours = eventData.end_time.$H;
+  const endMinutes = eventData.end_time.$m;
+  const endSeconds = eventData.end_time.$s;
+
+  // Construct end time object with current date
+  const formattedEndTime = {
+    $y: currentDate.getFullYear(),
+    $M: currentDate.getMonth(),
+    $D: currentDate.getDate(),
+    $H: endHours,
+    $m: endMinutes,
+    $s: endSeconds,
+    $ms: 0, // Assuming milliseconds are not provided
+    $L: "en",
+    $u: undefined,
+    $x: {},
+    isDayjsObject: true
+  };
+
+  // Set formatted start and end times in the state
+  setEventStartTime(formattedStartTime);
+  setEventEndTime(formattedEndTime);
 
     }
   }, [eventData]); 
@@ -94,6 +189,8 @@ const { id } = useParams();
 
 
   const navigate = useNavigate();
+   // eslint-disable-next-line
+  const [imageFile, setImageFile] = useState(null);
   
   const handleEventName = (event) => {
     setEventName(event.target.value);
@@ -116,6 +213,7 @@ const { id } = useParams();
   };
   
   const handleEndTimeChange = (newTime) => {
+    console.log(newTime)
     // You can add any validation or processing logic here
     setEventEndTime(newTime); // Assuming `endTime` is a state variable managed by useState
   };
@@ -197,6 +295,16 @@ const { id } = useParams();
       });
     }
   };
+  const [image, setImage] = useState("");
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      console.log("Selected file:", file);
+      setImage(URL.createObjectURL(file));
+      setImageFile(file);
+    }
+  };
 
 
   const handleSubmit = async (event) => {
@@ -243,33 +351,35 @@ const eventEtime = `${EjsDate.getHours().toString().padStart(2, '0')}:${EjsDate.
 
       
       
-      const user = JSON.parse(localStorage.getItem('user'))
-      const response = await fetch(`https://influverse-backend.onrender.com/api/interface-buisness/${user.slug}/events/create`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name:eventName,
-          description:eventDescription,
-          goals:eventGoals,
-          event_type:[eventType],
-        start_date:moment(startDate).format('YYYY-MM-DD') ,
-        end_date:moment(endDate).format('YYYY-MM-DD') ,
-        start_time: eventStime,
-        end_time: eventEtime,
-        country:eventCountry.country,
-        budget:eventBudget,
-        target_age:targetAge,
-        target_gender:targetGender,
-        target_income:targetIncomeLevel,
-        target_occupation:targetoccupation,
-        communication_channel:targetCommunicationChannel,
-        target_interests:targetInterests
-        }),
-      });
+      // const user = JSON.parse(localStorage.getItem('user'))
+     const  formData = new FormData();
+    formData.append('image', event.target['image-upload'].files[0]); // Append the image file
+    formData.append('name', eventName);
+    formData.append('description', eventDescription);
+    formData.append('goals', eventGoals);
+    formData.append('event_type', [eventType]);
+    formData.append('start_date', moment(startDate).format("YYYY-MM-DD"));
+    formData.append('end_date', moment(endDate).format("YYYY-MM-DD"));
+    formData.append('start_time', eventStime);
+    formData.append('end_time', eventEtime);
+    formData.append('country', eventCountry.country);
+    formData.append('budget', eventBudget);
+    formData.append('target_age', targetAge);
+    formData.append('target_gender', targetGender);
+    formData.append('target_income', targetIncomeLevel);
+    formData.append('target_occupation', targetoccupation);
+    formData.append('communication_channel', targetCommunicationChannel);
+    formData.append('target_interests', JSON.stringify(targetInterests));
+    const response = await fetch(
+      `https://influverse-backend.onrender.com/api/interface-buisness/events/${id}`,
+      {
+        method: "PATCH",
+       
+        body: formData,
+      },
+    );
       if (response.ok) {
-        navigate("/view/event");
+        navigate("/business/event");
         // Handle success
         console.log("Data sent successfully!");
       } else {
@@ -310,6 +420,29 @@ const eventEtime = `${EjsDate.getHours().toString().padStart(2, '0')}:${EjsDate.
               <Typography>Create Event</Typography>
             </Box>
           </Grid>
+          <Grid item xs={12}>
+              <Box sx={{ width: 1, display: "flex", justifyContent: "center" }}>
+                <ImageButton htmlFor="image-upload">
+                  <input
+                    type="file"
+                    id="image-upload"
+                    accept="image/*"
+                    style={{ display: "none" }}
+                    onChange={handleImageUpload}
+      
+                  />
+                  <ImageSrc
+                    style={{
+                      backgroundImage: `url(${image})`,
+                     
+                    }}
+                  />
+                  <Image>
+                    <CameraAltIcon />
+                  </Image>
+                </ImageButton>
+              </Box>
+            </Grid>
           <Grid item xs={12}>
             <TextField
             onChange={handleEventName}

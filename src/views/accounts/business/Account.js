@@ -4,16 +4,15 @@ import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import { Typography } from "@mui/material";
-import Button from "@mui/material/Button";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import YouTubeIcon from "@mui/icons-material/YouTube";
-import XIcon from "@mui/icons-material/X";
+import Chip from '@mui/material/Chip';
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Analytics from "./components/Analytics";
+import About from './components/About'
+import CompleteProfileCard from "./components/CompleteProfileCard";
+import { NavLink } from "react-router-dom";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -50,12 +49,30 @@ function a11yProps(index) {
 
 export default function Account() {
   const [value, setValue] = React.useState(0);
+  const user = JSON.parse(localStorage.getItem("user"))
+
+  const isProfileIncomplete = !user ||
+  !user.business ||
+  !user.business[0] ||
+  !user.business[0].image ||
+  !user.business[0].name ||
+  !user.business[0].user ||
+  !user.business[0].industry ||
+  user.business[0].industry.length === 0 ||
+  !user.business[0].address ||
+  !user.business[0].country;
+
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
   return (
     <Box sx={{ display: "flex", width: 1 }}>
+        {isProfileIncomplete ? (
+            <Box sx={{width:1}} component={NavLink} to="/business/completeprofile">
+            <CompleteProfileCard  />
+          </Box>
+          ) : (
       <Grid container spacing={2}>
         <Grid item xs={3}>
           <Box
@@ -71,7 +88,7 @@ export default function Account() {
             <Card>
               <CardMedia
                 component="img"
-                image="https://images.unsplash.com/photo-1603217039863-aa0c865404f7?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                image={user.business[0].image}
                 alt="green iguana"
               />
             </Card>
@@ -82,27 +99,15 @@ export default function Account() {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                marginTop: "20px",
               }}
             >
-              <Typography sx={{ fontSize: "24px" }}>Sia Menzes</Typography>
-              <Typography sx={{ marginBottom: "20px", fontSize: "12px" }}>
-                Fashion & Beauty
+              <Typography sx={{ fontSize: "24px" }}>{user.business[0].name}</Typography>
+              <Typography sx={{ fontSize: "14px" }}>@{user.business[0].user}</Typography>
+              <Typography sx={{  fontSize: "12px", marginTop:"10px" }}>
+              {user.business[0].industry.map((industry, index) => (
+                    <Chip sx={{margin:"3px"}} key={index} label={industry} />
+                  ))}
               </Typography>
-              <Button variant="contained">Connect</Button>
-              <Box
-                sx={{
-                  marginTop: "30px",
-                  width: "70%",
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}
-              >
-                <InstagramIcon sx={{ fontSize: "24px" }} />
-                <FacebookIcon sx={{ fontSize: "24px" }} />
-                <YouTubeIcon sx={{ fontSize: "24px" }} />
-                <XIcon sx={{ fontSize: "24px" }} />
-              </Box>
               <Box
                 sx={{
                   display: "flex",
@@ -112,21 +117,12 @@ export default function Account() {
                 }}
               >
                 <LocationOnIcon fontSize="small" />
-                <Typography>Los Angeles, USA</Typography>
+                <Typography>{user.business[0].address}, {user.business[0].country}</Typography>
               </Box>
-              <Box sx={{ marginTop: "20px" }}>
-                <Typography sx={{ fontWeight: "bold", marginBottom: "5px" }}>
-                  Bio:
-                </Typography>
-                <Typography>
-                  Lorem ipsum dolor sit amet consectetur. Netus fermentum purus
-                  nunc nisl at lacus at aliquam. Volutpat lorem eget a quam
-                  tristique varius eget. Tortor magna feugiat integer sed vitae
-                  sagittis. Massa amet
-                </Typography>
-              </Box>
+              
             </Box>
           </Box>
+          
         </Grid>
         <Grid item xs={9}>
           <Box
@@ -145,17 +141,15 @@ export default function Account() {
                   onChange={handleChange}
                   aria-label="Accounts"
                 >
-                  <Tab label="Analytics" {...a11yProps(0)} />
-                  <Tab label="Posts" {...a11yProps(1)} />
-                  <Tab label="Campaigns" {...a11yProps(2)} />
-                  <Tab label="About" {...a11yProps(3)} />
+                  <Tab label="About" {...a11yProps(0)} />
+                  <Tab label="Analytics" {...a11yProps(1)} />
                 </Tabs>
               </Box>
               <CustomTabPanel value={value} index={0}>
-                <Analytics/>
+                <About/>
               </CustomTabPanel>
               <CustomTabPanel value={value} index={1}>
-                Item Two
+              <Analytics/>
               </CustomTabPanel>
               <CustomTabPanel value={value} index={2}>
                 Item 
@@ -167,6 +161,7 @@ export default function Account() {
           </Box>
         </Grid>
       </Grid>
+      )}
     </Box>
   );
 }

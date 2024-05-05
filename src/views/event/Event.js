@@ -4,15 +4,15 @@ import { Box } from "@mui/system";
 import { Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import { NavLink } from "react-router-dom";
+import Grid from '@mui/material/Grid';
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import { NavLink } from "react-router-dom";
-import Grid from '@mui/material/Grid';
+// import FormGroup from "@mui/material/FormGroup";
+// import FormControlLabel from "@mui/material/FormControlLabel";
+// import Checkbox from "@mui/material/Checkbox";
 
 
 
@@ -20,6 +20,8 @@ import Grid from '@mui/material/Grid';
 export default function Event() {
 
   const [eventsData, setEventsData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [dateFilter, setDateFilter] = useState('all');
 const user=JSON.parse(localStorage.getItem('user'))
   useEffect(() => {
     
@@ -28,6 +30,32 @@ const user=JSON.parse(localStorage.getItem('user'))
       .then(data => setEventsData(data))
       .catch(error => console.error("Error fetching events:", error));
   }, []);
+  
+  // Function to check if event date matches selected filter
+const checkDateFilter = (eventDate, filter) => {
+  const today = new Date();
+  const event = new Date(eventDate);
+  const diffTime = Math.abs(event - today);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+  switch(filter) {
+    case 'today':
+      return diffDays === 0;
+    case 'thisWeek':
+      return diffDays <= 7;
+    case 'thisMonth':
+      return event.getMonth() === today.getMonth() && event.getFullYear() === today.getFullYear();
+    default:
+      return true;
+  }
+};
+
+
+  // Filter events based on search term
+  const filteredEvents = eventsData.filter(event => {
+    const nameMatch = event.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const dateMatch = dateFilter === 'all' ? true : checkDateFilter(event.start_date, dateFilter);
+    return nameMatch && dateMatch;
+  });
 
   return (
     <Box>
@@ -71,41 +99,38 @@ const user=JSON.parse(localStorage.getItem('user'))
           marginTop: "20px",
         }}
       >
-        <TextField
+         <TextField
           id="outlined-basic"
-          placeholder="Explore Influvencers"
+          placeholder="Search Event"
           variant="outlined"
           sx={{ width: "75%", borderColor: "#161a30", borderWidth: "2px" }}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
-
-        <FormControl sx={{ width: "22%" }}>
-          <InputLabel id="demo-simple-select-label">Age</InputLabel>
+        
+        <FormControl sx={{ width: "23%" }}>
+          <InputLabel id="date-filter-label">Filter by Date</InputLabel>
           <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            // value={filter}
-            label="Age"
-            // onChange={handleChange}
+            labelId="date-filter-label"
+            id="date-filter-select"
+            value={dateFilter}
+            label="Filter by Date"
+            onChange={(e) => setDateFilter(e.target.value)}
           >
-            <FormGroup>
-              <MenuItem value={10}>
-                <FormControlLabel control={<Checkbox />} label="Label" />
-              </MenuItem>
-              <MenuItem value={20}>
-                <FormControlLabel control={<Checkbox />} label="Required" />
-              </MenuItem>
-              <MenuItem value={30}>
-                <FormControlLabel control={<Checkbox />} label="Required" />
-              </MenuItem>
-            </FormGroup>
+            <MenuItem value="all">All</MenuItem>
+            <MenuItem value="today">Today</MenuItem>
+            <MenuItem value="thisWeek">This Week</MenuItem>
+            <MenuItem value="thisMonth">This Month</MenuItem>
           </Select>
         </FormControl>
+
       </Box>
       <Box sx={{ width: "100%", marginTop: "30px" }}>
         <Grid container spacing={2}>
-        {eventsData.map(event => (
+        {filteredEvents.map(event => (
             <Grid key={event.id} item xs={6}>
               <EventCard
+              avatar={event.image}
                 title={event.name}
                 description={event.description}
                 location={event.country}

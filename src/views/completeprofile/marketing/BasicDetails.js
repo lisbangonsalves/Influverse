@@ -61,7 +61,7 @@ const users = JSON.parse(localStorage.getItem("user"));
 const [name, setFullName] = useState(users?.business[0].name ?? "");
 const [email, setEmail] = useState(users?.business[0].email ?? "");
 const [phoneNumber, setPhoneNumber] = useState(users?.business[0].phone ?? "");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(users?.business[0].image ?? "");
 
   // const handleImageUpload = (event) => {
   //   const file = event.target.files[0];

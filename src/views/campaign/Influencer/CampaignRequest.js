@@ -4,6 +4,9 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import { Typography } from "@mui/material";
+import Web3 from 'web3';
+import Web3MarketingSuiteContract from '../../../contracts/Web3MarketingSuite.json';
+
 
 function EventRequest({
   businessName,
@@ -15,7 +18,7 @@ function EventRequest({
 }) {
   const [accepted, setAccepted] = useState(false);
   const [rejected, setRejected] = useState(false);
-  // const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("user"));
   
   const handleAccept = async () => {
     try {
@@ -33,6 +36,19 @@ function EventRequest({
 
 
       if (response.ok) {
+        // ######################################################
+        const web3 = new Web3(window.ethereum);
+
+        const contract = new web3.eth.Contract(
+          Web3MarketingSuiteContract.abi,
+          '0xCd5D3edE163044d653454eAB6d9AdFc9AdD9fEE0' 
+        );
+        const accounts = await web3.eth.getAccounts();
+        const defaultAccount = accounts[0];
+  
+        const result = await contract.methods.addInfluencerToCampaign(campaignName, user.influencer[0].name).send({ from: defaultAccount });
+        console.log(result);
+        // #######################################################
        
 
         setAccepted(true);

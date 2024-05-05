@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 // import { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import { Avatar, Button, CardActions, CardContent, Divider, Grid, Typography } from '@mui/material';
@@ -13,7 +13,7 @@ import { gridSpacing } from 'store/constant';
 
 // assets
 import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined';
-
+//eslint-disable-next-line
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 
@@ -21,7 +21,30 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 
 const PopularCard = ({ isLoading }) => {
   const theme = useTheme();
+  const [transactions, setTransactions] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const user = JSON.parse(localStorage.getItem('user'));
+        let url;
+        if (user.business && user.business.length > 0) {
+          url = `http://127.0.0.1:8000/api/interface-business/${user.business[0].slug}/campaign-influencer/`;
+        } else if (user.influencer && user.influencer.length > 0) {
+          url = `https://influverse-backend.onrender.com/api/interface-influence/${user.influencer[0].slug}/campaign-influencer/`;
+        } else {
+          // Handle the case when user data is not present in localStorage or doesn't match expected structure
+          return;
+        }
+        const response = await fetch(url);
+        const data = await response.json();
+        setTransactions(data.filter(transaction => transaction.transaction_id !== null));
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
 
+    fetchData();
+  }, []);
   return (
     <>
       {isLoading ? (
@@ -35,92 +58,58 @@ const PopularCard = ({ isLoading }) => {
                   <Grid item>
                     <Typography variant="h4">Transactions</Typography>
                   </Grid>
-                  
                 </Grid>
               </Grid>
               <Grid item xs={12}>
                 <Grid container direction="column">
-                  <Grid item>
-                    <Grid container alignItems="center" justifyContent="space-between">
-                      <Grid item>
-                        <Typography variant="subtitle1" color="inherit">
-                          Bajaj Finery
-                        </Typography>
-                      </Grid>
-                      <Grid item>
-                        <Grid container alignItems="center" justifyContent="space-between">
-                          <Grid item>
-                            <Typography variant="subtitle1" color="inherit">
-                              1.00 ETH
-                            </Typography>
-                          </Grid>
-                          <Grid item>
-                            <Avatar
-                              variant="rounded"
-                              sx={{
-                                width: 16,
-                                height: 16,
-                                borderRadius: '5px',
-                                backgroundColor: theme.palette.success.light,
-                                color: theme.palette.success.dark,
-                                ml: 2
-                              }}
-                            >
-                              <KeyboardArrowLeftIcon fontSize="small" color="inherit" />
-                            </Avatar>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="subtitle2" sx={{ color: 'success.dark' }}>
-                    0x5FaE04d52DB791B3c6484183FBB77CB5d435f5f430d77
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Divider sx={{ my: 1.5 }} />
-                <Grid container direction="column">
-                  <Grid item>
-                    <Grid container alignItems="center" justifyContent="space-between">
-                      <Grid item>
-                        <Typography variant="subtitle1" color="inherit">
-                          TTML
-                        </Typography>
-                      </Grid>
-                      <Grid item>
-                        <Grid container alignItems="center" justifyContent="space-between">
-                          <Grid item>
-                            <Typography variant="subtitle1" color="inherit">
-                              10.00 ETH
-                            </Typography>
-                          </Grid>
-                          <Grid item>
-                            <Avatar
-                              variant="rounded"
-                              sx={{
-                                width: 16,
-                                height: 16,
-                                borderRadius: '5px',
-                                backgroundColor: theme.palette.orange.light,
-                                color: theme.palette.orange.dark,
-                                marginLeft: 1.875
-                              }}
-                            >
-                              <KeyboardArrowRightIcon fontSize="small" color="inherit" />
-                            </Avatar>
+                  {transactions.length === 0 ? (
+                    <Typography variant="subtitle1">No transactions yet</Typography>
+                  ) : (
+                    transactions.map((transaction) => (
+                      <React.Fragment key={transaction.id}>
+                        <Grid item>
+                          <Grid container alignItems="center" justifyContent="space-between">
+                            <Grid item>
+                              <Typography variant="subtitle1" color="inherit">
+                                {transaction.campaign.name}
+                              </Typography>
+                            </Grid>
+                            <Grid item>
+                              <Grid container alignItems="center" justifyContent="space-between">
+                                <Grid item>
+                                  <Typography variant="subtitle1" color="inherit">
+                                    {transaction.cost} ETH
+                                  </Typography>
+                                </Grid>
+                                <Grid item>
+                                  <Avatar
+                                    variant="rounded"
+                                    sx={{
+                                      width: 16,
+                                      height: 16,
+                                      borderRadius: '5px',
+                                      backgroundColor: theme.palette.success.light,
+                                      color: theme.palette.success.dark,
+                                      ml: 2
+                                    }}
+                                  >
+                                    <KeyboardArrowLeftIcon fontSize="small" color="inherit" />
+                                  </Avatar>
+                                </Grid>
+                              </Grid>
+                            </Grid>
                           </Grid>
                         </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="subtitle2" sx={{ color: theme.palette.orange.dark }}>
-                    0x5FaE04d52DB791B3c6y84183FBB77CB5d435f5f430d77
-                    </Typography>
-                  </Grid>
+                        <Grid item>
+                          <Typography variant="subtitle2" sx={{ color: 'success.dark' }}>
+                            {transaction.transaction_id}
+                          </Typography>
+                        </Grid>
+                        <Divider sx={{ my: 1.5 }} />
+                      </React.Fragment>
+                    ))
+                  )}
                 </Grid>
-                <Divider sx={{ my: 1.5 }} />
               </Grid>
             </Grid>
           </CardContent>

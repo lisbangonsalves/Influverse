@@ -140,13 +140,29 @@ const users = JSON.parse(localStorage.getItem("user"));
     e.preventDefault();
 
     try {
-      console.log(JSON.stringify(formData))
+      
+      const formData1 = new FormData();
+      // Append form data
+      formData1.append('name', formData.name);
+      formData1.append('email', formData.email);
+      formData1.append('crn', formData.crn);
+      formData1.append('industry', formData.industry);
+      formData1.append('address', formData.address);
+      formData1.append('country', formData.country);
+      formData1.append('pincode', formData.pincode);
+      formData1.append('description', formData.description);
+      formData1.append('phone', formData.phone);
+      formData1.append('numberOfEmployees', formData.numberOfEmployees);
+      formData1.append('annual_revenue', formData.annual_revenue);
+      formData1.append('facebook', formData.facebook);
+      formData1.append('instagram', formData.instagram);
+      formData1.append('website', formData.website);
+      // Append image file
+      formData1.append('image', event.target['image-upload'].files[0]);
       const response = await fetch(`https://influverse-backend.onrender.com/api/interface-influence/influencer/${user.influencer[0].id}`, {
         method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
+        
+        body: formData1
       });
       console.log(response)
       if (response.ok) {

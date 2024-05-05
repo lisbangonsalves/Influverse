@@ -94,13 +94,36 @@ const Dashboard = () => {
   
         const data = response.data;
         console.log(response.data)
+          // Determine the endpoint URL based on the user type
+   
+
+   
         // setdata(data)
         setmonthlyAnalytics(data.monthlyAnalytics);
         setOverallChannelAnalytics(data.overallChannelAnalytics)
         setavgView(data.overallChannelAnalytics.averageViewDuration)
         setViews(data.overallChannelAnalytics.views)
         // setsub(data.overallChannelAnalytics.subscribersGained)
-     
+        let endpointUrl = '';
+        let payloadx={}
+        if (payload1.is_influencer===true) {
+          console.log("ghvhjfk,f")
+          endpointUrl = 'https://influverse-backend.onrender.com/api/interface-influence/insight/add';
+          payloadx = {
+            influencer: payload1.influencer[0].id,
+            insight: data
+          };
+        } else if (payload1.is_business===true) {
+          console.log("ghvhjfk,f")
+          endpointUrl = 'https://influverse-backend.onrender.com/api/interface-buisness/insights/add';
+          payloadx = {
+            business: payload1.business[0].id,
+            insight: data
+          };
+        }
+        const response1 = await axios.post(endpointUrl, payloadx);
+        const data1 = response1.data;
+        console.log(data1);
       } catch (error) {
         console.error('Error fetching data:', error);
        

@@ -16,3 +16,25 @@
    > Saving artifacts
    -------------------------------------
    > Total cost:     0.003684761567568664 ETH
+
+
+new###################################################################################################
+
+ Deploying 'Web3MarketingSuite'
+   ------------------------------
+   > transaction hash:    0x0a41bb8f278c98ffa587a5e0b90a5968e45d25a4266d73fdebebd2eeb9bc9ed5
+   > Blocks: 0            Seconds: 0
+   > contract address:    0xCd5D3edE163044d653454eAB6d9AdFc9AdD9fEE0
+   > block number:        33
+   > block timestamp:     1714842579
+   > account:             0xd3aA18C5683cb98D022C26B3410e75Ea46126Fb3
+   > balance:             999999999.990697852809036504
+   > gas used:            1457843 (0x163eb3)
+   > gas price:           2.512197362 gwei
+   > value sent:          0 ETH
+   > total cost:          0.003662389338810166 ETH
+
+   > Saving migration to chain.                                                                                                                             
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:     0.003662389338810166 ETH

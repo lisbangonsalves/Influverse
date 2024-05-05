@@ -11,13 +11,22 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 export default function EventCard(props) {
   
-  const { title, description, location, date,userid } = props;
+  const { title, description, location, date,userid ,avatar} = props;
+  const limitDescription = (description) => {
+    const words = description.split(' ');
+    if (words.length > 10) {
+      return words.slice(0, 10).join(' ') + '...';
+    } else {
+      return description;
+    }
+  };
+
   return (
     <Card sx={{ display: "flex" }}>
       <CardMedia
         component="img"
         sx={{ width: 151 }}
-        image="https://images.unsplash.com/photo-1462078563783-650e23af549d?q=80&w=1973&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        image={avatar}
         alt="Live from space album cover"
       />
       
@@ -30,7 +39,7 @@ export default function EventCard(props) {
           
           </Box>
           <Typography sx={{fontSize:12, width:"75%"}}>
-          {description}
+          {limitDescription(description)}
           </Typography>
           <Box sx={{display:'flex', width:1, justifyContent:"space-between", marginTop:"15px"}}>
             <Box sx={{display:'flex'}}>

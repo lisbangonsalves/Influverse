@@ -55,11 +55,17 @@ const GiftingExplore = Loadable(
 const CreateCampaign = Loadable(
   lazy(() => import("views/campaign/CreateCampaign")),
 );
+const EditCampaign = Loadable(
+  lazy(() => import("views/campaign/EditCampaign")),
+);
 const ExploreCampaign = Loadable(
   lazy(() => import("views/campaign/explore/Explore")),
 );
 const SelectedCampaign = Loadable(
   lazy(() => import("views/campaign/SelectedCampaign")),
+);
+const CampaignDraft = Loadable(
+  lazy(() => import("views/campaign/BusinessDraft/Draft")),
 );
 const CampaignList = Loadable(
   lazy(() => import("views/campaign/CampaignList")),
@@ -130,6 +136,10 @@ const MainRoutes = {
           element: <ProtectedRoute ><CreateCampaign /> </ProtectedRoute> ,
         },
         {
+          path: "edit-campaign/:campaignId",
+          element: <ProtectedRoute ><EditCampaign /> </ProtectedRoute> ,
+        },
+        {
           path: "explore/:campaignId",
           element: <ProtectedRoute ><ExploreCampaign/> </ProtectedRoute> ,
         },
@@ -140,6 +150,10 @@ const MainRoutes = {
         {
           path: ":slug/:id",
           element: <ProtectedRoute ><SelectedCampaign /></ProtectedRoute>,
+        },
+        {
+          path: "draft/:influencerId/:campaignId/:amount",
+          element: <ProtectedRoute ><CampaignDraft /></ProtectedRoute>,
         },
       ],
     },

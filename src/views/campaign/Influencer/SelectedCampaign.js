@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
 import CardMedia from "@mui/material/CardMedia";
-import {  Typography, Button } from "@mui/material";
+import {  Typography, Grid ,Chip, Button } from "@mui/material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import { NavLink } from "react-router-dom";
 import axios from "axios"; // Import axios for making HTTP requests
+import { NavLink } from "react-router-dom";
 import { useParams } from "react-router-dom";
-
 import Divider from "@mui/material/Divider";
+import CurrencyBitcoinIcon from "@mui/icons-material/CurrencyBitcoin";
 
 
 export default function SelectedEvent() {
@@ -41,78 +41,195 @@ export default function SelectedEvent() {
     <Box>
       {eventData && ( // Render the component only when data is available
         <Box>
-          <Card sx={{ width: 1 }}>
-            <CardMedia
-              component="img"
-              height="300px"
-              image="https://plus.unsplash.com/premium_photo-1685080293629-692fda8f3bb8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="Event Image"
-            />
-          </Card>
-          <Box sx={{backgroundColor:"white",paddingX:"20px",paddingY:"15px", marginTop:"20px", borderRadius:"10px"}}>
-          <Box
-            sx={{
-              display: "flex",
-              width: "100%",
-              justifyContent: "space-between",
-              alignItems: "center",
-              
-            }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                width: "37%",
-              }}
-            >
-              <Typography
-            sx={{ fontSize: 24, marginTop: "0px", fontWeight: "bold" }}
-          >
-            {eventData.name}
-          </Typography>
-              
-              
-            </Box>
-            
-          </Box>
-          
-          <Box>
-          <Box
-                sx={{
-                  display: "flex",
-                  color: "#DA2563",
-                  alignItems: "center",
-                  marginRight: "20px",
-                  marginBottom:"5px"
-                }}
-              >
-                <LocationOnIcon sx={{ fontSize: 18, marginRight: "1px" }} />
-                <Typography> {eventData.location}</Typography>
-              </Box>
-              <Box sx={{ display: "flex", alignItems: "center",color: "#DA2563", marginBottom:"5px"}}>
-                <CalendarMonthIcon sx={{ fontSize: 18, marginRight: "2px",  }} />
-                <Typography>
-                  {" "}
-                  {eventData.start_date} - {eventData.end_date}
-                </Typography>
-              </Box>
-              <Box sx={{ display: "flex", alignItems: "center", }}>
-                <Box sx={{color:"white", display: "flex", backgroundColor:"#109636", paddingX:"10px", paddingY:"5px" }}>
+          <Grid container spacing={2}>
+              <Grid item xs={4}>
+                <Card>
+                  <CardMedia
+                    component="img"
+                    height="350px"
+                    image={eventData.image}
+                    alt="Event Image"
+                  />
+                </Card>
+              </Grid>
+              <Grid item xs={8}>
+                <Box
+                  sx={{
+                    height: "350px",
+                    width: 1,
+                    backgroundColor: "white",
+                    paddingX: "20px",
+                    paddingY: "15px",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      width: "100%",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        width: "37%",
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          fontSize: 24,
+                          marginTop: "0px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {eventData.name}
+                      </Typography>
+                    </Box>
+                    
+                  </Box>
 
-                <Typography>Budget : </Typography>
-                <Typography sx={{fontWeight:"bold"}}>${eventData.budget}</Typography>
+                  <Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        color: "#DA2563",
+                        alignItems: "center",
+                        marginRight: "20px",
+                        marginBottom: "5px",
+                      }}
+                    >
+                      <Chip
+                        icon={<LocationOnIcon />}
+                        label={eventData.location}
+                      />
+                      <Chip
+                        sx={{ marginLeft: "5px" }}
+                        icon={<CalendarMonthIcon />}
+                        label={
+                          eventData.start_date + " to " + eventData.end_date
+                        }
+                        variant="outlined"
+                      />
+                    </Box>
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <Chip
+                        icon={<CurrencyBitcoinIcon />}
+                        label={"Budget : " + eventData.budget + " ETH"}
+                        color="success"
+                      />
+                    </Box>
+                  </Box>
+                  <Divider sx={{ marginY: "10px" }} />
+                  <Typography sx={{ fontSize: 16, fontWeight: "bold" }}>
+                    Description
+                  </Typography>
+
+                  <Typography sx={{ marginTop: "10px" }}>
+                    {eventData.description}
+                  </Typography>
                 </Box>
-              </Box>
-            </Box>
-          
-          <Typography sx={{ marginTop: "10px" }}>
-            {eventData.description}
-          </Typography>
-          <Button component = {NavLink} to = {`/influencer/campaign/draft/${id}/${slug}`} >
-            Send Draft
-          </Button>
-          </Box>
-          <Divider sx={{ marginY: "10px", marginTop:"15px" }} />
+              </Grid>
+              <Grid item xs={12}>
+                <Box sx={{
+                    width: 1,
+                    backgroundColor: "white",
+                    paddingX: "20px",
+                    paddingY: "15px",
+                    borderRadius: "10px",
+                  }}>
+                    <Box sx={{display:"flex", width:1, justifyContent:"space-between", alignItems:"center"}}>
+                    <Typography sx={{fontSize:16, fontWeight:"bold"}}>
+                      Message From {eventData.name}
+                    </Typography>
+                    <Button variant="contained" sx={{backgroundColor:"#161A30"}} component = {NavLink} to = {`/influencer/campaign/draft/${id}/${slug}`}>
+                      Send Draft
+                    </Button>
+                    </Box>
+                    <Divider sx={{marginY:"10px"}}/>
+                    <Typography>
+                      {eventData.message}
+                    </Typography>
+                    
+
+                </Box>
+              </Grid>
+              <Grid item xs={6}>
+                <Box
+                  sx={{
+                    height: "350px",
+                    width: 1,
+                    backgroundColor: "white",
+                    paddingX: "20px",
+                    paddingY: "15px",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <Typography sx={{ fontSize: 16, fontWeight: "bold" }}>
+                    Offer Description
+                  </Typography>
+                  <Divider sx={{marginY:"5px"}}/>
+                  <Typography>{eventData.offer_description}</Typography>
+                  <Typography
+                    sx={{ fontSize: 16, fontWeight: "bold", marginTop: "12px" }}
+                  >
+                    Offer Terms
+                  </Typography>
+                  <Divider  sx={{marginY:"5px"}}/>
+                  <Typography>{eventData.offer_terms}</Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={6}>
+                <Box
+                  sx={{
+                    height: "350px",
+                    width: 1,
+                    backgroundColor: "white",
+                    paddingX: "20px",
+                    paddingY: "15px",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <Typography sx={{ fontSize: 16, fontWeight: "bold" }}>
+                    Interest
+                  </Typography>
+                  <Divider  sx={{marginY:"5px"}}/>
+                  {eventData.interests.map((interests, index) => (
+                    <Chip key={index} label={interests} />
+                  ))}
+                  <Typography
+                    sx={{ fontSize: 16, fontWeight: "bold", marginTop: "12px" }}
+                  >
+                    Occupation
+                  </Typography>
+                  <Divider sx={{marginY:"5px"}}/>
+                  <Typography>{eventData.occupation}</Typography>
+                  <Typography
+                    sx={{ fontSize: 16, fontWeight: "bold", marginTop: "12px" }}
+                  >
+                    Objective
+                  </Typography>
+                  <Divider sx={{marginY:"5px"}}/>
+                  <Typography>{eventData.objective}</Typography>
+                  <Typography
+                    sx={{ fontSize: 16, fontWeight: "bold", marginTop: "12px" }}
+                  >
+                    Communication Channel
+                  </Typography>
+                  <Divider sx={{marginY:"5px"}}/>
+                  <Typography>{eventData.communication_channel}</Typography>
+                  <Typography
+                    sx={{ fontSize: 16, fontWeight: "bold", marginTop: "12px" }}
+                  >
+                    Creative Asset
+
+                  </Typography>
+                  <Divider sx={{marginY:"5px"}}/>
+                  <Typography>{eventData.creative_asset}</Typography>
+                </Box>
+              </Grid>
+            </Grid>
         </Box>
       )}
     </Box>

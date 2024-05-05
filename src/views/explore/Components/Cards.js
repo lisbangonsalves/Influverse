@@ -4,23 +4,25 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Avatar from "@mui/material/Avatar";
-import { Typography } from "@mui/material";
+import { Typography} from "@mui/material";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import YouTubeIcon from "@mui/icons-material/YouTube";
-import XIcon from "@mui/icons-material/X";
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 
-export default function Cards({ name, industry, country, id }) {
+
+export default function Cards({ name, industry, country, id ,image}) {
 
   
 
   return (
     <Card
       sx={{
+        display:"flex",
+        flexDirection:"column",
+        justifyContent:"space-between",
         width: 1,
-        maxWidth: "100%",
+        
+        maxWidth: "400px",
         boxShadow:
           "0 2px 4px -2px rgba(0,0,0,0.24), 0 4px 24px -2px rgba(0, 0, 0, 0.2)",
       }}
@@ -35,26 +37,21 @@ export default function Cards({ name, industry, country, id }) {
         >
           <Avatar
             alt={id}
-            src="https://images.unsplash.com/photo-1621573321410-bf4db2a65ff1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src={image}
             sx={{ width: 100, height: 100, marginRight: "20px" }}
           />
           <Box>
             <Typography sx={{ fontSize: "22px", fontWeight: "bold" }}>
             {name}
             </Typography>
-            <Typography>{industry.join(', ')}</Typography>
-            <Typography sx={{ fontStyle: "italic", fontSize: "12px" }}>
-            {country}
+                   <Typography>{industry.join(', ')}</Typography>
+            <Typography sx={{ fontStyle: "italic", fontSize: "14px", display:"flex", justifyContent:"flex-start", alignItem:"center", marginY:"10px" }}>
+             <LocationOnIcon fontSize="inherit"/>{country}
             </Typography>
           </Box>
         </Box>
         <Box sx={{ width: 1, marginTop: "20px" }}>
-          <Grid container spacing={2}>
-          <Grid item xs={3} sx={{display:'flex', justifyContent:'space-around', alignItems:'center'}}><InstagramIcon/> 2.9K</Grid>
-          <Grid item xs={3} sx={{display:'flex', justifyContent:'space-around', alignItems:'center'}}><FacebookIcon/> 100K</Grid>
-          <Grid item xs={3} sx={{display:'flex', justifyContent:'space-around', alignItems:'center'}} ><YouTubeIcon/> 50K</Grid>
-          <Grid item xs={3}  sx={{display:'flex', justifyContent:'space-around', alignItems:'center'}} ><XIcon/> 63K</Grid>
-          </Grid>
+          
         </Box>
         <Box sx={{ width: 1, marginTop: "20px" }}>
           <Grid container spacing={2}>

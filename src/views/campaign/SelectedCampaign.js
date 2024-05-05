@@ -15,12 +15,12 @@ import IconButton from "@mui/material/IconButton";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Cards from "./components/cards";
 import RequestedCards from "./components/CampaignRequest";
-
-import PendingActionsIcon from '@mui/icons-material/PendingActions';
+import Chip from "@mui/material/Chip";
+import PendingActionsIcon from "@mui/icons-material/PendingActions";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-
+import CurrencyBitcoinIcon from "@mui/icons-material/CurrencyBitcoin";
 
 export default function SelectedEvent() {
   const { id } = useParams();
@@ -41,24 +41,26 @@ export default function SelectedEvent() {
         console.error("Error fetching event data:", error);
       });
 
-      axios
+    axios
       .get(
-        `https://influverse-backend.onrender.com/api/interface-buisness/${user.business[0].slug}/campaign/status-info-business/${id}/list/`
+        `https://influverse-backend.onrender.com/api/interface-buisness/${user.business[0].slug}/campaign/status-info-business/${id}/list/`,
       )
       .then((response) => {
-          // Filter influencers based on confirmation status
-          const confirmed = response.data.filter(influencer => influencer.confirmed === true);
-        const unconfirmed = response.data.filter(influencer => influencer.confirmed === false);
+        // Filter influencers based on confirmation status
+        const confirmed = response.data.filter(
+          (influencer) => influencer.confirmed === true,
+        );
+        const unconfirmed = response.data.filter(
+          (influencer) => influencer.confirmed === false,
+        );
         setConfirmedInfluencers(confirmed); // Update state with confirmed influencers data
         setUnconfirmedInfluencers(unconfirmed);
       })
       .catch((error) => {
         console.error("Error fetching influencers data:", error);
       });
+  }, [id, user.business[0].slug]); // Empty dependency array to run the effect only once on component mount
 
-  }, [ id, user.business[0].slug]); // Empty dependency array to run the effect only once on component mount
-
-  
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -71,182 +73,305 @@ export default function SelectedEvent() {
 
   const handleDeleteClick = async () => {
     try {
-      await axios.delete(`https://influverse-backend.onrender.com/api/interface-buisness/${user.business[0].slug}/campaigns/${id}`);
+      await axios.delete(
+        `https://influverse-backend.onrender.com/api/interface-buisness/${user.business[0].slug}/campaigns/${id}`,
+      );
       // Handle success, maybe update UI accordingly
-      console.log('Event deleted successfully');
+      console.log("Event deleted successfully");
     } catch (error) {
-      console.error('Error deleting event:', error);
+      console.error("Error deleting event:", error);
       // Handle error, maybe show a notification to the user
     }
   };
 
   return (
     <React.Fragment>
-    <Box>
-      {eventData && ( // Render the component only when data is available
-        <Box>
-          <Card sx={{ width: 1 }}>
-            <CardMedia
-              component="img"
-              height="300px"
-              image="https://plus.unsplash.com/premium_photo-1685080293629-692fda8f3bb8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="Event Image"
-            />
-          </Card>
-          <Box sx={{backgroundColor:"white",paddingX:"20px",paddingY:"15px", marginTop:"20px", borderRadius:"10px"}}>
-          <Box
-            sx={{
-              display: "flex",
-              width: "100%",
-              justifyContent: "space-between",
-              alignItems: "center",
-              
-            }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                width: "37%",
-              }}
-            >
-              <Typography
-            sx={{ fontSize: 24, marginTop: "0px", fontWeight: "bold" }}
-          >
-            {eventData.name}
-          </Typography>
-              
-              
-            </Box>
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <IconButton
-                aria-label="delete"
-                size="large"
-                sx={{
-                  marginRight: "20px",
-                  "&:hover": { backgroundColor: "red", color: "white" },
-                }}
-                onClick={handleDeleteClick}
-              >
-                <DeleteIcon fontSize="inherit" />
-              </IconButton>
-              <IconButton
-                component={NavLink}
-                to={`/view/event/edit-event/${id}`}
-                aria-label="delete"
-                size="large"
-                sx={{
-                  "&:hover": { backgroundColor: "#161A30", color: "white" },
-                }}
-              >
-                <CreateIcon fontSize="inherit" />
-              </IconButton>
-            </Box>
-          </Box>
-          
+      <Box>
+        {eventData && ( // Render the component only when data is available
           <Box>
-          <Box
+            <Grid container spacing={2}>
+              <Grid item xs={4}>
+                <Card>
+                  <CardMedia
+                    component="img"
+                    height="350px"
+                    image={eventData.image}
+                    alt="Event Image"
+                  />
+                </Card>
+              </Grid>
+              <Grid item xs={8}>
+                <Box
+                  sx={{
+                    height: "350px",
+                    width: 1,
+                    backgroundColor: "white",
+                    paddingX: "20px",
+                    paddingY: "15px",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      width: "100%",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        width: "37%",
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          fontSize: 24,
+                          marginTop: "0px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {eventData.name}
+                      </Typography>
+                    </Box>
+                    <Box
+                      sx={{ display: "flex", justifyContent: "space-between" }}
+                    >
+                      <IconButton
+                        aria-label="delete"
+                        size="large"
+                        sx={{
+                          marginRight: "20px",
+                          "&:hover": { backgroundColor: "red", color: "white" },
+                        }}
+                        onClick={handleDeleteClick}
+                      >
+                        <DeleteIcon fontSize="inherit" />
+                      </IconButton>
+                      <IconButton
+                        component={NavLink}
+                        to={`/business/campaign/edit-campaign/${id}`}
+                        aria-label="delete"
+                        size="large"
+                        sx={{
+                          "&:hover": {
+                            backgroundColor: "#161A30",
+                            color: "white",
+                          },
+                        }}
+                      >
+                        <CreateIcon fontSize="inherit" />
+                      </IconButton>
+                    </Box>
+                  </Box>
+
+                  <Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        color: "#DA2563",
+                        alignItems: "center",
+                        marginRight: "20px",
+                        marginBottom: "5px",
+                      }}
+                    >
+                      <Chip
+                        icon={<LocationOnIcon />}
+                        label={eventData.location}
+                      />
+                      <Chip
+                        sx={{ marginLeft: "5px" }}
+                        icon={<CalendarMonthIcon />}
+                        label={
+                          eventData.start_date + " to " + eventData.end_date
+                        }
+                        variant="outlined"
+                      />
+                    </Box>
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <Chip
+                        icon={<CurrencyBitcoinIcon />}
+                        label={"Budget : " + eventData.budget + " ETH"}
+                        color="success"
+                      />
+                    </Box>
+                  </Box>
+                  <Divider sx={{ marginY: "10px" }} />
+                  <Typography sx={{ fontSize: 16, fontWeight: "bold" }}>
+                    Description
+                  </Typography>
+
+                  <Typography sx={{ marginTop: "10px" }}>
+                    {eventData.description}
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={6}>
+                <Box
+                  sx={{
+                    height: "350px",
+                    width: 1,
+                    backgroundColor: "white",
+                    paddingX: "20px",
+                    paddingY: "15px",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <Typography sx={{ fontSize: 16, fontWeight: "bold" }}>
+                    Offer Description
+                  </Typography>
+                  <Divider sx={{marginY:"5px"}}/>
+                  <Typography>{eventData.offer_description}</Typography>
+                  <Typography
+                    sx={{ fontSize: 16, fontWeight: "bold", marginTop: "12px" }}
+                  >
+                    Offer Terms
+                  </Typography>
+                  <Divider  sx={{marginY:"5px"}}/>
+                  <Typography>{eventData.offer_terms}</Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={6}>
+                <Box
+                  sx={{
+                    height: "350px",
+                    width: 1,
+                    backgroundColor: "white",
+                    paddingX: "20px",
+                    paddingY: "15px",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <Typography sx={{ fontSize: 16, fontWeight: "bold" }}>
+                    Interest
+                  </Typography>
+                  <Divider  sx={{marginY:"5px"}}/>
+                  {eventData.interests.map((interests, index) => (
+                    <Chip key={index} label={interests} />
+                  ))}
+                  <Typography
+                    sx={{ fontSize: 16, fontWeight: "bold", marginTop: "12px" }}
+                  >
+                    Occupation
+                  </Typography>
+                  <Divider sx={{marginY:"5px"}}/>
+                  <Typography>{eventData.occupation}</Typography>
+                  <Typography
+                    sx={{ fontSize: 16, fontWeight: "bold", marginTop: "12px" }}
+                  >
+                    Objective
+                  </Typography>
+                  <Divider sx={{marginY:"5px"}}/>
+                  <Typography>{eventData.objective}</Typography>
+                  <Typography
+                    sx={{ fontSize: 16, fontWeight: "bold", marginTop: "12px" }}
+                  >
+                    Communication Channel
+                  </Typography>
+                  <Divider sx={{marginY:"5px"}}/>
+                  <Typography>{eventData.communication_channel}</Typography>
+                  <Typography
+                    sx={{ fontSize: 16, fontWeight: "bold", marginTop: "12px" }}
+                  >
+                    Creative Asset
+
+                  </Typography>
+                  <Divider sx={{marginY:"5px"}}/>
+                  <Typography>{eventData.creative_asset}</Typography>
+                </Box>
+              </Grid>
+            </Grid>
+
+            <Divider sx={{ marginY: "10px", marginTop: "15px" }} />
+            <Box sx={{ marginTop: "15px" }}>
+              <Box
                 sx={{
                   display: "flex",
-                  color: "#DA2563",
+                  justifyContent: "space-between",
                   alignItems: "center",
-                  marginRight: "20px",
-                  marginBottom:"5px"
+                  marginX: "15px",
                 }}
               >
-                <LocationOnIcon sx={{ fontSize: 18, marginRight: "1px" }} />
-                <Typography> {eventData.location}</Typography>
-              </Box>
-              <Box sx={{ display: "flex", alignItems: "center",color: "#DA2563", marginBottom:"5px"}}>
-                <CalendarMonthIcon sx={{ fontSize: 18, marginRight: "2px",  }} />
-                <Typography>
-                  {" "}
-                  {eventData.start_date} - {eventData.end_date}
+                <Typography sx={{ fontSize: 20, fontWeight:"bold" }}>
+                  List Of Influencer
                 </Typography>
-              </Box>
-              <Box sx={{ display: "flex", alignItems: "center", }}>
-                <Box sx={{color:"white", display: "flex", backgroundColor:"#109636", paddingX:"10px", paddingY:"5px" }}>
-
-                <Typography>Budget : </Typography>
-                <Typography sx={{fontWeight:"bold"}}>${eventData.budget}</Typography>
+                <Box sx={{ display: "flex" }}>
+                  <Button
+                    variant="contained"
+                    component={NavLink}
+                    to={`/business/campaign/explore/${id}`}
+                    startIcon={<AddCircleIcon />}
+                  >
+                    Add Influencer
+                  </Button>
+                  <Button
+                    sx={{ marginLeft: "12px" }}
+                    variant="contained"
+                    startIcon={<PendingActionsIcon />}
+                    onClick={handleClickOpen}
+                  >
+                    Requested Influencer
+                  </Button>
                 </Box>
               </Box>
-            </Box>
-          
-          <Typography sx={{ marginTop: "10px" }}>
-            {eventData.description}
-          </Typography>
-          </Box>
-          <Divider sx={{ marginY: "10px", marginTop:"15px" }} />
-          <Box sx={{ marginTop: "15px" }}>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginX:'15px'
-              }}
-            >
-              <Typography sx={{fontSize:18,}}>List Of Influencer</Typography>
-              <Box sx={{display:"flex"}}>
-              <Button variant="contained"  component = {NavLink} to = {`/business/campaign/explore/${id}`} startIcon={<AddCircleIcon />}>
-                Add Influencer
-              </Button>
-              <Button sx={{marginLeft:"12px"}} variant="contained" startIcon={<PendingActionsIcon />} onClick={handleClickOpen}>
-                Requested Influencer
-              </Button>
+              <Dialog
+                open={open}
+                onClose={handleClose}
+                PaperProps={{
+                  component: "form",
+                }}
+                maxWidth="md"
+                fullWidth
+              >
+                <DialogTitle>Influencer Requested</DialogTitle>
+                <DialogContent>
+                  {unconfirmedInfluencers.length > 0 ? (
+                    <Grid container spacing={2}>
+                      {unconfirmedInfluencers.map((influencer) => (
+                        <Grid item xs={12} key={influencer.id}>
+                          <RequestedCards
+                            influencerName={influencer.influencer.name}
+                            userName={influencer.influencer.user}
+                            influencerId={influencer.id}
+                          />
+                        </Grid>
+                      ))}
+                    </Grid>
+                  ) : (
+                    <Typography variant="body1">
+                      No unconfirmed influencers added.
+                    </Typography>
+                  )}
+                </DialogContent>
+              </Dialog>
+
+              <Box sx={{ marginTop: "15px", marginX: "15px" }}>
+                {confirmedInfluencers.length > 0 ? (
+                  <Grid container spacing={2}>
+                    {confirmedInfluencers.map((influencer) => (
+                      <Grid item xs={12} key={influencer.id}>
+                        <Cards
+                          influencerName={influencer.influencer.name}
+                          userName={influencer.influencer.user}
+                          influencerId={influencer.id}
+                          amount={influencer.cost}
+                          campaignName={eventData.name}
+                          campaignId={eventData.id}
+                        />
+                      </Grid>
+                    ))}
+                  </Grid>
+                ) : (
+                  <Typography variant="body1">
+                    No confirmed influencers added.
+                  </Typography>
+                )}
               </Box>
             </Box>
-            <Dialog
-          open={open}
-          onClose={handleClose}
-          PaperProps={{
-            component: "form",
-          }}
-          maxWidth="md"
-          fullWidth
-        >
-          <DialogTitle>Influencer Requested</DialogTitle>
-          <DialogContent>
-          {unconfirmedInfluencers.length > 0 ? (
-              <Grid container spacing={2}>
-                {unconfirmedInfluencers.map((influencer) => (
-                  <Grid item xs={12} key={influencer.id}>
-                    <RequestedCards
-                      influencerName={influencer.influencer.name}
-                      userName={influencer.influencer.user}
-                      influencerId ={influencer.id}
-                    />
-                  </Grid>
-                ))}
-              </Grid>
-            ) : (
-              <Typography variant="body1">No unconfirmed influencers added.</Typography>
-            )}
-          </DialogContent>
-        </Dialog>
-
-            <Box sx={{ marginTop: "15px",marginX:'15px' }}>
-            {confirmedInfluencers.length > 0 ? (
-              <Grid container spacing={2}>
-                {confirmedInfluencers.map((influencer) => (
-                  <Grid item xs={12} key={influencer.id}>
-                    <Cards
-                      influencerName={influencer.influencer.name}
-                      userName={influencer.influencer.user}
-                      influencerId ={influencer.id}
-                      amount = {influencer.cost}
-                    />
-                  </Grid>
-                ))}
-              </Grid>
-            ) : (
-              <Typography variant="body1">No confirmed influencers added.</Typography>
-            )}
-            </Box>
           </Box>
-        </Box>
-      )}
-    </Box>
+        )}
+      </Box>
     </React.Fragment>
   );
 }

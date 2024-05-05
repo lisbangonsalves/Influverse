@@ -23,6 +23,7 @@ export default function ExploreCampaign() {
   const [loading, setLoading] = useState(true); // State to track loading
   const [influencers, setInfluencers] = useState([]);
   const user = JSON.parse(localStorage.getItem("user"))
+  const [searchQuery, setSearchQuery] = useState("");
 // eslint-disable-next-line
   const { campaignId } = useParams();
   const [age, setAge] = React.useState("");
@@ -55,17 +56,27 @@ export default function ExploreCampaign() {
   }, [age, campaignId]);
   
 
+  // Function to handle search query change
+  const handleSearchQueryChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
 
+  // Filter influencers based on search query
+  const filteredInfluencers = influencers.filter((influencer) =>
+    influencer.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   
   return (
     <Box sx={{width:1}}>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <TextField
+      <TextField
           sx={{ width: "75%" }}
           placeholder="Explore"
           id="outlined-search"
           variant="outlined"
+          value={searchQuery}
+          onChange={handleSearchQueryChange}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -116,18 +127,18 @@ export default function ExploreCampaign() {
             <Typography sx={{fontSize:18, fontWeight:"bold"}}>Find Influencer for your Campaign</Typography>
           </Box>
           <Grid container spacing={2}>
-          {influencers.map(influencer => (
-              <Grid item xs={4} key={influencer.id}>
-                {/* Pass relevant information as props to Cards component */}
-                <Cards
-                  name={influencer.name}
-                  industry={influencer.industry}
-                  country={influencer.country}
-                  id={influencer.id}
-                  campaignId={campaignId}
-                />
-              </Grid>
-            ))}
+          {filteredInfluencers.map((influencer) => (
+                <Grid item xs={4} key={influencer.id}>
+                  <Cards
+                    name={influencer.name}
+                    industry={influencer.industry}
+                    country={influencer.country}
+                    id={influencer.id}
+                    campaignId={campaignId}
+                    image={influencer.image}
+                  />
+                </Grid>
+              ))}
           </Grid>
         </Box>
     )}

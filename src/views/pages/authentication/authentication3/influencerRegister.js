@@ -78,7 +78,7 @@ const Login = () => {
 
         const contract = new web3.eth.Contract(
           Web3MarketingSuiteContract.abi,
-          '0x750C8BF95170379773c5fCDD5a88346228bBCE99' 
+          '0xCd5D3edE163044d653454eAB6d9AdFc9AdD9fEE0' 
         );
         const accounts = await web3.eth.getAccounts();
         const defaultAccount = accounts[0];

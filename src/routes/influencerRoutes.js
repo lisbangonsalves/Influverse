@@ -29,7 +29,10 @@ const Event = Loadable(
   lazy(() => import("views/event/influencer_event/InfluencerEvent")),
 );
 const Gifting = Loadable(
-  lazy(() => import("views/influencer_gifting/GiftedInfluencerList")),
+  lazy(() => import("views/influencer_gifting/influencer/AcceptedGift")),
+);
+const GiftingRequest = Loadable(
+  lazy(() => import("views/influencer_gifting/influencer/GiftRequest")),
 );
 const SelectedEvent = Loadable(
   lazy(() => import("views/event/influencer_event/SelectedEvent")),
@@ -128,6 +131,10 @@ const MainRoutes = {
         {
           path:"",
           element:<ProtectedRoute><Gifting/></ProtectedRoute>
+        },
+        {
+          path:"request",
+          element:<ProtectedRoute><GiftingRequest/></ProtectedRoute>
         }
       ]
     },

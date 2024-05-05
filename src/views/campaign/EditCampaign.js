@@ -7,7 +7,7 @@ import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Chip from "@mui/material/Chip";
 import Select from "@mui/material/Select";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 // eslint-disable-next-line no-restricted-imports
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
@@ -15,9 +15,11 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Button from "@mui/material/Button";
+import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import { styled } from "@mui/material/styles";
+import axios from "axios";
 const moment = require('moment');
 import Web3 from 'web3';
 import Web3MarketingSuiteContract from '../../contracts/Web3MarketingSuite.json';
@@ -77,6 +79,29 @@ const Image = styled("span")(({ theme }) => ({
 
 export default function CreateCampaign() {
   const navigate = useNavigate();
+  const navigater = useNavigate();
+  const { campaignId } = useParams();
+  const [campaignData, setcampaignData] = useState(null); 
+  console.log(campaignData)
+  const userx = JSON.parse(localStorage.getItem("user"));
+  
+
+  useEffect(() => {
+    // Fetch event data from the API
+    axios
+      .get(
+        `https://influverse-backend.onrender.com/api/interface-buisness/${userx.business[0].slug}/campaigns/${campaignId}`,
+      )
+      .then((response) => {
+        setcampaignData(response.data); // Update state with fetched data
+        navigater(`/business/campaign/edit-campaign/${campaignId}`);
+      })
+      .catch((error) => {
+        console.error("Error fetching event data:", error);
+      });
+  }, [campaignId, userx.slug , navigater]);
+
+
   const [campaignDescription, setcampaignDescription] = useState("");
   const [campaignName, setcampaignName] = useState("");
   const [campaignObjectives, setcampaignObjectives] = useState("");
@@ -99,6 +124,34 @@ export default function CreateCampaign() {
   const [offerDescription, setofferDescription] = useState("");
   const [offerTerms, setofferTerms] = useState("");
   const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    if (campaignData) {
+      setcampaignName(campaignData.name);
+      setcampaignDescription(campaignData.description);
+      setcampaignObjectives(campaignData.objectives);
+      setchannel(campaignData.channel);
+      setcreativeAsset(campaignData.creativeAsset);
+      setstartDate(dayjs(campaignData.startDate));
+      setendDate(dayjs(campaignData.endDate));
+      setdurations(campaignData.durations);
+      setbudget(campaignData.budget);
+      setbreakdown(campaignData.breakdown);
+      settargetAge(campaignData.targetAge);
+      settargetGender(campaignData.targetGender);
+      settargetIncomeLevel(campaignData.targetIncomeLevel);
+      setEventCountry(campaignData.country);
+      setoccupation(campaignData.occupation);
+      setCommunicationChannel(campaignData.communicationChannel);
+      setInterests(campaignData.interests);
+      setcontentFormats(campaignData.contentFormats);
+      setdistributionChannels(campaignData.distributionChannels);
+      setofferDescription(campaignData.offerDescription);
+      setofferTerms(campaignData.offerTerms);
+      setMessage(campaignData.message);
+    }
+  }, [campaignData]);
+
 
   const handlecampaignDescriptionChange = (event) => {
     setcampaignDescription(event.target.value);
@@ -223,7 +276,7 @@ export default function CreateCampaign() {
     if (file) {
       console.log("Selected file:", file);
       setImage(URL.createObjectURL(file));
-      // setImageFile(file);
+      setImageFile(file);
     }
   };
 
@@ -248,7 +301,7 @@ export default function CreateCampaign() {
     formData.append('target_age', targetAge);
     formData.append('target_gender', 'male'); // assuming target_gender is a single value
     formData.append('target_income_level', targetIncomeLevel);
-    formData.append('location', eventCountry.country);
+    formData.append('country', eventCountry.country);
     formData.append('occupation', occupation);
     formData.append('communication_channel', communicationChannel);
     formData.append('interests', JSON.stringify(Interests));

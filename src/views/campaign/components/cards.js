@@ -4,11 +4,13 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import { Button, Typography } from "@mui/material";
 import axios from "axios"; // Import axios for making HTTP requests
+import { NavLink } from 'react-router-dom';
 import Web3 from 'web3';
 import Web3MarketingSuiteContract from '../../../contracts/Web3MarketingSuite.json';
 
-function EventRequest({ influencerName, userName, influencerId, amount }) {
+function EventRequest({ influencerName, userName, influencerId, amount, campaignName, campaignId }) {
   const user = JSON.parse(localStorage.getItem("user"));
+  console.log(campaignName)
   const handleRemoveClick = async () => {
     try {
       // Make a request to remove the influencer from the campaign
@@ -29,7 +31,7 @@ const web3 = new Web3(window.ethereum);
 // Define the contract ABI and address
 const contract = new web3.eth.Contract(
   Web3MarketingSuiteContract.abi,
-  '0x750C8BF95170379773c5fCDD5a88346228bBCE99'// Replace with your contract address
+  '0xCd5D3edE163044d653454eAB6d9AdFc9AdD9fEE0'// Replace with your contract address
 );
 // Function to handle making a payment to the influencer
 const handleMakePayment = async () => {
@@ -40,7 +42,7 @@ const handleMakePayment = async () => {
     const amountInWei = web3.utils.toWei(`${amount}`, 'ether');
 
     // Call the makeTransactionToInfluencer function
-    const transaction = await contract.methods.makeTransactionToInfluencer(influencerName, amountInWei).send({ from: defaultAccount, value : amountInWei,  gas: 100000 });
+    const transaction = await contract.methods.makeTransactionToInfluencer(campaignName, influencerName, amountInWei).send({ from: defaultAccount, value : amountInWei,  gas: 100000 });
 
     // Handle transaction success
     console.log("Payment successful:", transaction);
@@ -63,20 +65,22 @@ const handleMakePayment = async () => {
         sx={{
           display: "flex",
           justifyContent: "space-between",
+          alignItems:"center",
           width: 1,
           padding: "20px",
         }}
       >
-        <Box sx={{display:"flex", justifyContent:"space-between", width:1}}>
+        <Box sx={{display:"flex", justifyContent:"space-between", alignItems:"center", width:1}}>
           <Box>
-            <Typography sx={{ fontWeight: "bold", fontSize: 16 }}>
+            <Typography sx={{ fontWeight: "bold", fontSize: 18 }}>
               {influencerName}
             </Typography>
-            <Typography>{userName}</Typography>
-            <Typography>{amount}</Typography>
+            <Typography sx={{fontSize:12}}>@{userName}</Typography>
+            <Typography sx={{color:"green", fontWeight:"bold",fontSize: 12}}>Amount to be Paid : {amount} ETH</Typography>
           </Box>
           <Box>
             <Button onClick={handleMakePayment} >Make Payment</Button>
+            <Button  component = {NavLink} to = {`/business/campaign/draft/${influencerId}/${campaignId}/${amount}`}>Check Draft</Button>
             <Button sx={{color:"red"}} onClick={handleRemoveClick}>Remove</Button>
           </Box>
         
